@@ -29,10 +29,10 @@
 <style>
   .segmented {
     display: flex;
-    border: 1px solid var(--hdx-neutral-2);
-    border-radius: var(--hdx-radius-md);
+    border: 1px solid var(--cd-grey--500);
+    border-radius: var(--brand-radius--sm);
     overflow: hidden;
-    background: var(--hdx-neutral-0);
+    background: var(--cd-white);
   }
   .btn {
     appearance: none;
@@ -43,22 +43,22 @@
     font-size: 0.75rem;
     font-weight: 500;
     border: none;
-    background: var(--hdx-neutral-0);
-    color: var(--hdx-neutral-7);
+    background: var(--cd-white);
+    color: var(--cd-grey--800);
     cursor: pointer;
-    border-left: 1px solid var(--hdx-neutral-1);
+    border-left: 1px solid var(--cd-grey--400);
     text-align: center;
   }
   .btn:first-child {
     border-left: none;
   }
   .btn:hover:not(:disabled) {
-    background: var(--hdx-neutral-05);
-    color: var(--hdx-neutral-8);
+    background: var(--cd-grey--300);
+    color: var(--cd-grey--800);
   }
   .btn.active {
-    background: var(--hdx-primary-5);
-    color: var(--hdx-neutral-0);
+    background: var(--brand-primary--text);
+    color: var(--cd-white);
   }
   .btn:disabled {
     cursor: not-allowed;

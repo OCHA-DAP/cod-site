@@ -145,7 +145,7 @@ const validate = bySlug("validate");
 
 <style>
   :global(body):has(> .masthead) {
-    background: var(--hdx-neutral-01);
+    background: var(--cd-grey--300);
   }
   .page {
     max-width: 720px;
@@ -156,8 +156,8 @@ const validate = bySlug("validate");
     gap: 2.5rem;
   }
   .masthead {
-    background: var(--hdx-brand-7);
-    color: var(--hdx-neutral-0);
+    background: var(--brand-primary--dark);
+    color: var(--cd-white);
   }
   .masthead-inner {
     max-width: 720px;
@@ -168,13 +168,14 @@ const validate = bySlug("validate");
     margin-bottom: 2rem;
   }
   .masthead h1 {
+    color: var(--cd-white);
     font-size: 2rem;
     font-weight: 700;
     margin: 0 0 0.75rem;
   }
   .masthead .tagline {
     font-size: 1rem;
-    color: var(--hdx-brand-05);
+    color: var(--cd-blue--lightest);
     margin: 0;
     line-height: 1.55;
     max-width: 56ch;
@@ -182,7 +183,7 @@ const validate = bySlug("validate");
   .section-heading {
     font-size: 0.75rem;
     font-weight: 600;
-    color: var(--hdx-neutral-7);
+    color: var(--cd-grey--800);
     text-transform: uppercase;
     letter-spacing: 0.06em;
     margin: 0 0 0.75rem;
@@ -201,7 +202,7 @@ const validate = bySlug("validate");
     align-items: center;
     gap: 0.5rem;
     cursor: pointer;
-    color: var(--hdx-neutral-7);
+    color: var(--cd-grey--800);
     list-style: none;
     user-select: none;
   }
@@ -228,12 +229,12 @@ const validate = bySlug("validate");
   }
   .settings > summary:hover,
   .settings > summary:hover .section-heading {
-    color: var(--hdx-neutral-9);
+    color: var(--cd-grey--900);
   }
   .settings-card {
     padding: 1rem 1.25rem;
-    border: 1px solid var(--hdx-neutral-1);
-    border-radius: var(--hdx-radius-sm);
-    background: var(--hdx-neutral-0);
+    border: 1px solid var(--cd-grey--400);
+    border-radius: var(--brand-radius--sm);
+    background: var(--cd-white);
   }
 </style>

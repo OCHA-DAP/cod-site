@@ -185,9 +185,9 @@
   button {
     padding: 0.5rem 0.75rem;
     font-size: 0.85rem;
-    border: 1px solid var(--hdx-neutral-2);
-    background: var(--hdx-neutral-01);
-    border-radius: var(--hdx-radius-md);
+    border: 1px solid var(--cd-grey--500);
+    background: var(--cd-grey--300);
+    border-radius: var(--brand-radius--sm);
     cursor: pointer;
   }
   button:disabled {
@@ -195,16 +195,16 @@
     opacity: 0.7;
   }
   button:hover:not(:disabled) {
-    background: var(--hdx-neutral-05);
+    background: var(--cd-grey--300);
   }
   .hint {
     font-size: 0.75rem;
-    color: var(--hdx-neutral-7);
+    color: var(--cd-grey--800);
     margin: 0;
   }
   .ready {
     font-size: 0.8rem;
-    color: var(--hdx-success-7);
+    color: var(--cd-green--800);
     margin: 0;
   }
   .remove {
@@ -213,29 +213,29 @@
     background: transparent;
     border: none;
     font-size: 0.75rem;
-    color: var(--hdx-neutral-7);
+    color: var(--cd-grey--800);
     text-decoration: underline;
     cursor: pointer;
   }
   .remove:hover:not(:disabled) {
-    color: var(--hdx-error-6);
+    color: var(--brand-error);
     background: transparent;
   }
   .err {
     font-size: 0.75rem;
-    color: var(--hdx-error-6);
+    color: var(--brand-error);
     margin: 0;
     word-break: break-word;
   }
   .bar {
     height: 4px;
-    background: var(--hdx-neutral-1);
-    border-radius: var(--hdx-radius-sm);
+    background: var(--cd-grey--400);
+    border-radius: var(--brand-radius--sm);
     overflow: hidden;
   }
   .bar-fill {
     height: 100%;
-    background: var(--hdx-neutral-7);
+    background: var(--cd-grey--800);
     transition: width 120ms linear;
   }
 </style>

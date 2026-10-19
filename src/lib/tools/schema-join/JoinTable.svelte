@@ -135,34 +135,34 @@
   .summary {
     padding: 0.6rem 0.75rem;
     font-size: 0.85rem;
-    color: var(--hdx-neutral-8);
+    color: var(--cd-grey--800);
   }
   .summary p {
     margin: 0 0 0.3rem;
   }
   .summary p.muted {
     font-size: 0.75rem;
-    color: var(--hdx-neutral-7);
+    color: var(--cd-grey--800);
   }
   .summary ul {
     margin: 0 0 0.3rem;
     padding-left: 1.1rem;
   }
   .summary li.bad {
-    color: var(--hdx-error-6);
+    color: var(--brand-error);
   }
   .summary li.warn {
-    color: var(--hdx-warning-6);
+    color: var(--brand-warning);
   }
   section + section {
-    border-top: 1px solid var(--hdx-neutral-1);
+    border-top: 1px solid var(--cd-grey--400);
   }
   h3 {
     margin: 0;
     padding: 0.6rem 0.75rem 0.4rem;
     font-size: 0.8rem;
     font-weight: 600;
-    color: var(--hdx-neutral-9);
+    color: var(--cd-grey--900);
   }
   table {
     width: 100%;
@@ -170,13 +170,13 @@
     font-size: 0.85rem;
   }
   thead {
-    background: var(--hdx-neutral-05);
+    background: var(--cd-grey--300);
   }
   th,
   td {
     text-align: left;
     padding: 0.4rem 0.5rem;
-    border-bottom: 1px solid var(--hdx-neutral-1);
+    border-bottom: 1px solid var(--cd-grey--400);
     white-space: nowrap;
   }
   th:first-child,
@@ -187,7 +187,7 @@
     font-weight: 600;
     font-size: 0.75rem;
     text-transform: uppercase;
-    color: var(--hdx-neutral-7);
+    color: var(--cd-grey--800);
   }
   .fit {
     width: 1%;
@@ -203,55 +203,55 @@
     text-align: right;
   }
   td.num {
-    color: var(--hdx-neutral-7);
+    color: var(--cd-grey--800);
   }
   td.value {
     font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   }
   td.null {
-    color: var(--hdx-neutral-5);
+    color: var(--cd-grey--600);
   }
   tr.child td:nth-child(2),
   tr.matches td:nth-child(2) {
-    color: var(--hdx-neutral-7);
+    color: var(--cd-grey--800);
   }
   tr.added td:nth-child(2) {
-    color: var(--hdx-success-6);
+    color: var(--brand-success);
   }
   tr.sibling td:nth-child(2) {
-    color: var(--hdx-warning-6);
+    color: var(--brand-warning);
   }
   .issue-row {
     cursor: pointer;
   }
   .issue-row:hover,
   .issue-row:focus-visible {
-    background: var(--hdx-neutral-01);
+    background: var(--cd-grey--300);
     outline: none;
   }
   .issue-row.selected {
-    background: var(--hdx-primary-05);
+    background: var(--cd-blue--lightest);
   }
   td.kind {
     font-size: 0.75rem;
   }
   td.kind.no-overlap {
-    color: var(--hdx-error-6);
+    color: var(--brand-error);
   }
   td.kind.low-overlap,
   td.kind.value-mismatch {
-    color: var(--hdx-warning-6);
+    color: var(--brand-warning);
   }
   .jt-note {
     margin: 0;
     padding: 0 0.75rem 0.75rem;
     font-size: 0.8rem;
-    color: var(--hdx-neutral-7);
+    color: var(--cd-grey--800);
   }
   .jt-empty {
     padding: 1rem;
     text-align: center;
-    color: var(--hdx-neutral-7);
+    color: var(--cd-grey--800);
     font-size: 0.875rem;
   }
 </style>

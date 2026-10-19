@@ -216,7 +216,7 @@
         id: "pk-poly-line",
         type: "line",
         source: "pk-polygons",
-        paint: { "line-color": "#3f4748", "line-width": 0.6, "line-opacity": 0.7 },
+        paint: { "line-color": "#4d4d4d", "line-width": 0.6, "line-opacity": 0.7 },
       });
       m.addLayer({
         id: "pk-lines",

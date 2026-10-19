@@ -34,7 +34,7 @@ const after = await toSlides(outro);
 ---
 
 <Layout
-  title="Client-Side DuckDB: Data Cleaning in the Browser"
+  title="Topology Tools: an introduction"
   description="An introduction to Topology Tools: why harmonized admin boundaries matter for UN80, and how the tools clean them in the browser."
 >
   <div class="talk">
@@ -234,10 +234,10 @@ const after = await toSlides(outro);
 
 <style>
   .talk {
-    font-family: var(--hdx-font-body);
+    font-family: var(--brand-font);
     min-height: 100vh;
-    background: var(--hdx-neutral-01);
-    color: var(--hdx-neutral-9);
+    background: var(--cd-grey--300);
+    color: var(--cd-grey--900);
   }
   .topnav {
     position: sticky;
@@ -249,29 +249,29 @@ const after = await toSlides(outro);
     max-width: 860px;
     margin: 0 auto;
     padding: 0.75rem 1.5rem;
-    background: var(--hdx-neutral-01);
+    background: var(--cd-grey--300);
     font-size: 0.875rem;
   }
   .topnav a {
-    color: var(--hdx-neutral-7);
+    color: var(--cd-grey--800);
     text-decoration: none;
   }
   .topnav a:hover {
-    color: var(--hdx-neutral-9);
+    color: var(--cd-grey--900);
     text-decoration: underline;
   }
   .toggle {
     font: inherit;
-    color: var(--hdx-neutral-7);
+    color: var(--cd-grey--800);
     background: #fff;
-    border: 1px solid var(--hdx-neutral-2);
-    border-radius: var(--hdx-radius-md);
+    border: 1px solid var(--cd-grey--500);
+    border-radius: var(--brand-radius);
     padding: 0.3rem 0.7rem;
     cursor: pointer;
   }
   .toggle:hover {
-    color: var(--hdx-neutral-9);
-    border-color: var(--hdx-primary-5);
+    color: var(--cd-grey--900);
+    border-color: var(--brand-primary--text);
   }
   .deck {
     max-width: 860px;
@@ -284,15 +284,14 @@ const after = await toSlides(outro);
   .slide {
     scroll-margin-top: 4rem;
     padding: 2rem 2.25rem;
-    border: 1px solid var(--hdx-neutral-2);
-    border-radius: var(--hdx-radius-md);
+    border: 1px solid var(--cd-grey--500);
+    border-radius: var(--brand-radius--sm);
     background: #fff;
     line-height: 1.55;
-    box-shadow: var(--hdx-shadow-sm);
   }
   .slide :global(h1),
   .slide :global(h2) {
-    font-family: var(--hdx-font-display);
+    font-family: var(--brand-font-heading);
   }
   .slide :global(h1) {
     font-size: 2rem;
@@ -303,7 +302,7 @@ const after = await toSlides(outro);
   .slide :global(h2) {
     font-size: 1.5rem;
     font-weight: 700;
-    color: var(--hdx-neutral-9);
+    color: var(--cd-grey--900);
     margin: 0 0 1.25rem;
   }
   .slide :global(h2)::after {
@@ -312,7 +311,7 @@ const after = await toSlides(outro);
     width: 2.5rem;
     height: 3px;
     margin-top: 0.5rem;
-    background: var(--hdx-brand-5);
+    background: var(--brand-primary);
   }
   .slide :global(h3) {
     font-size: 1.05rem;
@@ -325,7 +324,7 @@ const after = await toSlides(outro);
     font-size: 1.1rem;
   }
   .slide :global(li::marker) {
-    color: var(--hdx-brand-6);
+    color: var(--brand-primary--text);
   }
   .slide :global(li + li) {
     margin-top: 0.35rem;
@@ -336,7 +335,7 @@ const after = await toSlides(outro);
     font-size: 1.05rem;
   }
   .slide :global(th) {
-    color: var(--hdx-brand-6);
+    color: var(--brand-primary--text);
     font-size: 0.8em;
     font-weight: 700;
     text-transform: uppercase;
@@ -346,19 +345,19 @@ const after = await toSlides(outro);
   .slide :global(td) {
     text-align: left;
     padding: 0.4rem 1.5rem 0.4rem 0;
-    border-bottom: 1px solid var(--hdx-neutral-2);
+    border-bottom: 1px solid var(--cd-grey--500);
   }
   .slide :global(code) {
     font-size: 0.95em;
   }
   .slide :global(a) {
-    color: var(--hdx-primary-5);
+    color: var(--brand-primary--text);
   }
   .slide :global(img) {
     max-width: 100%;
   }
   .slide :global(p) {
-    color: var(--hdx-neutral-7);
+    color: var(--cd-grey--800);
     margin: 0.75rem 0 0;
     max-width: 68ch;
   }
@@ -367,19 +366,22 @@ const after = await toSlides(outro);
   .slide :global(table + p) {
     margin-top: 1.25rem;
     padding-top: 1.25rem;
-    border-top: 1px dashed var(--hdx-neutral-2);
+    border-top: 1px dashed var(--cd-grey--500);
   }
   .title {
-    background: var(--hdx-brand-7);
-    border-color: var(--hdx-brand-7);
+    background: var(--brand-primary--dark);
+    border-color: var(--brand-primary--dark);
     color: #fff;
+  }
+  .title :global(:is(h1, h2, h3)) {
+    color: inherit;
   }
   .title :global(h3),
   .title :global(a) {
     color: #fff;
   }
   .title :global(p) {
-    color: var(--hdx-brand-05);
+    color: var(--cd-blue--lightest);
     border-color: rgb(255 255 255 / 0.2);
   }
   .logos {
@@ -396,8 +398,8 @@ const after = await toSlides(outro);
     display: block;
     width: 100%;
     height: 640px;
-    border: 1px solid var(--hdx-neutral-2);
-    border-radius: var(--hdx-radius-md);
+    border: 1px solid var(--cd-grey--500);
+    border-radius: var(--brand-radius--sm);
   }
 
   .pipeline {
@@ -418,19 +420,19 @@ const after = await toSlides(outro);
     min-height: 11rem;
     padding: 0.8rem;
     font-size: 0.8em;
-    border-top: 4px solid var(--hdx-brand-6);
-    border-radius: var(--hdx-radius-md);
-    background: var(--hdx-brand-05);
+    border-top: 4px solid var(--brand-primary--text);
+    border-radius: var(--brand-radius--sm);
+    background: var(--cd-blue--lightest);
   }
   .pipeline li + li {
     margin-top: 0;
   }
   .pipeline .num {
-    font-family: var(--hdx-font-display);
+    font-family: var(--brand-font-heading);
     font-size: 2.6em;
     font-weight: 700;
     line-height: 1;
-    color: var(--hdx-brand-6);
+    color: var(--brand-primary--dark);
   }
   .pipeline strong {
     line-height: 1.2;
@@ -438,7 +440,7 @@ const after = await toSlides(outro);
   .pipeline .brief {
     font-size: 0.85em;
     line-height: 1.35;
-    color: var(--hdx-neutral-7);
+    color: var(--cd-grey--800);
   }
   .pipeline li:not(:last-child)::after {
     content: "›";
@@ -449,7 +451,7 @@ const after = await toSlides(outro);
     transform: translateY(-50%);
     text-align: center;
     font-size: 1.6em;
-    color: var(--hdx-brand-6);
+    color: var(--brand-primary--text);
   }
   .glue {
     display: grid;
@@ -464,21 +466,21 @@ const after = await toSlides(outro);
     gap: 0.3rem;
     padding: 1rem;
     font-size: 0.8em;
-    border-top: 4px solid var(--hdx-brand-6);
-    border-radius: var(--hdx-radius-md);
-    background: var(--hdx-brand-05);
+    border-top: 4px solid var(--brand-primary--text);
+    border-radius: var(--brand-radius--sm);
+    background: var(--cd-blue--lightest);
   }
   .glue span {
-    color: var(--hdx-neutral-7);
+    color: var(--cd-grey--800);
   }
   .glue .core {
     justify-content: center;
     text-align: center;
     color: white;
-    background: var(--hdx-brand-6);
+    background: var(--brand-primary--text);
   }
   .glue .core strong {
-    font-family: var(--hdx-font-display);
+    font-family: var(--brand-font-heading);
     font-size: 1.4em;
   }
   .glue .core span {
@@ -490,7 +492,7 @@ const after = await toSlides(outro);
     position: absolute;
     top: 50%;
     width: 3rem;
-    border-top: 2px solid var(--hdx-brand-6);
+    border-top: 2px solid var(--brand-primary--text);
   }
   .glue .core::before {
     right: 100%;
@@ -504,8 +506,8 @@ const after = await toSlides(outro);
   }
   .boundary-map {
     height: 640px;
-    border: 1px solid var(--hdx-neutral-2);
-    border-radius: var(--hdx-radius-md);
+    border: 1px solid var(--cd-grey--500);
+    border-radius: var(--brand-radius--sm);
     overflow: hidden;
   }
   .explorer figcaption {
@@ -574,7 +576,7 @@ const after = await toSlides(outro);
     width: 0;
     height: 2.5rem;
     border-top: none;
-    border-left: 2px solid var(--hdx-brand-6);
+    border-left: 2px solid var(--brand-primary--text);
   }
   :global(body.present) .glue .core::before {
     bottom: 100%;

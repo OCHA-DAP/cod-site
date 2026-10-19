@@ -1,0 +1,88 @@
+:root,
+:root[data-theme="light"] {
+  --sl-font: var(--brand-font);
+  --sl-color-white: var(--cd-grey--900);
+  --sl-color-gray-1: var(--cd-grey--900);
+  --sl-color-gray-2: var(--cd-grey--800);
+  --sl-color-gray-3: var(--cd-grey--800);
+  --sl-color-gray-4: var(--cd-grey--600);
+  --sl-color-gray-5: var(--cd-grey--500);
+  --sl-color-gray-6: var(--cd-grey--400);
+  --sl-color-gray-7: var(--cd-grey--300);
+  --sl-color-black: var(--cd-white);
+  --sl-color-accent-high: var(--brand-primary--dark);
+  --sl-color-accent: var(--brand-primary--text);
+  --sl-color-accent-low: var(--cd-blue--brighter);
+  --sl-color-bg-nav: var(--brand-primary--dark);
+  --sl-color-hairline-shade: var(--cd-blue--darkest);
+  --sl-color-blue-low: var(--cd-blue--brighter);
+  --sl-color-blue: var(--brand-primary--text);
+  --sl-color-blue-high: var(--cd-blue--darkest);
+  --sl-color-green-low: var(--cd-green--400);
+  --sl-color-green: var(--brand-success);
+  --sl-color-green-high: var(--cd-green--900);
+  --sl-color-orange-low: var(--cd-orange--400);
+  --sl-color-orange: var(--cd-orange--600);
+  --sl-color-orange-high: var(--cd-orange--900);
+  --sl-color-red-low: var(--cd-red--400);
+  --sl-color-red: var(--brand-error);
+  --sl-color-red-high: var(--cd-red--800);
+  --sl-shadow-sm: none;
+  --sl-shadow-md: none;
+  --sl-shadow-lg: none;
+}
+
+h1,
+h2,
+h3,
+.sl-markdown-content :is(h1, h2, h3) {
+  font-weight: 700;
+}
+
+header.header {
+  color: var(--cd-white);
+}
+
+header.header site-search > button {
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--cd-white);
+  border-radius: var(--brand-radius--sm);
+}
+
+header.header site-search > button:hover {
+  border-color: rgba(255, 255, 255, 0.9);
+  color: var(--cd-white);
+}
+
+.sl-markdown-content :is(table, code, pre) {
+  border-radius: var(--brand-radius--sm);
+}
+
+header.header site-search kbd {
+  background: transparent;
+  color: var(--cd-blue--lightest);
+}
+
+.sidebar-content details details > summary .group-label {
+  text-transform: capitalize;
+}
+
+article.card {
+  --sl-card-border: var(--cd-blue--bright);
+  --sl-card-bg: var(--cd-blue--lightest);
+  border: 1px solid var(--cd-grey--400);
+  border-radius: var(--brand-radius);
+  padding: 1.5rem;
+}
+article.card .title {
+  font-family: var(--brand-font);
+  font-size: var(--cd-font-size--base);
+}
+article.card .icon {
+  color: var(--brand-primary--dark);
+}
+
+mobile-starlight-toc nav {
+  background-color: var(--cd-grey--300);
+}

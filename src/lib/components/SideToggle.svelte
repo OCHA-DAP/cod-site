@@ -54,10 +54,10 @@
   .hint {
     margin: 0;
     font-size: 0.7rem;
-    color: var(--hdx-neutral-7);
-    background: var(--hdx-neutral-0);
-    border: 1px solid var(--hdx-neutral-2);
-    border-radius: var(--hdx-radius-md);
+    color: var(--cd-grey--800);
+    background: var(--cd-white);
+    border: 1px solid var(--cd-grey--500);
+    border-radius: var(--brand-radius--sm);
     padding: 0.2rem 0.45rem;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   }
@@ -65,9 +65,9 @@
     font-family: inherit;
     font-size: 0.7rem;
     padding: 0.05rem 0.2rem;
-    border: 1px solid var(--hdx-neutral-2);
-    border-radius: var(--hdx-radius-sm);
-    background: var(--hdx-neutral-05);
-    color: var(--hdx-neutral-7);
+    border: 1px solid var(--cd-grey--500);
+    border-radius: var(--brand-radius--sm);
+    background: var(--cd-grey--300);
+    color: var(--cd-grey--800);
   }
 </style>

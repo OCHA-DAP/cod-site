@@ -52,7 +52,7 @@ const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
     top: 2rem;
     bottom: 0;
     width: 2px;
-    background: var(--hdx-neutral-2);
+    background: var(--cd-grey--500);
   }
   .step.last .rail::after {
     display: none;
@@ -66,23 +66,23 @@ const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
     width: 2rem;
     height: 2rem;
     border-radius: 50%;
-    background: var(--hdx-brand-7);
-    color: var(--hdx-neutral-0);
+    background: var(--brand-primary--dark);
+    color: var(--cd-white);
     font-size: 0.875rem;
     font-weight: 600;
   }
   /* An unnumbered check between steps: outlined badge, dashed tool box. */
   .checkpoint .badge {
-    background: var(--hdx-neutral-0);
-    color: var(--hdx-brand-7);
-    border: 2px solid var(--hdx-brand-7);
+    background: var(--cd-white);
+    color: var(--brand-primary--dark);
+    border: 2px solid var(--brand-primary--dark);
   }
   .checkpoint .title {
-    color: var(--hdx-brand-7);
+    color: var(--brand-primary--dark);
   }
   .checkpoint :global(.group) {
     border-style: dashed;
-    border-color: var(--hdx-brand-7);
+    border-color: var(--brand-primary--dark);
     background: transparent;
     box-shadow: none;
   }
@@ -99,13 +99,13 @@ const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
   .title {
     font-size: 1.1rem;
     font-weight: 600;
-    color: var(--hdx-neutral-9);
+    color: var(--cd-grey--900);
     margin: 0;
     line-height: 2rem;
   }
   .summary {
     font-size: 0.875rem;
-    color: var(--hdx-neutral-7);
+    color: var(--cd-grey--800);
     margin: -0.4rem 0 0;
     line-height: 1.45;
   }

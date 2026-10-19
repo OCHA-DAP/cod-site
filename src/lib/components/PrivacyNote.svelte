@@ -3,7 +3,7 @@
 <style>
   .privacy {
     font-size: 0.75rem;
-    color: var(--hdx-neutral-7);
+    color: var(--cd-grey--800);
     margin: 0;
     margin-top: auto;
   }

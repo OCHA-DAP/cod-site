@@ -4,9 +4,9 @@ import "maplibre-gl/dist/maplibre-gl.css";
 import { FileSource, PMTiles, Protocol } from "pmtiles";
 import { PMTILES_LAYER, PMTILES_URL, explorerViews } from "./explorer";
 
-const CURRENT_FILL = "#4a90d9";
-const OLDER_FILL = "#f5b8b0";
-const LINE = "#2060a0";
+const CURRENT_FILL = "#009edb";
+const OLDER_FILL = "#aea29a";
+const LINE = "#004987";
 const FILL_OPACITY = 0.6;
 const PADDING = 40;
 

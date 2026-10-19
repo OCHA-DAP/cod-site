@@ -1,14 +1,10 @@
 <!-- `---` starts a new slide. Headings, lists, tables and images are the slide; plain paragraphs are speaker notes. A slide that starts with `#` gets the title-slide style. -->
 
-# Client-Side DuckDB: Data Cleaning in the Browser
+# Topology Tools: an introduction
 
-### Maxym Malynowsky, UN OCHA Centre for Humanitarian Data
+### UN OCHA Centre for Humanitarian Data
 
-### maxym.malynowsky@un.org
-
-### CNG Forum 2026
-
-This page is both the slides from the talk and a standalone introduction to the tools. Paragraphs like this one are the notes. Press P to switch to presentation mode, and use the arrow keys to move between slides.
+This page introduces the tools and works as a slide deck. Paragraphs like this one are the notes. Press P to switch to presentation mode, and use the arrow keys to move between slides.
 
 ---
 

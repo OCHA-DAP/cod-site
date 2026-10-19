@@ -193,19 +193,19 @@
     display: flex;
     gap: 0.5rem;
     padding: 0.5rem 0.75rem;
-    border-bottom: 1px solid var(--hdx-neutral-1);
+    border-bottom: 1px solid var(--cd-grey--400);
   }
   .rt-toolbar button {
     font-size: 0.75rem;
     padding: 0.25rem 0.6rem;
-    border: 1px solid var(--hdx-neutral-2);
-    border-radius: var(--hdx-radius-md);
-    background: var(--hdx-neutral-0);
-    color: var(--hdx-neutral-8);
+    border: 1px solid var(--cd-grey--500);
+    border-radius: var(--brand-radius--sm);
+    background: var(--cd-white);
+    color: var(--cd-grey--800);
     cursor: pointer;
   }
   .rt-toolbar button:hover:not(:disabled) {
-    background: var(--hdx-neutral-05);
+    background: var(--cd-grey--300);
   }
   .rt-toolbar button:disabled {
     opacity: 0.5;
@@ -219,14 +219,14 @@
   thead {
     position: sticky;
     top: 0;
-    background: var(--hdx-neutral-05);
+    background: var(--cd-grey--300);
     z-index: 1;
   }
   th,
   td {
     text-align: left;
     padding: 0.4rem 0.5rem;
-    border-bottom: 1px solid var(--hdx-neutral-1);
+    border-bottom: 1px solid var(--cd-grey--400);
     white-space: nowrap;
   }
   .fit {
@@ -246,7 +246,7 @@
     font-weight: 600;
     font-size: 0.75rem;
     text-transform: uppercase;
-    color: var(--hdx-neutral-7);
+    color: var(--cd-grey--800);
   }
   td.value,
   .target-cell input {
@@ -254,13 +254,13 @@
   }
   td.num {
     text-align: right;
-    color: var(--hdx-neutral-7);
+    color: var(--cd-grey--800);
   }
   td.note {
-    color: var(--hdx-neutral-7);
+    color: var(--cd-grey--800);
   }
   td.sample {
-    color: var(--hdx-neutral-5);
+    color: var(--cd-grey--600);
   }
   .target-cell {
     display: flex;
@@ -270,29 +270,29 @@
   .target-cell input {
     width: 8.5rem;
     padding: 0.2rem 0.4rem;
-    border: 1px solid var(--hdx-neutral-2);
-    border-radius: var(--hdx-radius-md);
+    border: 1px solid var(--cd-grey--500);
+    border-radius: var(--brand-radius--sm);
     font-size: 0.8rem;
     color: inherit;
-    background: var(--hdx-neutral-0);
+    background: var(--cd-white);
   }
   .target-cell input:disabled {
-    color: var(--hdx-neutral-5);
-    background: var(--hdx-neutral-01);
+    color: var(--cd-grey--600);
+    background: var(--cd-grey--300);
     text-decoration: line-through;
   }
   .target-cell input.invalid {
-    border-color: var(--hdx-error-5);
-    background: var(--hdx-error-05);
+    border-color: var(--brand-error);
+    background: var(--cd-red--300);
   }
   .icon {
     width: 1.4rem;
     height: 1.4rem;
     padding: 0;
     border: 1px solid transparent;
-    border-radius: var(--hdx-radius-md);
+    border-radius: var(--brand-radius--sm);
     background: none;
-    color: var(--hdx-neutral-7);
+    color: var(--cd-grey--800);
     font-size: 0.9rem;
     line-height: 1;
     cursor: pointer;
@@ -301,27 +301,27 @@
     visibility: hidden;
   }
   .icon:hover {
-    border-color: var(--hdx-neutral-2);
-    background: var(--hdx-neutral-05);
-    color: var(--hdx-neutral-9);
+    border-color: var(--cd-grey--500);
+    background: var(--cd-grey--300);
+    color: var(--cd-grey--900);
   }
   .issue {
     margin: 0.2rem 0 0;
     font-size: 0.7rem;
-    color: var(--hdx-error-6);
+    color: var(--brand-error);
   }
   tr.resolved .target-cell input {
-    color: var(--hdx-success-6);
+    color: var(--brand-success);
     font-weight: 600;
   }
   tr.supplemental td.note {
-    color: var(--hdx-warning-6);
+    color: var(--brand-warning);
   }
   tr.ambiguous td.note {
-    color: var(--hdx-error-6);
+    color: var(--brand-error);
   }
   tr.dropped td:nth-child(2) {
-    color: var(--hdx-neutral-5);
+    color: var(--cd-grey--600);
   }
   th.check,
   td.check {
@@ -335,7 +335,7 @@
     padding: 0 0.15rem;
     border: none;
     background: none;
-    color: var(--hdx-neutral-5);
+    color: var(--cd-grey--600);
     font-size: 0.75rem;
     letter-spacing: -0.15em;
     cursor: grab;
@@ -343,24 +343,24 @@
   }
   .grip:hover,
   .grip:focus-visible {
-    color: var(--hdx-neutral-8);
+    color: var(--cd-grey--800);
   }
   tr.drag-source {
     opacity: 0.4;
   }
   tr.drop-before td {
-    box-shadow: inset 0 2px var(--hdx-primary-5);
+    box-shadow: inset 0 2px var(--brand-primary--text);
   }
   tr.drop-after td {
-    box-shadow: inset 0 -2px var(--hdx-primary-5);
+    box-shadow: inset 0 -2px var(--brand-primary--text);
   }
   tr.edited td:first-child {
-    box-shadow: inset 3px 0 var(--hdx-primary-5);
+    box-shadow: inset 3px 0 var(--brand-primary--text);
   }
   .rt-empty {
     padding: 1rem;
     text-align: center;
-    color: var(--hdx-neutral-7);
+    color: var(--cd-grey--800);
     font-size: 0.875rem;
   }
 </style>

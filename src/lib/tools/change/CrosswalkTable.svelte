@@ -323,14 +323,14 @@
     flex-direction: column;
     gap: 0.4rem;
     padding: 0.5rem;
-    background: var(--hdx-neutral-01);
-    border-bottom: 1px solid var(--hdx-neutral-1);
+    background: var(--cd-grey--300);
+    border-bottom: 1px solid var(--cd-grey--400);
   }
   .cw-search {
     width: 100%;
     padding: 0.4rem 0.6rem;
-    border: 1px solid var(--hdx-neutral-2);
-    border-radius: var(--hdx-radius-md);
+    border: 1px solid var(--cd-grey--500);
+    border-radius: var(--brand-radius--sm);
     font-size: 0.875rem;
   }
   .cw-class-filters {
@@ -350,7 +350,7 @@
     display: inline-block;
     width: 11px;
     height: 11px;
-    border-radius: var(--hdx-radius-sm);
+    border-radius: var(--brand-radius--sm);
     border: 1px solid rgba(0, 0, 0, 0.1);
   }
   .cw-table-scroll {
@@ -366,42 +366,42 @@
   thead {
     position: sticky;
     top: 0;
-    background: var(--hdx-neutral-05);
+    background: var(--cd-grey--300);
     z-index: 1;
   }
   th,
   td {
     text-align: left;
     padding: 0.4rem 0.6rem;
-    border-bottom: 1px solid var(--hdx-neutral-1);
+    border-bottom: 1px solid var(--cd-grey--400);
     vertical-align: middle;
   }
   th {
     font-weight: 600;
     font-size: 0.75rem;
     text-transform: uppercase;
-    color: var(--hdx-neutral-7);
+    color: var(--cd-grey--800);
   }
   .cw-row {
     cursor: pointer;
   }
   .cw-row:hover {
-    background: var(--hdx-neutral-01);
+    background: var(--cd-grey--300);
   }
   .cw-row-hovered {
-    background: var(--hdx-primary-05) !important;
+    background: var(--cd-blue--lightest) !important;
   }
   /* Cells that belong to a cluster whose hovered fid lives in a different
      <tr> via rowspan. Keeps the class badge + spanned side lit up when the
      user hovers a sibling row that doesn't contain them. */
   .cw-cell-cluster-hovered {
-    background: var(--hdx-primary-05) !important;
+    background: var(--cd-blue--lightest) !important;
   }
   /* Anchor the selection/hover bar to the (rowspanned) class cell so it
      always sits next to the class badge — independent of which specific
      row in the cluster is selected or hovered. */
   .cw-class-cell-active {
-    box-shadow: inset 3px 0 0 var(--hdx-primary-5);
+    box-shadow: inset 3px 0 0 var(--brand-primary--text);
   }
   .cw-class-cell {
     width: 1%;
@@ -410,44 +410,44 @@
   .cw-class-badge {
     display: inline-block;
     padding: 1px 6px;
-    border-radius: var(--hdx-radius-sm);
-    color: var(--hdx-neutral-0);
+    border-radius: var(--brand-radius--sm);
+    color: var(--cd-white);
     font-size: 0.7rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.02em;
   }
   .cw-spanned {
-    border-left: 2px solid var(--hdx-primary-2);
+    border-left: 2px solid var(--cd-blue--bright);
     font-weight: 500;
   }
   /* Anchor cells: hovered row's cells on the version currently shown on the map.
      Defined after .cw-spanned so font-weight wins on spanned-anchor cells. */
   .cw-cell-anchor {
-    background: var(--hdx-primary-1) !important;
+    background: var(--cd-blue--brighter) !important;
     font-weight: 600;
-    color: var(--hdx-primary-9);
+    color: var(--cd-blue--darkest);
   }
   /* Lighter anchor: the same hovered row's cells on the OTHER version, so the
      correspondence is visible without competing with the active side. */
   .cw-cell-anchor-light {
-    background: var(--hdx-primary-05) !important;
-    color: var(--hdx-primary-7);
+    background: var(--cd-blue--lightest) !important;
+    color: var(--brand-primary--dark);
   }
   .cw-empty {
     padding: 1rem;
     text-align: center;
-    color: var(--hdx-neutral-7);
+    color: var(--cd-grey--800);
     font-size: 0.875rem;
   }
   .cw-tooltip {
     position: fixed;
-    background: var(--hdx-neutral-9);
-    color: var(--hdx-neutral-01);
+    background: var(--cd-grey--900);
+    color: var(--cd-grey--300);
     font-size: 0.72rem;
     line-height: 1.5;
     padding: 0.25rem 0.55rem;
-    border-radius: var(--hdx-radius-md);
+    border-radius: var(--brand-radius--sm);
     pointer-events: none;
     z-index: 100;
     white-space: nowrap;

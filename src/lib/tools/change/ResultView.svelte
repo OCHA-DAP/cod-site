@@ -164,7 +164,7 @@
   }
   .cw-map-pane {
     min-height: 0;
-    border-bottom: 1px solid var(--hdx-neutral-1);
+    border-bottom: 1px solid var(--cd-grey--400);
     position: relative;
   }
 
@@ -177,7 +177,7 @@
       grid-template-columns: 65% 35%;
     }
     .cw-map-pane {
-      border-right: 1px solid var(--hdx-neutral-1);
+      border-right: 1px solid var(--cd-grey--400);
       border-bottom: none;
     }
   }

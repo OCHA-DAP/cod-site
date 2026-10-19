@@ -46,7 +46,7 @@
 
   .hint {
     font-size: 0.75rem;
-    color: var(--hdx-neutral-7);
+    color: var(--cd-grey--800);
     margin: 0 0 0.2rem;
     line-height: 1.4;
   }
@@ -63,8 +63,8 @@
     width: 100%;
     padding: 0.25rem 0.4rem;
     font-size: 0.8rem;
-    border: 1px solid var(--hdx-neutral-2);
-    border-radius: var(--hdx-radius-sm);
-    background: var(--hdx-neutral-0);
+    border: 1px solid var(--cd-grey--500);
+    border-radius: var(--brand-radius--sm);
+    background: var(--cd-white);
   }
 </style>

@@ -9,8 +9,8 @@
   }
 
   const SEVERITY_TONE: Record<string, string> = {
-    error: "var(--hdx-error-6)",
-    warn: "var(--hdx-warning-6)",
+    error: "var(--brand-error)",
+    warn: "var(--brand-warning)",
   };
 
   // A report finding as popup content, titled by its kind and toned by its severity.
@@ -94,11 +94,11 @@
     gap: 0.6rem;
     font-size: 0.8rem;
     line-height: 1.4;
-    color: var(--hdx-neutral-9);
+    color: var(--cd-grey--900);
   }
   .item + .item {
     padding-top: 0.6rem;
-    border-top: 1px solid var(--hdx-neutral-1);
+    border-top: 1px solid var(--cd-grey--400);
   }
   .head {
     display: flex;
@@ -129,7 +129,7 @@
     margin: 0;
   }
   dt {
-    color: var(--hdx-neutral-7);
+    color: var(--cd-grey--800);
   }
   dd {
     margin: 0;
@@ -139,7 +139,7 @@
   .note {
     margin: 0.4rem 0 0;
     padding-top: 0.4rem;
-    border-top: 1px solid var(--hdx-neutral-1);
-    color: var(--hdx-neutral-7);
+    border-top: 1px solid var(--cd-grey--400);
+    color: var(--cd-grey--800);
   }
 </style>

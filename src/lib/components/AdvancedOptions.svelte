@@ -14,13 +14,13 @@
 <style>
   .advanced {
     padding-top: 0.75rem;
-    border-top: 1px solid var(--hdx-neutral-1);
+    border-top: 1px solid var(--cd-grey--400);
   }
 
   summary {
     font-size: 0.9rem;
     font-weight: 600;
-    color: var(--hdx-neutral-9);
+    color: var(--cd-grey--900);
     cursor: pointer;
     user-select: none;
   }
@@ -35,7 +35,7 @@
   .body :global(h3) {
     font-size: 0.8rem;
     font-weight: 600;
-    color: var(--hdx-neutral-8);
+    color: var(--cd-grey--800);
     margin: 0 0 0.4rem;
   }
 </style>

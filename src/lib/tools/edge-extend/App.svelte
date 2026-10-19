@@ -217,14 +217,14 @@
     gap: 1rem;
     padding: 1.25rem;
     overflow-y: auto;
-    border-right: 1px solid var(--hdx-neutral-1);
-    background: var(--hdx-neutral-0);
+    border-right: 1px solid var(--cd-grey--400);
+    background: var(--cd-white);
   }
 
   header {
     margin: -1.25rem -1.25rem 0;
     padding: 1.25rem 1.25rem 0.8125rem;
-    background: var(--hdx-brand-7);
+    background: var(--brand-primary--dark);
   }
   header + .step {
     border-top: none;
@@ -232,33 +232,33 @@
   }
   header .blurb,
   header .back {
-    color: var(--hdx-brand-05);
+    color: var(--cd-blue--lightest);
   }
   header .back:hover {
-    color: var(--hdx-neutral-0);
+    color: var(--cd-white);
   }
   header h1 {
     font-size: 1.25rem;
     font-weight: 700;
-    color: var(--hdx-neutral-0);
+    color: var(--cd-white);
     margin: 0 0 0.5rem;
   }
 
   .back {
     display: inline-block;
     font-size: 0.75rem;
-    color: var(--hdx-neutral-7);
+    color: var(--cd-grey--800);
     text-decoration: none;
     margin: 0 0 0.5rem;
   }
 
   .back:hover {
-    color: var(--hdx-neutral-9);
+    color: var(--cd-grey--900);
   }
 
   .blurb {
     font-size: 0.825rem;
-    color: var(--hdx-neutral-8);
+    color: var(--cd-grey--800);
     margin: 0;
     line-height: 1.5;
   }
@@ -268,7 +268,7 @@
     flex-direction: column;
     gap: 0.75rem;
     padding-top: 0.75rem;
-    border-top: 1px solid var(--hdx-neutral-1);
+    border-top: 1px solid var(--cd-grey--400);
   }
 
   .stages {
@@ -285,20 +285,20 @@
     align-items: center;
     gap: 0.5rem;
     font-size: 0.85rem;
-    color: var(--hdx-neutral-5);
+    color: var(--cd-grey--600);
   }
 
   .stages li.done {
-    color: var(--hdx-success-5);
+    color: var(--brand-success);
   }
 
   .stages li.active {
-    color: var(--hdx-primary-5);
+    color: var(--brand-primary--text);
     font-weight: 500;
   }
 
   .stages li.error {
-    color: var(--hdx-error-5);
+    color: var(--brand-error);
     font-weight: 500;
   }
 
@@ -333,12 +333,12 @@
   }
 
   .error-panel {
-    background: var(--hdx-error-05);
-    border: 1px solid var(--hdx-error-3);
-    border-radius: var(--hdx-radius-md);
+    background: var(--cd-red--300);
+    border: 1px solid var(--cd-red--500);
+    border-radius: var(--brand-radius--sm);
     padding: 0.6rem 0.75rem;
     font-size: 0.825rem;
-    color: var(--hdx-error-6);
+    color: var(--brand-error);
     word-break: break-word;
   }
 

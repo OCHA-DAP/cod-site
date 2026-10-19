@@ -43,7 +43,7 @@
   .title {
     font-size: 1rem;
     font-weight: 600;
-    color: var(--hdx-neutral-9);
+    color: var(--cd-grey--900);
     margin: 0;
   }
 
@@ -56,7 +56,7 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     font-size: 0.8rem;
-    color: var(--hdx-neutral-7);
+    color: var(--cd-grey--800);
   }
 
   .body {
@@ -69,7 +69,7 @@
   .body :global(h3) {
     font-size: 0.8rem;
     font-weight: 600;
-    color: var(--hdx-neutral-8);
+    color: var(--cd-grey--800);
     margin: 0.2rem 0 -0.2rem;
   }
 </style>

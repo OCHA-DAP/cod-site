@@ -18,7 +18,7 @@ export default defineConfig({
     starlight({
       title: "Topology Tools",
       favicon: "/icons/icon-192.png",
-      customCss: ["./src/styles/hdx-tokens.css", "./src/styles/starlight-hdx.css"],
+      customCss: ["./src/styles/brand.css", "./src/styles/site-tokens.css", "./src/styles/starlight-ocha.css"],
       components: {
         Head: "./src/lib/components/starlight/Head.astro",
         Header: "./src/lib/components/starlight/Header.astro",
@@ -60,7 +60,7 @@ export default defineConfig({
         name: "Topology Tools",
         short_name: "Topology Tools",
         description: "Browser-only geospatial topology utilities. Runs entirely in your browser.",
-        theme_color: "#18614c",
+        theme_color: "#004987",
         background_color: "#ffffff",
         display: "standalone",
         icons: [

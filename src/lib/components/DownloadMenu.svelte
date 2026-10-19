@@ -243,8 +243,8 @@
   }
 
   .dl-btn {
-    background: var(--hdx-primary-5);
-    color: var(--hdx-neutral-0);
+    background: var(--brand-primary--text);
+    color: var(--cd-white);
     border: none;
     padding: 0.6rem 1rem;
     font-size: 0.875rem;
@@ -253,12 +253,12 @@
   }
 
   .dl-btn:hover:not(:disabled) {
-    background: var(--hdx-primary-9);
+    background: var(--cd-blue--darkest);
   }
 
   .dl-btn:disabled {
-    background: var(--hdx-neutral-05);
-    color: var(--hdx-neutral-3);
+    background: var(--cd-grey--300);
+    color: var(--cd-grey--500);
     cursor: not-allowed;
   }
 
@@ -266,13 +266,13 @@
      DownloadMenu elsewhere on the same page (e.g. "Download issues" next to
      the main "Download GeoJSON" CTA) — outline style instead of solid blue. */
   .dl-group.dl-secondary .dl-btn {
-    background: var(--hdx-neutral-0);
-    color: var(--hdx-neutral-8);
-    border: 1px solid var(--hdx-neutral-2);
+    background: var(--cd-white);
+    color: var(--cd-grey--800);
+    border: 1px solid var(--cd-grey--500);
   }
 
   .dl-group.dl-secondary .dl-btn:hover:not(:disabled) {
-    background: var(--hdx-neutral-01);
+    background: var(--cd-grey--300);
   }
 
   .dl-group.dl-secondary .dl-primary {
@@ -281,13 +281,13 @@
 
   .dl-primary {
     flex: 1;
-    border-radius: var(--hdx-radius-sm) 0 0 var(--hdx-radius-sm);
+    border-radius: var(--brand-radius--sm) 0 0 var(--brand-radius--sm);
   }
 
   .dl-caret {
     padding: 0.6rem 0.5rem;
-    border-radius: 0 var(--hdx-radius-sm) var(--hdx-radius-sm) 0;
-    border-left: 1px solid var(--hdx-overlay-white-20);
+    border-radius: 0 var(--brand-radius--sm) var(--brand-radius--sm) 0;
+    border-left: 1px solid rgba(255, 255, 255, 0.2);
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -305,13 +305,12 @@
     position: absolute;
     right: 0;
     top: calc(100% + 4px);
-    background: var(--hdx-neutral-0);
-    border: 1px solid var(--hdx-neutral-1);
-    border-radius: var(--hdx-radius-sm);
+    background: var(--cd-white);
+    border: 1px solid var(--cd-grey--400);
+    border-radius: var(--brand-radius--sm);
     padding: 0.25rem;
     min-width: 100%;
     z-index: 10;
-    box-shadow: var(--hdx-shadow-md);
     list-style: none;
     margin: 0;
   }
@@ -323,28 +322,28 @@
     border: none;
     padding: 0.5rem 0.75rem;
     font-size: 0.875rem;
-    color: var(--hdx-neutral-9);
+    color: var(--cd-grey--900);
     cursor: pointer;
-    border-radius: var(--hdx-radius-sm);
+    border-radius: var(--brand-radius--sm);
   }
 
   .dl-item:hover:not(:disabled) {
-    background: var(--hdx-neutral-05);
+    background: var(--cd-grey--300);
   }
 
   .dl-item:disabled {
-    color: var(--hdx-neutral-5);
+    color: var(--cd-grey--600);
     cursor: not-allowed;
   }
 
   .dl-info {
-    color: var(--hdx-neutral-7);
+    color: var(--cd-grey--800);
     font-size: 0.8rem;
     padding: 0.5rem 0.75rem;
   }
 
   .dl-error {
-    color: var(--hdx-error-6);
+    color: var(--brand-error);
     font-size: 0.8rem;
     padding: 0.5rem 0.75rem;
   }
@@ -353,14 +352,14 @@
     width: 100%;
     margin: 0.4rem 0 0;
     font-size: 0.8rem;
-    color: var(--hdx-neutral-7);
+    color: var(--cd-grey--800);
   }
 
   .dl-error-line {
     width: 100%;
     margin: 0.4rem 0 0;
     font-size: 0.8rem;
-    color: var(--hdx-error-6);
+    color: var(--brand-error);
     word-break: break-word;
   }
 </style>

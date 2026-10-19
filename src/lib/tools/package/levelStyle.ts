@@ -10,8 +10,8 @@ export interface LevelStyle {
   bold: boolean;
 }
 
-// HDX neutral-9 to neutral-7, dark enough to read over any group fill.
-const LEVEL_COLORS = ["#1f2324", "#3f4748", "#5e6a6b"];
+// OCHA grey 900 to 700, dark enough to read over any group fill.
+const LEVEL_COLORS = ["#262626", "#4d4d4d", "#737373"];
 
 // Coarsest depth draws darkest, widest and solid; the finest draws lightest and dotted.
 export function levelStyles(depths: number[]): LevelStyle[] {

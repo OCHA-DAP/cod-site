@@ -15,7 +15,7 @@
     margin: 0;
     font-size: 0.85rem;
     font-weight: 500;
-    color: var(--hdx-primary-5);
+    color: var(--brand-primary--text);
     animation: pulse 1s ease-in-out infinite;
   }
 

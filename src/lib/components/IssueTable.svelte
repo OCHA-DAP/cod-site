@@ -82,8 +82,8 @@
   .summary {
     padding: 0.6rem 0.75rem;
     font-size: 0.85rem;
-    color: var(--hdx-neutral-8);
-    border-bottom: 1px solid var(--hdx-neutral-1);
+    color: var(--cd-grey--800);
+    border-bottom: 1px solid var(--cd-grey--400);
   }
   .summary p {
     margin: 0 0 0.3rem;
@@ -94,13 +94,13 @@
     font-size: 0.85rem;
   }
   thead {
-    background: var(--hdx-neutral-05);
+    background: var(--cd-grey--300);
   }
   table :global(th),
   table :global(td) {
     text-align: left;
     padding: 0.4rem 0.5rem;
-    border-bottom: 1px solid var(--hdx-neutral-1);
+    border-bottom: 1px solid var(--cd-grey--400);
     white-space: nowrap;
   }
   th:first-child,
@@ -111,7 +111,7 @@
     font-weight: 600;
     font-size: 0.75rem;
     text-transform: uppercase;
-    color: var(--hdx-neutral-7);
+    color: var(--cd-grey--800);
   }
   table :global(.fit) {
     width: 1%;
@@ -127,38 +127,38 @@
     font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   }
   table :global(.muted) {
-    color: var(--hdx-neutral-6);
+    color: var(--cd-grey--600);
   }
   .issue-row {
     cursor: pointer;
   }
   .issue-row:hover,
   .issue-row:focus-visible {
-    background: var(--hdx-neutral-01);
+    background: var(--cd-grey--300);
     outline: none;
   }
   .issue-row.selected {
-    background: var(--hdx-primary-05);
+    background: var(--cd-blue--lightest);
   }
   td.kind {
     font-size: 0.75rem;
   }
   td.kind.error {
-    color: var(--hdx-error-6);
+    color: var(--brand-error);
   }
   td.kind.warn {
-    color: var(--hdx-warning-6);
+    color: var(--brand-warning);
   }
   .it-note {
     margin: 0;
     padding: 0.75rem;
     font-size: 0.8rem;
-    color: var(--hdx-neutral-7);
+    color: var(--cd-grey--800);
   }
   .it-empty {
     padding: 1rem;
     text-align: center;
-    color: var(--hdx-neutral-7);
+    color: var(--cd-grey--800);
     font-size: 0.875rem;
   }
 </style>

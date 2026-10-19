@@ -353,18 +353,18 @@
 
 <style>
   .drop-zone {
-    border: 2px dashed var(--hdx-neutral-5);
-    border-radius: var(--hdx-radius-md);
+    border: 2px dashed var(--cd-grey--600);
+    border-radius: var(--brand-radius--sm);
     padding: 1.5rem 1rem;
     text-align: center;
     transition:
       border-color 0.15s,
       background-color 0.15s;
-    background: var(--hdx-neutral-01);
+    background: var(--cd-grey--300);
   }
   .drop-zone.dragging {
-    border-color: var(--hdx-primary-5);
-    background: var(--hdx-primary-05);
+    border-color: var(--brand-primary--text);
+    background: var(--cd-blue--lightest);
   }
   .drop-zone.disabled {
     opacity: 0.5;
@@ -373,12 +373,12 @@
   .drop-message {
     margin: 0 0 0.25rem;
     font-size: 0.95rem;
-    color: var(--hdx-neutral-8);
+    color: var(--cd-grey--800);
   }
   .hint {
     margin: 0.25rem 0 0;
     font-size: 0.75rem;
-    color: var(--hdx-neutral-7);
+    color: var(--cd-grey--800);
   }
   .browse-label {
     display: inline-block;
@@ -393,28 +393,28 @@
   }
   .browse-link {
     font-size: 0.875rem;
-    color: var(--hdx-primary-5);
+    color: var(--brand-primary--dark);
     text-decoration: underline;
     cursor: pointer;
   }
   .browse-label:focus-within .browse-link {
-    outline: 2px solid var(--hdx-primary-5);
+    outline: 2px solid var(--brand-primary--text);
     outline-offset: 2px;
-    border-radius: var(--hdx-radius-sm);
+    border-radius: var(--brand-radius--sm);
   }
   .file-list {
     margin: 0.75rem 0 0;
     font-size: 0.85rem;
-    color: var(--hdx-neutral-8);
+    color: var(--cd-grey--800);
   }
   .filenames {
     font-family: monospace;
-    color: var(--hdx-neutral-9);
+    color: var(--cd-grey--900);
     word-break: break-all;
   }
   .source-host {
     margin-left: 0.4rem;
-    color: var(--hdx-neutral-7);
+    color: var(--cd-grey--800);
   }
   .url-row {
     display: flex;
@@ -427,34 +427,34 @@
     min-width: 0;
     padding: 0.3rem 0.5rem;
     font-size: 0.85rem;
-    border: 1px solid var(--hdx-neutral-2);
-    border-radius: var(--hdx-radius-sm);
-    background: var(--hdx-neutral-0);
+    border: 1px solid var(--cd-grey--500);
+    border-radius: var(--brand-radius--sm);
+    background: var(--cd-white);
   }
   .url-input:focus {
-    outline: 2px solid var(--hdx-primary-5);
+    outline: 2px solid var(--brand-primary--text);
     outline-offset: -1px;
-    border-color: var(--hdx-primary-5);
+    border-color: var(--brand-primary--text);
   }
   .url-load {
     padding: 0.3rem 0.8rem;
     font-size: 0.85rem;
-    border: 1px solid var(--hdx-primary-5);
-    border-radius: var(--hdx-radius-sm);
-    background: var(--hdx-primary-5);
-    color: var(--hdx-neutral-0);
+    border: 1px solid var(--brand-primary--text);
+    border-radius: var(--brand-radius--sm);
+    background: var(--brand-primary--text);
+    color: var(--cd-white);
     cursor: pointer;
   }
   .url-load:disabled {
-    border-color: var(--hdx-neutral-05);
-    background: var(--hdx-neutral-05);
-    color: var(--hdx-neutral-3);
+    border-color: var(--cd-grey--300);
+    background: var(--cd-grey--300);
+    color: var(--cd-grey--500);
     cursor: default;
   }
   .url-status {
     margin: 0.6rem 0 0;
     font-size: 0.85rem;
-    color: var(--hdx-neutral-8);
+    color: var(--cd-grey--800);
   }
   .cancel-link {
     margin-left: 0.4rem;
@@ -462,13 +462,13 @@
     border: none;
     background: none;
     font-size: 0.85rem;
-    color: var(--hdx-primary-5);
+    color: var(--brand-primary--text);
     text-decoration: underline;
     cursor: pointer;
   }
   .url-error {
     margin: 0.4rem 0 0;
     font-size: 0.8rem;
-    color: var(--hdx-error-6);
+    color: var(--brand-error);
   }
 </style>

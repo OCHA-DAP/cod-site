@@ -19,18 +19,17 @@
     gap: 0.4rem;
     margin-bottom: 0.6rem;
     padding: 0.35rem 0.7rem;
-    border: 1px solid var(--hdx-primary-5);
-    border-radius: var(--hdx-radius-sm);
-    background: var(--hdx-neutral-0);
-    color: var(--hdx-primary-7);
-    box-shadow: var(--hdx-shadow-sm);
+    border: 1px solid var(--brand-primary--text);
+    border-radius: var(--brand-radius--sm);
+    background: var(--cd-white);
+    color: var(--brand-primary--dark);
     font-size: 0.8rem;
     font-weight: 500;
     text-decoration: none;
   }
 
   .demo-link:hover {
-    border-color: var(--hdx-primary-7);
+    border-color: var(--brand-primary--dark);
     box-shadow: none;
   }
 

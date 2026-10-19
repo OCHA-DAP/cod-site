@@ -56,11 +56,11 @@ import Layout from "../layouts/Layout.astro";
 
 <style>
   :global(body):has(> .masthead) {
-    background: var(--hdx-neutral-01);
+    background: var(--cd-grey--300);
   }
   .masthead {
-    background: var(--hdx-brand-7);
-    color: var(--hdx-neutral-0);
+    background: var(--brand-primary--dark);
+    color: var(--cd-white);
   }
   .masthead-inner,
   .page {
@@ -74,13 +74,14 @@ import Layout from "../layouts/Layout.astro";
     margin-bottom: 2rem;
   }
   .masthead h1 {
+    color: var(--cd-white);
     font-size: 2rem;
     font-weight: 700;
     margin: 0 0 0.75rem;
   }
   .masthead .tagline {
     font-size: 1rem;
-    color: var(--hdx-brand-05);
+    color: var(--cd-blue--lightest);
     margin: 0;
     line-height: 1.55;
     max-width: 56ch;
@@ -88,7 +89,7 @@ import Layout from "../layouts/Layout.astro";
   .page {
     padding: 2.5rem 1.5rem 4rem;
     line-height: 1.6;
-    color: var(--hdx-neutral-9);
+    color: var(--cd-grey--900);
   }
   .page ul {
     margin: 0 0 1.5rem;

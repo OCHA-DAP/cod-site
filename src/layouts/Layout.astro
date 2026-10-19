@@ -1,5 +1,6 @@
 ---
-import "../styles/hdx-tokens.css";
+import "../styles/brand.css";
+import "../styles/site-tokens.css";
 import FontFaces from "$lib/components/FontFaces.astro";
 
 interface Props {
@@ -19,7 +20,7 @@ const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <link rel="manifest" href={`${base}manifest.webmanifest`} />
-    <meta name="theme-color" content="#18614c" />
+    <meta name="theme-color" content="#004987" />
     <link rel="icon" type="image/png" sizes="192x192" href={`${base}icons/icon-192.png`} />
     <link rel="apple-touch-icon" href={`${base}icons/icon-192.png`} />
     <title>{title}</title>
@@ -42,10 +43,6 @@ const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
     margin: 0;
     padding: 0;
     height: 100%;
-    font-family: var(--hdx-font-body);
-  }
-  h1 {
-    font-family: var(--hdx-font-display);
   }
   button,
   input,

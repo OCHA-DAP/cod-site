@@ -1,4 +1,4 @@
-// Admin 1 views the intro cycles through, from topo-tools-data's sources collection: OCHA's COD-AB first, then an older source.
+// Admin 1 views the intro cycles through, from the hdx/topo-tools catalog's sources collection on source.coop: OCHA's COD-AB first, then an older source.
 export const PMTILES_URL = "https://data.source.coop/hdx/topo-tools/sources/sources_adm1.pmtiles";
 export const PMTILES_LAYER = "sources_adm1";
 

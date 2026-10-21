@@ -14,7 +14,7 @@ its default `gap_maximum_width=SNAP_TOLERANCE`, which raises unconditionally
 on any invalid edge/overlap (`check_invalid_edges` has no tolerance-based
 softening), and separately raises only on a gap at or below the noise floor
 (`check_gaps`, relaxed from zero-tolerance in
-[topo-tools-py ADR-0035](../../../topo-tools-py/docs/adr/0035-match-mosaic-gap-gate-relaxed-to-noise-floor.md)).
+[topo-tools-py ADR-0035](../../../topo-tools/docs/adr/0035-match-mosaic-gap-gate-relaxed-to-noise-floor.md)).
 A wider gap (e.g. a real enclosed-country hole reproduced from the parent
 layer) gets an issues-report row and a log warning, not a raise. So Python's
 gate is a split: overlaps always hard-fail, only the gap half is tolerant.

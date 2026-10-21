@@ -3,7 +3,7 @@
 ## Status
 
 Accepted. Ports
-[topo-tools-py ADR-0096](../../../topo-tools-py/docs/adr/0096-voronoi-conditional-per-cell-world-bounds-clip.md).
+[topo-tools-py ADR-0096](../../../topo-tools/docs/adr/0096-voronoi-conditional-per-cell-world-bounds-clip.md).
 
 ## Context
 

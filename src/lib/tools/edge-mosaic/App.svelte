@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { toolsBase } from "$lib/utils/paths";
   import CarryColumnsPicker from "$lib/components/CarryColumnsPicker.svelte";
   import DownloadMenu from "$lib/components/DownloadMenu.svelte";
   import PrivacyNote from "$lib/components/PrivacyNote.svelte";
@@ -13,8 +14,6 @@
   import { onMount, untrack } from "svelte";
   import { PipelineError, runMosaic, type MosaicIssueRow } from "./pipeline/index";
   import type { ColumnGuess } from "$lib/db/columns";
-
-  const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
 
   const STAGE_LABELS = [
     "Loading input",
@@ -190,7 +189,7 @@
 <div class="layout">
   <aside class="sidebar">
     <header>
-      <a class="back" href={base}>← Topology Tools</a>
+      <a class="back" href={toolsBase}>← Tools</a>
       <h1>Mosaic</h1>
       <p class="blurb">
         Fit an already-extended input layer into a new overlay polygon boundary without re-running

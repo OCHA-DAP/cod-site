@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { toolsBase } from "$lib/utils/paths";
   import { duckdbState, initDuckDB } from "$lib/db/duckdb.svelte";
   import { choiceParam, textParam, syncParam, type ParamCodec } from "$lib/utils/syncParam.svelte";
   import { loadFile } from "$lib/db/loader";
@@ -17,8 +18,6 @@
   import InputStep from "$lib/components/InputStep.svelte";
   import DropZone from "$lib/components/DropZone.svelte";
   import MapView from "$lib/components/MapView.svelte";
-
-  const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
 
   let files = $state<File[]>([]);
   let loading = $state(false);
@@ -172,7 +171,7 @@
 <div class="layout">
   <aside class="sidebar">
     <header>
-      <a class="back" href={base}>← Topology Tools</a>
+      <a class="back" href={toolsBase}>← Tools</a>
       <h1>Code Create</h1>
       <p class="blurb">
         Give every unit of a flat polygon layer a new hierarchical code, numbered within its

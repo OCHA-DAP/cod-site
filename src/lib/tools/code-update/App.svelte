@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { toolsBase } from "$lib/utils/paths";
   import { duckdbState, initDuckDB } from "$lib/db/duckdb.svelte";
   import {
     numberParam,
@@ -25,8 +26,6 @@
     type LevelView,
     type TargetSchema,
   } from "./pipeline/index";
-
-  const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
 
   let filesA = $state<File[]>([]);
   let filesB = $state<File[]>([]);
@@ -273,7 +272,7 @@
 <div class="layout">
   <aside class="sidebar">
     <header>
-      <a class="back" href={base}>&larr; Topology Tools</a>
+      <a class="back" href={toolsBase}>&larr; Tools</a>
       <h1>Code Update</h1>
       <DemoLink slug="code-update" />
       <p class="blurb">

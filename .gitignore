@@ -30,6 +30,7 @@ tmp/
 
 # Assets synced at build time by scripts/sync-*.mjs — see package.json prebuild
 public/duckdb/
-src/content/docs/docs
+src/content/docs/tools/docs
+public/status/data/
 
 scripts/add-geom-ids.mjs

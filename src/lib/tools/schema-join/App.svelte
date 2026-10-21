@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { toolsBase } from "$lib/utils/paths";
   import { duckdbState, initDuckDB } from "$lib/db/duckdb.svelte";
   import { boolParam, numberParam, textParam, syncParam } from "$lib/utils/syncParam.svelte";
   import { attributesAt, type Bounds } from "$lib/db/layerView";
@@ -21,8 +22,6 @@
   import MapTableSplit from "$lib/components/MapTableSplit.svelte";
   import MapView from "$lib/components/MapView.svelte";
   import JoinTable from "./JoinTable.svelte";
-
-  const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
 
   let inputFiles = $state<File[]>([]);
   let joinFiles = $state<File[]>([]);
@@ -153,7 +152,7 @@
 <div class="layout">
   <aside class="sidebar">
     <header>
-      <a class="back" href={base}>← Topology Tools</a>
+      <a class="back" href={toolsBase}>← Tools</a>
       <h1>Schema Join</h1>
       <DemoLink slug="schema-join" />
       <p class="blurb">

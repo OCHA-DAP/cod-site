@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { toolsBase } from "$lib/utils/paths";
   import DemoLink from "$lib/components/DemoLink.svelte";
   import DownloadMenu from "$lib/components/DownloadMenu.svelte";
   import PrivacyNote from "$lib/components/PrivacyNote.svelte";
@@ -22,8 +23,6 @@
   } from "./pipeline";
   import { niceNum } from "./pipeline/units";
   import { syncParam } from "$lib/utils/syncParam.svelte";
-
-  const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
 
   const STAGE_LABELS = ["Load file", "Analyze coverage", "Find gaps & overlaps", "Fix topology"];
 
@@ -343,7 +342,7 @@
 <div class="tc-layout">
   <aside class="tc-sidebar">
     <header>
-      <a class="tc-back" href={base}>← Topology Tools</a>
+      <a class="tc-back" href={toolsBase}>← Tools</a>
       <h1>Topology Cleaner</h1>
       <DemoLink slug="topo-clean" />
       <p class="tc-blurb">

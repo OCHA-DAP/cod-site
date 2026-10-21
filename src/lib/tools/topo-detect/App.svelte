@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { toolsBase } from "$lib/utils/paths";
   import DownloadMenu from "$lib/components/DownloadMenu.svelte";
   import PrivacyNote from "$lib/components/PrivacyNote.svelte";
   import DemoLink from "$lib/components/DemoLink.svelte";
@@ -13,8 +14,6 @@
   import { MAP_COLORS } from "$lib/utils/mapColors";
   import { fmtArea, fmtLength } from "$lib/utils/format";
   import { PipelineError, runDetect, type IssueKind, type IssueRow } from "./pipeline/index";
-
-  const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
 
   const STAGE_LABELS = ["Load file", "Loading input", "Finding gaps & overlaps", "Assembling issues report"];
 
@@ -147,7 +146,7 @@
 <div class="dt-layout">
   <aside class="dt-sidebar">
     <header>
-      <a class="dt-back" href={base}>← Topology Tools</a>
+      <a class="dt-back" href={toolsBase}>← Tools</a>
       <h1>Detect</h1>
       <DemoLink slug="topo-detect" />
       <p class="dt-blurb">

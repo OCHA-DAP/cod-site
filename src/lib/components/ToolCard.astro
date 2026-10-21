@@ -1,4 +1,5 @@
 ---
+import { base, toolsBase } from "$lib/utils/paths";
 import type { Tool } from "$lib/tools";
 
 interface Props {
@@ -8,10 +9,9 @@ interface Props {
 }
 
 const { tool, variant = "primary", header = false } = Astro.props;
-const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
 ---
 
-<a class={`card ${variant} ${header ? "header" : ""}`} href={`${base}${tool.slug}`}>
+<a class={`card ${variant} ${header ? "header" : ""}`} href={`${toolsBase}${tool.slug}`}>
   <img
     class="icon"
     src={`${base}${tool.iconHref.slice(1)}`}

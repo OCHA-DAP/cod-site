@@ -1,0 +1,13 @@
+---
+import CoverageOverview from "$lib/status/components/CoverageOverview.astro";
+import PreparednessSection from "$lib/status/components/PreparednessSection.astro";
+import { loadData } from "$lib/status/loadData";
+import StatusLayout from "../../layouts/StatusLayout.astro";
+
+const data = loadData();
+---
+
+<StatusLayout data={data}>
+  <CoverageOverview planGroups={data.planGroups} />
+  <PreparednessSection planGroups={data.planGroups} />
+</StatusLayout>

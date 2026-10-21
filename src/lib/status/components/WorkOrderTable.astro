@@ -1,0 +1,120 @@
+---
+import type { ScheduleGroup } from "$lib/status/loadData";
+import { statusClass, statusLabel, STATUS_TERMS } from "$lib/status/status";
+import Term from "./Term.astro";
+import type { TermSlug } from "$lib/status/glossary";
+
+interface Props {
+  groups: ScheduleGroup[];
+}
+
+const { groups } = Astro.props;
+
+function ageLabel(createdDate: string, endDate?: string): string | null {
+  if (!createdDate) return null;
+  const created = new Date(createdDate + "T00:00:00");
+  const end = endDate ? new Date(endDate + "T00:00:00") : new Date();
+  const days = Math.floor((end.getTime() - created.getTime()) / (1000 * 60 * 60 * 24));
+  const weeks = Math.round(days / 7);
+  return `${weeks} week${weeks === 1 ? "" : "s"}`;
+}
+
+function ageTooltip(createdDate: string, publicationDate?: string): string | null {
+  if (!createdDate) return null;
+  const fmt = (d: string) =>
+    new Date(d + "T00:00:00")
+      .toLocaleDateString("en-GB", { year: "numeric", month: "short", day: "2-digit" })
+      .replace("Sept", "Sep");
+  if (publicationDate)
+    return `${fmt(createdDate)}  (created)\n${fmt(publicationDate)}  (published)`;
+  return `${fmt(createdDate)}  (created)`;
+}
+---
+
+{groups.map((group) => (
+  <Fragment>
+    <h3 class="quarter-heading">
+      {group.quarter}
+      {(() => {
+        const remaining = group.rows.filter((r) => r.work_order_status !== "done").length;
+        return remaining > 0 ? <span class="count-chip">{remaining} remaining</span> : null;
+      })()}
+    </h3>
+    <table>
+      <colgroup>
+        <col style="width: 30%" />
+        <col style="width: 5.5em" />
+        <col style="width: 15%" />
+        <col style="width: 11%" />
+        <col style="width: 15%" />
+        <col style="width: 11%" />
+        <col style="width: 15%" />
+      </colgroup>
+      <thead>
+        <tr>
+          <th>Location</th>
+          <th>
+            <Term term="major-minor">Major</Term>
+          </th>
+          <th>
+            <Term term="pipeline">Status</Term>
+          </th>
+          <th>
+            <Term term="open-for">Open For</Term>
+          </th>
+          <th>
+            <Term term="plan-type">Plan Type</Term>
+          </th>
+          <th>
+            <Term term="office-type">Office Type</Term>
+          </th>
+          <th>
+            <Term term="regional-office" align="right">
+              Regional Office
+            </Term>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {group.rows.map((row) => (
+          <tr>
+            <td>
+              {row.hdxUrl ? (
+                <a href={row.hdxUrl} target="_blank" rel="noopener">
+                  {row.name_en}
+                </a>
+              ) : (
+                row.name_en
+              )}{" "}
+              <span class="iso3">{row.iso3}</span>
+            </td>
+            <td style="text-align: center">
+              {row.update_type === "major" ? (
+                <span class="upd-icon upd-major">●</span>
+              ) : row.update_type === "minor" ? (
+                <span class="upd-icon upd-minor">○</span>
+              ) : null}
+            </td>
+            <td>
+              <Term term={STATUS_TERMS[row.work_order_status] as TermSlug}>
+                <span class={`badge ${statusClass(row.work_order_status)}`}>
+                  {statusLabel(row.work_order_status)}
+                </span>
+              </Term>
+            </td>
+            <td>
+              {(() => {
+                const label = ageLabel(row.created_date, row.publication_date || undefined);
+                const tip = ageTooltip(row.created_date, row.publication_date || undefined);
+                return label ? <span title={tip ?? undefined}>{label}</span> : "—";
+              })()}
+            </td>
+            <td>{row.plan_type || "—"}</td>
+            <td>{row.office_type || "—"}</td>
+            <td>{row.regional || "—"}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </Fragment>
+))}

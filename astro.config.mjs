@@ -16,7 +16,8 @@ export default defineConfig({
   base,
   integrations: [
     starlight({
-      title: "Topology Tools",
+      title: "Tools",
+      disable404Route: true,
       favicon: "/icons/icon-192.png",
       customCss: ["./src/styles/brand.css", "./src/styles/site-tokens.css", "./src/styles/starlight-ocha.css"],
       components: {
@@ -26,14 +27,14 @@ export default defineConfig({
         ThemeSelect: "./src/lib/components/starlight/ThemeSelect.astro",
       },
       sidebar: [
-        { label: "Overview", link: "/docs/" },
-        { label: "Agents", items: [{ autogenerate: { directory: "docs/agents" } }] },
-        { label: "1. Schema", items: [{ autogenerate: { directory: "docs/1-schema" } }] },
-        { label: "2. Topology", items: [{ autogenerate: { directory: "docs/2-topology" } }] },
-        { label: "3. Edge matching", items: [{ autogenerate: { directory: "docs/3-edge" } }] },
-        { label: "4. Codes", items: [{ autogenerate: { directory: "docs/4-codes" } }] },
-        { label: "5. Names", items: [{ autogenerate: { directory: "docs/5-names" } }] },
-        { label: "6. Packaging", items: [{ autogenerate: { directory: "docs/6-packaging" } }] },
+        { label: "Overview", link: "/tools/docs/" },
+        { label: "Agents", items: [{ autogenerate: { directory: "tools/docs/agents" } }] },
+        { label: "1. Schema", items: [{ autogenerate: { directory: "tools/docs/1-schema" } }] },
+        { label: "2. Topology", items: [{ autogenerate: { directory: "tools/docs/2-topology" } }] },
+        { label: "3. Edge matching", items: [{ autogenerate: { directory: "tools/docs/3-edge" } }] },
+        { label: "4. Codes", items: [{ autogenerate: { directory: "tools/docs/4-codes" } }] },
+        { label: "5. Names", items: [{ autogenerate: { directory: "tools/docs/5-names" } }] },
+        { label: "6. Packaging", items: [{ autogenerate: { directory: "tools/docs/6-packaging" } }] },
       ],
     }),
     svelte(),
@@ -53,15 +54,16 @@ export default defineConfig({
       // "Enable offline".
       injectManifest: {
         globPatterns: ["**/*.{html,css,js,ico,svg,png,webmanifest,woff,woff2}"],
-        globIgnores: ["**/duckdb/**", "**/data/**", "**/docs/**", "pagefind/**"],
+        globIgnores: ["**/duckdb/**", "**/data/**", "**/docs/**", "pagefind/**", "status/**"],
         maximumFileSizeToCacheInBytes: 6 * 1024 * 1024,
       },
       manifest: {
-        name: "Topology Tools",
-        short_name: "Topology Tools",
+        name: "Tools",
+        short_name: "Tools",
         description: "Browser-only geospatial topology utilities. Runs entirely in your browser.",
         theme_color: "#004987",
         background_color: "#ffffff",
+        start_url: `${iconBase}tools/`,
         display: "standalone",
         icons: [
           { src: `${iconBase}icons/icon-192.png`, sizes: "192x192", type: "image/png" },

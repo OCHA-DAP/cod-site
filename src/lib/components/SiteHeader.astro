@@ -1,11 +1,13 @@
 ---
+import { base, toolsBase } from "$lib/utils/paths";
+
 interface Props {
   repo?: string;
   class?: string;
+  toolsNav?: boolean;
 }
 
-const { repo = "OCHA-DAP/topo-tools-js", class: className } = Astro.props;
-const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
+const { repo = "OCHA-DAP/topo-tools-js", class: className, toolsNav = true } = Astro.props;
 ---
 
 <div class:list={["bar", className]}>
@@ -14,11 +16,15 @@ const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
   </a>
   <slot />
   <nav class="topnav" aria-label="Site">
-    <a href={`${base}intro`}>Intro</a>
-    <a class="docs" href={`${base}docs/`}>
-      CLI Docs
-    </a>
-    <a href={`${base}privacy`}>Privacy</a>
+    {toolsNav && (
+      <>
+        <a href={`${toolsBase}intro`}>Intro</a>
+        <a class="docs" href={`${toolsBase}docs/`}>
+          CLI Docs
+        </a>
+        <a href={`${toolsBase}privacy`}>Privacy</a>
+      </>
+    )}
     <a class="source" href={`https://github.com/${repo}`} title="Go to repository">
       <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
         <!--! Font Awesome Free 7.3.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2026 Fonticons, Inc.-->

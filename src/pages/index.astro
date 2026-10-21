@@ -1,240 +1,68 @@
 ---
-import OfflineToggle from "$lib/components/OfflineToggle.svelte";
-import ToolCard from "$lib/components/ToolCard.astro";
-import GroupBox from "$lib/components/GroupBox.astro";
-import Step from "$lib/components/Step.astro";
-import { step } from "$lib/steps";
-import Disclosure from "$lib/components/Disclosure.astro";
-import { tools } from "$lib/tools";
-import SiteHeader from "$lib/components/SiteHeader.astro";
+import Masthead from "$lib/components/Masthead.astro";
+import { base, toolsBase } from "$lib/utils/paths";
 import Layout from "../layouts/Layout.astro";
 
-const bySlug = (slug: string) => tools.find((t) => t.slug === slug)!;
-const clean = bySlug("topo-clean");
-const detect = bySlug("topo-detect");
-const match = bySlug("edge-match");
-const extend = bySlug("edge-extend");
-const mosaic = bySlug("edge-mosaic");
-const clip = bySlug("edge-clip");
-const stitch = bySlug("edge-stitch");
-const change = bySlug("change");
-const pkg = bySlug("package");
-const packagePolygons = bySlug("package-polygons");
-const packagePoints = bySlug("package-points");
-const packageLines = bySlug("package-lines");
-const schemaMap = bySlug("schema-map");
-const schemaJoin = bySlug("schema-join");
-const schemaFill = bySlug("schema-fill");
-const codeCreate = bySlug("code-create");
-const codeUpdate = bySlug("code-update");
-const nameClean = bySlug("name-clean");
-const nameDetect = bySlug("name-detect");
-const schemaDetect = bySlug("schema-detect");
-const codeDetect = bySlug("code-detect");
-const validate = bySlug("validate");
+const links = [
+  {
+    href: toolsBase,
+    title: "Tools",
+    text: "Clean, code and package administrative boundaries in your browser.",
+  },
+  {
+    href: `${base}status/`,
+    title: "Status",
+    text: "Track COD-AB work orders and coverage across humanitarian response plans.",
+  },
+];
 ---
 
 <Layout
-  title="Topology Tools: browser-only geospatial utilities"
-  description="A suite of browser-only geospatial topology tools. All processing runs client-side; your files never leave your device."
+  title="COD-AB: Common Operational Datasets for administrative boundaries"
+  description="Tools and status tracking for Common Operational Datasets on administrative boundaries (COD-AB)."
 >
-  <header class="masthead">
-    <div class="masthead-inner">
-      <SiteHeader class="masthead-bar" />
-      <h1>Topology Tools</h1>
-      <p class="tagline">
-        Take a raw administrative boundary delivery through to a clean, coded, packaged release, one
-        step at a time. All processing runs in your browser via WebAssembly, so your files never
-        leave your device.
-      </p>
-    </div>
-  </header>
+  <Masthead title="COD-AB" toolsNav={false}>
+    <p class="tagline">Common Operational Datasets for administrative boundaries.</p>
+  </Masthead>
 
   <main class="page">
-    <section class="tools">
-      <h2 class="section-heading">Boundary cleaning</h2>
-      <ol class="steps">
-        <Step {...step("schema-map")}>
-          <GroupBox>
-            <ToolCard tool={schemaMap} header />
-            <Disclosure label="Show 3 individual tools">
-              <ToolCard tool={schemaJoin} variant="secondary" />
-              <ToolCard tool={schemaFill} variant="secondary" />
-              <ToolCard tool={schemaDetect} variant="secondary" />
-            </Disclosure>
-          </GroupBox>
-        </Step>
-
-        <Step {...step("topo-clean")}>
-          <GroupBox>
-            <ToolCard tool={clean} header />
-            <Disclosure label="Show 1 individual tool">
-              <ToolCard tool={detect} variant="secondary" />
-            </Disclosure>
-          </GroupBox>
-        </Step>
-
-        <Step {...step("edge-match")}>
-          <GroupBox>
-            <ToolCard tool={match} header />
-            <Disclosure label="Show 2 individual tools">
-              <ToolCard tool={extend} variant="secondary" />
-              <GroupBox nested>
-                <ToolCard tool={mosaic} variant="secondary" header />
-                <div class="below">
-                  <ToolCard tool={clip} variant="tertiary" />
-                  <ToolCard tool={stitch} variant="tertiary" />
-                </div>
-              </GroupBox>
-            </Disclosure>
-          </GroupBox>
-        </Step>
-
-        <Step {...step("code-update")}>
-          <GroupBox>
-            <ToolCard tool={codeUpdate} header />
-            <Disclosure label="Show 3 individual tools">
-              <ToolCard tool={codeCreate} variant="secondary" />
-              <ToolCard tool={change} variant="secondary" />
-              <ToolCard tool={codeDetect} variant="secondary" />
-            </Disclosure>
-          </GroupBox>
-        </Step>
-
-        <Step {...step("name-clean")}>
-          <GroupBox>
-            <ToolCard tool={nameClean} header />
-            <Disclosure label="Show 1 individual tool">
-              <ToolCard tool={nameDetect} variant="secondary" />
-            </Disclosure>
-          </GroupBox>
-        </Step>
-
-        <Step
-          title="Validate"
-          summary="Check the layer's schema, topology, codes and names in one pass before packaging it."
-        >
-          <GroupBox>
-            <ToolCard tool={validate} header />
-          </GroupBox>
-        </Step>
-
-        <Step {...step("package")} last>
-          <GroupBox>
-            <ToolCard tool={pkg} header />
-            <Disclosure label="Show 3 individual tools">
-              <ToolCard tool={packagePolygons} variant="secondary" />
-              <ToolCard tool={packagePoints} variant="secondary" />
-              <ToolCard tool={packageLines} variant="secondary" />
-            </Disclosure>
-          </GroupBox>
-        </Step>
-      </ol>
-    </section>
-
-    <details class="settings">
-      <summary>
-        <h2 class="section-heading">Site settings</h2>
-      </summary>
-      <div class="settings-card">
-        <OfflineToggle client:load />
-      </div>
-    </details>
+    {links.map((l) => (
+      <a class="card" href={l.href}>
+        <h2>{l.title}</h2>
+        <p>{l.text}</p>
+      </a>
+    ))}
   </main>
 </Layout>
 
 <style>
-  :global(body):has(> .masthead) {
-    background: var(--cd-grey--300);
-  }
   .page {
     max-width: 720px;
     margin: 0 auto;
     padding: 2.5rem 1.5rem 4rem;
-    display: flex;
-    flex-direction: column;
-    gap: 2.5rem;
+    display: grid;
+    gap: 1rem;
+    font-family: var(--brand-font);
   }
-  .masthead {
-    background: var(--brand-primary--dark);
-    color: var(--cd-white);
-  }
-  .masthead-inner {
-    max-width: 720px;
-    margin: 0 auto;
-    padding: 1.25rem 1.5rem 2.5rem;
-  }
-  .masthead :global(.masthead-bar) {
-    margin-bottom: 2rem;
-  }
-  .masthead h1 {
-    color: var(--cd-white);
-    font-size: 2rem;
-    font-weight: 700;
-    margin: 0 0 0.75rem;
-  }
-  .masthead .tagline {
-    font-size: 1rem;
-    color: var(--cd-blue--lightest);
-    margin: 0;
-    line-height: 1.55;
-    max-width: 56ch;
-  }
-  .section-heading {
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: var(--cd-grey--800);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    margin: 0 0 0.75rem;
-  }
-  .steps {
-    margin: 0;
-    padding: 0;
-  }
-  .below {
-    display: flex;
-    flex-direction: column;
-    gap: 0.6rem;
-  }
-  .settings > summary {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    cursor: pointer;
-    color: var(--cd-grey--800);
-    list-style: none;
-    user-select: none;
-  }
-  .settings > summary::-webkit-details-marker {
-    display: none;
-  }
-  .settings > summary::before {
-    content: "";
-    width: 0.4rem;
-    height: 0.4rem;
-    border-right: 1.5px solid currentColor;
-    border-bottom: 1.5px solid currentColor;
-    transform: rotate(-45deg);
-    transition: transform 120ms ease;
-  }
-  .settings[open] > summary::before {
-    transform: rotate(45deg);
-  }
-  .settings > summary .section-heading {
-    margin: 0;
-  }
-  .settings[open] > summary {
-    margin-bottom: 0.75rem;
-  }
-  .settings > summary:hover,
-  .settings > summary:hover .section-heading {
-    color: var(--cd-grey--900);
-  }
-  .settings-card {
-    padding: 1rem 1.25rem;
+  .card {
+    display: block;
+    padding: 1.25rem 1.5rem;
     border: 1px solid var(--cd-grey--400);
     border-radius: var(--brand-radius--sm);
     background: var(--cd-white);
+    color: var(--cd-grey--900);
+    text-decoration: none;
+  }
+  .card:hover {
+    border-color: var(--brand-primary);
+  }
+  .card h2 {
+    margin: 0 0 0.35rem;
+    font-size: 1.125rem;
+    color: var(--brand-primary--text);
+  }
+  .card p {
+    margin: 0;
+    color: var(--cd-grey--800);
   }
 </style>

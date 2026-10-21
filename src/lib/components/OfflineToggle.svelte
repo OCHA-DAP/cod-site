@@ -1,9 +1,10 @@
 <script lang="ts">
+  import { base } from "$lib/utils/paths";
   import * as duckdb from "@duckdb/duckdb-wasm";
   import { DUCKDB_BUNDLES, duckdbState, initDuckDB } from "$lib/db/duckdb.svelte";
   import { onMount } from "svelte";
 
-  const LAND_GEOJSON_URL = `${import.meta.env.BASE_URL.replace(/\/?$/, "/")}data/ne_50m_land.geojson`;
+  const LAND_GEOJSON_URL = `${base}data/ne_50m_land.geojson`;
   const LS_KEY = "edge-matcher:offline-ready";
 
   // "loading" is a pre-hydration sentinel: SSR/initial client render shows

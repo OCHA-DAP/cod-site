@@ -5,6 +5,8 @@ on:
     branches: [main]
   repository_dispatch:
     types: [py-docs-updated]
+  schedule:
+    - cron: "0 6 * * *" # daily status data refresh
 
 concurrency:
   group: pages
@@ -30,6 +32,16 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - run: pip install requests
+      - run: npm run fetch:status
+        env:
+          ARCGIS_USERNAME: ${{ secrets.ARCGIS_USERNAME }}
+          ARCGIS_PASSWORD: ${{ secrets.ARCGIS_PASSWORD }}
+          JIRA_EMAIL: ${{ secrets.JIRA_EMAIL }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
       - uses: actions/configure-pages@v6
         id: pages
       - run: npm run build

@@ -25,6 +25,7 @@ const { title, description } = Astro.props;
     <link rel="apple-touch-icon" href={`${base}icons/icon-192.png`} />
     <title>{title}</title>
     <FontFaces />
+    <slot name="head" />
     <script is:inline src={`${base}registerSW.js`} defer></script>
   </head>
   <body>

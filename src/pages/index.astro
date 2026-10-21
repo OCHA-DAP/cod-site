@@ -1,68 +1,279 @@
 ---
-import Masthead from "$lib/components/Masthead.astro";
+import HomeGlobe from "$lib/components/home/HomeGlobe.svelte";
+import SiteHeader from "$lib/components/SiteHeader.astro";
 import { base, toolsBase } from "$lib/utils/paths";
 import Layout from "../layouts/Layout.astro";
 
-const links = [
+const lede =
+  "Administrative boundaries and population statistics to support coordinated humanitarian preparedness and response.";
+
+const products = [
   {
     href: toolsBase,
     title: "Tools",
-    text: "Clean, code and package administrative boundaries in your browser.",
+    text: "Take a raw administrative boundary delivery through to a clean, coded, packaged release, one step at a time. All processing runs in your browser via WebAssembly, so your files never leave your device.",
+    image: `${base}home/tools.webp`,
   },
   {
     href: `${base}status/`,
     title: "Status",
-    text: "Track COD-AB work orders and coverage across humanitarian response plans.",
+    text: "COD-AB work orders, pipeline status, and plan coverage.",
+    image: `${base}home/status.webp`,
   },
+];
+
+// Heights match the emblems, not the files: WFP and IOM set their names above or below theirs.
+const logos = [
+  { file: "ocha-blue.svg", alt: "OCHA", height: 36 },
+  { file: "wfp-blue.svg", alt: "WFP", height: 45 },
+  { file: "unicef-blue.svg", alt: "UNICEF", height: 36 },
+  { file: "unhcr-blue.svg", alt: "UNHCR", height: 40 },
+  { file: "iom-blue.svg", alt: "IOM", height: 34 },
 ];
 ---
 
-<Layout
-  title="COD-AB: Common Operational Datasets for administrative boundaries"
-  description="Tools and status tracking for Common Operational Datasets on administrative boundaries (COD-AB)."
->
-  <Masthead title="COD-AB" toolsNav={false}>
-    <p class="tagline">Common Operational Datasets for administrative boundaries.</p>
-  </Masthead>
+<Layout title="CODs: Common Operational Datasets" description={lede}>
+  <link slot="head" rel="preconnect" href="https://data.source.coop" crossorigin />
+  <div class="home">
+    <header class="wrap">
+      <SiteHeader class="nav" theme="light" wordmark="CODs" siteNav toolsNav={false} repo={null} />
+    </header>
 
-  <main class="page">
-    {links.map((l) => (
-      <a class="card" href={l.href}>
-        <h2>{l.title}</h2>
-        <p>{l.text}</p>
-      </a>
-    ))}
-  </main>
+    <main>
+      <section class="wrap hero">
+        <div class="hero-text">
+          <h1>Common Operational Datasets for humanitarian response</h1>
+          <p class="lede">{lede}</p>
+        </div>
+        <div class="hero-globe">
+          <HomeGlobe client:load />
+        </div>
+      </section>
+
+      <section class="band">
+        <div class="intro">
+          <h2>What are CODs?</h2>
+          <p>
+            Common Operational Datasets (CODs) are administrative boundaries (COD-AB) and population
+            statistics (COD-PS). They are ‘best available’ datasets that ensure consistency and
+            simplify the management of key data.
+          </p>
+          <p>
+            National authorities are the primary source of most CODs, and the relevant Information
+            Management Working Group accepts them in country or in their region. CODs reflect the
+            local administrative hierarchy and are annotated with place names and P-codes. They
+            provide a common operational picture of a crisis and a geographic framework for data
+            collection, analysis and visualization, and are disseminated on the Humanitarian Data
+            Exchange (HDX).
+          </p>
+          <dl class="types">
+            <div>
+              <dt>Administrative boundaries (COD-AB)</dt>
+              <dd>
+                Geographic boundaries and gazetteers of feature names and P-codes, reflecting each
+                country’s administrative hierarchy.
+              </dd>
+            </div>
+            <div>
+              <dt>Population statistics (COD-PS)</dt>
+              <dd>
+                Baseline, age- and sex-disaggregated population figures of a country’s pre-crisis
+                situation, linkable to COD-AB using P-codes.
+              </dd>
+            </div>
+          </dl>
+        </div>
+      </section>
+
+      {products.map((p, i) => (
+        <section class="band">
+          <div class:list={["wrap", "product", { reverse: i % 2 === 1 }]}>
+            <div>
+              <h2>{p.title}</h2>
+              <p class="product-text">{p.text}</p>
+              <a class="more" href={p.href}>
+                Open {p.title} →
+              </a>
+            </div>
+            <a class="shot" href={p.href} tabindex="-1" aria-hidden="true">
+              <img src={p.image} alt="" loading="lazy" width="1200" height="750" />
+            </a>
+          </div>
+        </section>
+      ))}
+    </main>
+
+    <footer>
+      <p>Managed by</p>
+      <div class="logos">
+        {logos.map((l) => <img src={`${base}logos/${l.file}`} alt={l.alt} style={`height: ${l.height}px`} />)}
+      </div>
+    </footer>
+  </div>
 </Layout>
 
 <style>
-  .page {
-    max-width: 720px;
-    margin: 0 auto;
-    padding: 2.5rem 1.5rem 4rem;
-    display: grid;
-    gap: 1rem;
+  .home {
+    overflow-x: clip;
     font-family: var(--brand-font);
-  }
-  .card {
-    display: block;
-    padding: 1.25rem 1.5rem;
-    border: 1px solid var(--cd-grey--400);
-    border-radius: var(--brand-radius--sm);
-    background: var(--cd-white);
     color: var(--cd-grey--900);
+    background: var(--cd-white);
+  }
+  .wrap {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+  header :global(.nav) {
+    padding: 1.25rem 0;
+  }
+  h1,
+  h2 {
+    color: var(--cd-blue--darkest);
+    letter-spacing: -0.02em;
+  }
+  .hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+    min-height: 620px;
+    padding-top: 3rem;
+    padding-bottom: 5rem;
+  }
+  h1 {
+    font-size: 2.8rem;
+    line-height: 1.12;
+    font-weight: 700;
+    margin: 0.75rem 0 1.25rem;
+  }
+  .lede {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: var(--cd-grey--800);
+    max-width: 44ch;
+    margin: 0;
+  }
+  .hero-globe {
+    width: 760px;
+    margin-right: -260px;
+    justify-self: end;
+  }
+  .band {
+    border-top: 1px solid var(--cd-blue--lightest);
+  }
+  .intro {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 5rem 2rem;
+  }
+  .intro h2,
+  .product h2 {
+    font-size: 2rem;
+    margin: 0 0 1rem;
+  }
+  .intro p {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: var(--cd-grey--800);
+  }
+  .types {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin: 2rem 0 0;
+  }
+  .types div {
+    padding: 1.25rem 1.5rem;
+    border-left: 3px solid var(--cd-ocha-blue);
+    background: var(--cd-blue--lightest);
+  }
+  .types dt {
+    font-weight: 700;
+    color: var(--cd-blue--darkest);
+    margin-bottom: 0.4rem;
+  }
+  .types dd {
+    margin: 0;
+    line-height: 1.6;
+    color: var(--cd-grey--800);
+  }
+  .product {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: 4rem;
+    align-items: center;
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+  }
+  .product.reverse {
+    grid-template-columns: 1.3fr 1fr;
+  }
+  .product.reverse .shot {
+    order: -1;
+  }
+  .product-text {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--cd-grey--800);
+  }
+  .more {
+    color: var(--cd-blue--darker);
+    font-weight: 700;
     text-decoration: none;
   }
-  .card:hover {
-    border-color: var(--brand-primary);
+  .more:hover {
+    text-decoration: underline;
   }
-  .card h2 {
-    margin: 0 0 0.35rem;
-    font-size: 1.125rem;
-    color: var(--brand-primary--text);
+  .shot {
+    display: block;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--cd-blue--lightest);
+    box-shadow: 0 20px 50px -20px rgba(0, 46, 110, 0.35);
   }
-  .card p {
-    margin: 0;
-    color: var(--cd-grey--800);
+  .shot img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  footer {
+    padding: 2.5rem 2rem;
+    border-top: 1px solid var(--cd-blue--lightest);
+    text-align: center;
+  }
+  footer p {
+    margin: 0 0 16px;
+    font-size: var(--cd-font-size--small);
+    color: var(--brand-grey--text);
+  }
+  .logos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 32px 48px;
+  }
+  footer img {
+    width: auto;
+  }
+  @media (max-width: 900px) {
+    .hero,
+    .product,
+    .product.reverse,
+    .types {
+      grid-template-columns: 1fr;
+    }
+    .hero {
+      min-height: 0;
+    }
+    .hero-globe {
+      width: 100%;
+      margin-right: 0;
+      justify-self: stretch;
+    }
+    .product.reverse .shot {
+      order: 0;
+    }
   }
 </style>

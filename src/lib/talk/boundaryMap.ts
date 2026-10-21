@@ -1,7 +1,8 @@
 import { loadMaplibre, loadStyle } from "$lib/utils/mapStyle";
 import type { FilterSpecification, LngLatBoundsLike, Map as MaplibreMap } from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
-import { FileSource, PMTiles, Protocol } from "pmtiles";
+import { FileSource, PMTiles } from "pmtiles";
+import { pmtilesProtocol } from "$lib/utils/pmtiles";
 import { PMTILES_LAYER, PMTILES_URL, explorerViews } from "./explorer";
 
 const CURRENT_FILL = "#009edb";
@@ -10,7 +11,7 @@ const LINE = "#004987";
 const FILL_OPACITY = 0.6;
 const PADDING = 40;
 
-let protocolAdded = false;
+let fileAdded = false;
 let archive: Promise<File> | undefined;
 
 const bounds = ([xmin, ymin, xmax, ymax]: number[]): LngLatBoundsLike => [
@@ -58,11 +59,9 @@ export function startBoundaryLoop(
       loadStyle(),
       loadBoundaries(),
     ]);
-    if (!protocolAdded) {
-      const protocol = new Protocol();
-      protocol.add(new PMTiles(new FileSource(file)));
-      maplibregl.addProtocol("pmtiles", protocol.tile);
-      protocolAdded = true;
+    if (!fileAdded) {
+      pmtilesProtocol(maplibregl).add(new PMTiles(new FileSource(file)));
+      fileAdded = true;
     }
     if (stopped) return;
     style.layers = style.layers.filter(

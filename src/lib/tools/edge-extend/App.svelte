@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { toolsBase } from "$lib/utils/paths";
   import { duckdbState, initDuckDB } from "$lib/db/duckdb.svelte";
   import { loadFile } from "$lib/db/loader";
   import { getOriginalGeojson, PipelineError, runPipeline } from "./pipeline/index";
@@ -9,8 +10,6 @@
   import DropZone from "$lib/components/DropZone.svelte";
   import MapView from "$lib/components/MapView.svelte";
   import SideToggle from "$lib/components/SideToggle.svelte";
-
-  const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
 
   const STAGE_LABELS = [
     "Load file",
@@ -126,7 +125,7 @@
 <div class="layout">
   <aside class="sidebar">
     <header>
-      <a class="back" href={base}>← Topology Tools</a>
+      <a class="back" href={toolsBase}>← Tools</a>
       <h1>Edge Extender</h1>
       <p class="blurb">
         Extend polygon boundaries outward to meet a parent boundary — for example ADM3 sub-national

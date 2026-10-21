@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { toolsBase } from "$lib/utils/paths";
   import { duckdbState, initDuckDB } from "$lib/db/duckdb.svelte";
   import { boolParam, choiceParam, syncParam } from "$lib/utils/syncParam.svelte";
   import { onMount, untrack } from "svelte";
@@ -18,8 +19,6 @@
   import type { GroupResult } from "./pipeline/groups";
   import ProgressLine from "$lib/components/ProgressLine.svelte";
   import type { ColumnGuess } from "$lib/db/columns";
-
-  const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
 
   // Edge Extender stages each group runs through.
   const STAGE_COUNT = 5;
@@ -267,7 +266,7 @@
 <div class="layout">
   <aside class="sidebar">
     <header>
-      <a class="back" href={base}>← Topology Tools</a>
+      <a class="back" href={toolsBase}>← Tools</a>
       <h1>Edge Matcher</h1>
       <DemoLink slug="edge-match" />
       <p class="blurb">

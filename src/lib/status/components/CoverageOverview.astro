@@ -1,0 +1,127 @@
+---
+import type { PlanGroup } from "$lib/status/loadData";
+import Term from "./Term.astro";
+import type { TermSlug } from "$lib/status/glossary";
+
+interface Props {
+  planGroups: PlanGroup[];
+}
+
+const { planGroups } = Astro.props;
+
+function coverageClass(inGis: number, total: number): string {
+  if (total === 0) return "s-ok";
+  const pct = inGis / total;
+  if (pct === 1) return "s-ok";
+  if (pct >= 0.75) return "s-warn-low";
+  if (pct >= 0.5) return "s-warn-mid";
+  return "s-critical";
+}
+---
+
+<style>
+  .cycle-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .cycle-card {
+    border-radius: var(--brand-radius--sm);
+    border: 1px solid var(--cd-grey--400);
+    padding: 1rem 1.25rem;
+    background: var(--cd-white);
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+  }
+
+  .cycle-card:hover {
+    border-color: var(--brand-primary--text);
+    background: var(--brand-primary--lightest);
+  }
+
+  .cycle-label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--cd-grey--700);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .stat-card {
+    border-radius: var(--brand-radius--sm);
+    padding: 0.6rem 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    border: 1px solid transparent;
+  }
+
+  .stat-card.s-ok {
+    background: #c6efce;
+    border-color: #93d09a;
+  }
+
+  .stat-card.s-warn-low {
+    background: #fff2cc;
+    border-color: #f5d262;
+  }
+
+  .stat-card.s-warn-mid {
+    background: #fce4d6;
+    border-color: #f4b183;
+  }
+
+  .stat-card.s-critical {
+    background: #ffc7ce;
+    border-color: #f09098;
+  }
+
+  .stat-num {
+    font-size: 1.6rem;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .stat-denom {
+    font-size: 0.75em;
+    font-weight: 500;
+    opacity: 0.6;
+  }
+
+  .stat-lbl {
+    font-size: 0.72rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--cd-grey--800);
+  }
+</style>
+
+<div class="cycle-grid">
+  {planGroups.map((group) => {
+    const total = group.countries.length;
+    const inGis = group.countries.filter((c) => c.inGis).length;
+    return (
+      <a class="cycle-card" href={`#${group.key}`}>
+        <div class="cycle-label">
+          <Term term={group.key as TermSlug}>{group.label}</Term>
+        </div>
+        <div class={`stat-card ${coverageClass(inGis, total)}`}>
+          <span class="stat-num">
+            {inGis}
+            <span class="stat-denom">/{total}</span>
+          </span>
+          <span class="stat-lbl">
+            <Term term="in-gis">In GIS</Term>
+          </span>
+        </div>
+      </a>
+    );
+  })}
+</div>

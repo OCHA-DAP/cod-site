@@ -1,6 +1,6 @@
 <!-- `---` starts a new slide. Headings, lists, tables and images are the slide; plain paragraphs are speaker notes. A slide that starts with `#` gets the title-slide style. -->
 
-# Topology Tools: an introduction
+# Tools: an introduction
 
 ### UN OCHA Centre for Humanitarian Data
 

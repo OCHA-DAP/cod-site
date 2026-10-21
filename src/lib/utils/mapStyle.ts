@@ -1,3 +1,4 @@
+import { base } from "./paths";
 import { MAP_COLORS } from "./mapColors";
 import type { FilterSpecification, LayerSpecification, StyleSpecification } from "maplibre-gl";
 
@@ -22,7 +23,7 @@ export function loadMaplibre(): Promise<typeof import("maplibre-gl")> {
 
 const LAND_SOURCE_ID = "ne-land";
 const LAND_LAYER_ID = "ne-land-fill";
-const LAND_URL = `${import.meta.env.BASE_URL.replace(/\/?$/, "/")}data/ne_50m_land.geojson`;
+const LAND_URL = `${base}data/ne_50m_land.geojson`;
 const WATER_COLOR = MAP_COLORS.water;
 const LAND_COLOR = MAP_COLORS.land;
 

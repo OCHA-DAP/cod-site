@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { toolsBase } from "$lib/utils/paths";
   import { duckdbState, initDuckDB } from "$lib/db/duckdb.svelte";
   import { loadFile } from "$lib/db/loader";
   import { PipelineError, runStitch, type StitchIssueRow } from "./pipeline/index";
@@ -10,8 +11,6 @@
   import DropZone from "$lib/components/DropZone.svelte";
   import MapView from "$lib/components/MapView.svelte";
   import SideToggle from "$lib/components/SideToggle.svelte";
-
-  const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
 
   const STAGE_LABELS = ["Load file", "Loading input", "Closing seams", "Checking for residual gaps"];
 
@@ -118,7 +117,7 @@
 <div class="layout">
   <aside class="sidebar">
     <header>
-      <a class="back" href={base}>← Topology Tools</a>
+      <a class="back" href={toolsBase}>← Tools</a>
       <h1>Stitch</h1>
       <p class="blurb">
         Close seams in an already-tiled polygon layer — for example tiles produced independently by

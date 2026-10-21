@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { toolsBase } from "$lib/utils/paths";
   import CarryColumnsPicker from "$lib/components/CarryColumnsPicker.svelte";
   import DownloadMenu from "$lib/components/DownloadMenu.svelte";
   import PrivacyNote from "$lib/components/PrivacyNote.svelte";
@@ -13,8 +14,6 @@
   import { onMount, untrack } from "svelte";
   import { PipelineError, runClip, type ClipIssueRow } from "./pipeline/index";
   import type { ColumnGuess } from "$lib/db/columns";
-
-  const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
 
   const STAGE_LABELS = ["Loading input", "Assigning to overlay polygon", "Clipping to overlay boundary"];
 
@@ -187,7 +186,7 @@
 <div class="layout">
   <aside class="sidebar">
     <header>
-      <a class="back" href={base}>← Topology Tools</a>
+      <a class="back" href={toolsBase}>← Tools</a>
       <h1>Clip</h1>
       <p class="blurb">
         Force an input layer onto the one overlay polygon it overlaps most (by majority vote across

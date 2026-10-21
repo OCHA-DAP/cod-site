@@ -1,0 +1,117 @@
+---
+import type { PlanGroup } from "$lib/status/loadData";
+import Term from "./Term.astro";
+import type { TermSlug } from "$lib/status/glossary";
+import { statusClass, statusLabel } from "$lib/status/status";
+
+interface Props {
+  planGroups: PlanGroup[];
+}
+
+const { planGroups } = Astro.props;
+---
+
+{planGroups.map((group) => (
+  <section id={group.key}>
+    <h2>
+      <Term term={group.key as TermSlug}>{group.label}</Term>
+      {(() => {
+        const missing = group.countries.filter((c) => !c.inGis).length;
+        return missing > 0 ? (
+          <span class="count-chip warn">{missing} missing</span>
+        ) : (
+          <span class="count-chip done">All in GIS</span>
+        );
+      })()}
+    </h2>
+
+    {group.countries.length > 0 ? (
+      <table>
+        <colgroup>
+          <col style="width: 23%" />
+          <col style="width: 12%" />
+          <col style="width: 10%" />
+          <col style="width: 11%" />
+          <col style="width: 12%" />
+          <col style="width: 7%" />
+          <col style="width: 13%" />
+          <col style="width: 12%" />
+        </colgroup>
+        <thead>
+          <tr>
+            <th>Location</th>
+            <th>
+              <Term term="plan-type">Plan Types</Term>
+            </th>
+            <th>Plan Year</th>
+            <th>
+              <Term term="office-type">Office Type</Term>
+            </th>
+            <th>
+              <Term term="regional-office">Regional Office</Term>
+            </th>
+            <th>
+              <Term term="in-gis">In GIS</Term>
+            </th>
+            <th>
+              <Term term="next-review">Next Review</Term>
+            </th>
+            <th>
+              <Term term="work-order" align="right">
+                Work Order
+              </Term>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {group.countries.map((row) => (
+            <tr class={row.inGis ? "" : "row-gap"}>
+              <td>
+                {row.hdxUrl ? (
+                  <a href={row.hdxUrl} target="_blank" rel="noopener">
+                    {row.name_en}
+                  </a>
+                ) : (
+                  row.name_en
+                )}{" "}
+                <span class="iso3">{row.iso3}</span>
+              </td>
+              <td>{row.plan_types.join(" / ") || "—"}</td>
+              <td>{row.plan_years?.join(" / ") || "—"}</td>
+              <td>{row.office_type || "—"}</td>
+              <td>{row.regional || "—"}</td>
+              <td class={row.inGis ? "flag-yes" : "flag-no"}>{row.inGis ? "Yes" : "No"}</td>
+              <td class={row.review_overdue ? "flag-no" : ""}>
+                <span title={row.next_review_date}>{row.next_review_relative ?? "—"}</span>
+              </td>
+              <td>
+                {row.open_work_order_status ? (
+                  <Term term={`status-${row.open_work_order_status}` as TermSlug} align="right">
+                    <span class={`badge ${statusClass(row.open_work_order_status)}`}>
+                      {statusLabel(row.open_work_order_status)}
+                    </span>
+                  </Term>
+                ) : (
+                  "—"
+                )}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    ) : (
+      <p class="empty">No locations found.</p>
+    )}
+  </section>
+))}
+
+<style>
+  section {
+    scroll-margin-top: 0.75rem;
+  }
+
+  .flag-no {
+    color: var(--brand-warning);
+    font-weight: 600;
+  }
+</style>

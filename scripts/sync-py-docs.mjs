@@ -11,7 +11,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, "..");
 
 const source = resolve(ROOT, process.env.PY_DOCS_DIR ?? "../topo-tools-py/docs/pages");
-const dest = resolve(ROOT, "src/content/docs/docs");
+const dest = resolve(ROOT, "src/content/docs/tools/docs");
 
 if (!existsSync(source)) {
   console.error(`py docs not found at ${source} (set PY_DOCS_DIR)`);

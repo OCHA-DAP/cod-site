@@ -1,0 +1,207 @@
+---
+import "$lib/status/status.css";
+import Masthead from "$lib/components/Masthead.astro";
+import Term from "$lib/status/components/Term.astro";
+import { base } from "$lib/utils/paths";
+import type { loadData } from "$lib/status/loadData";
+import Layout from "./Layout.astro";
+
+interface Props {
+  data: ReturnType<typeof loadData>;
+}
+
+const { data } = Astro.props;
+const { openTotal } = data;
+const totalInGis = data.planGroups.reduce(
+  (sum, g) => sum + g.countries.filter((c) => c.inGis).length,
+  0,
+);
+const totalLocations = data.planGroups.reduce((sum, g) => sum + g.countries.length, 0);
+const lastUpdatedFormatted = data.lastUpdatedAt
+  ? new Date(data.lastUpdatedAt).toLocaleDateString("en-GB", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+      timeZone: "UTC",
+    })
+  : null;
+
+const statusBase = `${base}status/`;
+const dataBase = `${statusBase}data/`;
+const isCoverage = Astro.url.pathname.replace(/\/$/, "").endsWith("/coverage");
+---
+
+<Layout
+  title="COD-AB Status Dashboard"
+  description="COD-AB work orders, pipeline status, and plan coverage."
+>
+  <Masthead title="COD-AB Status Dashboard" width="1200px" toolsNav={false}>
+    <p class="tagline">
+      Data updated daily at 06:00 UTC
+      {lastUpdatedFormatted && `. Last updated ${lastUpdatedFormatted}.`}
+    </p>
+  </Masthead>
+
+  <main class="status-page">
+    <nav class="tab-bar">
+      <a href={statusBase} class:list={["tab-btn", { active: !isCoverage }]}>
+        <span class="tab-left">
+          <span class="tab-title">
+            <Term term="work-order">Work Orders</Term>
+          </span>
+          <span class="tab-desc">
+            <Term term="pipeline">Pipeline</Term> &amp; status tracking
+          </span>
+        </span>
+        <span class="tab-count">
+          {openTotal}
+          <span class="tab-denom"> open</span>
+        </span>
+      </a>
+      <a href={`${statusBase}coverage`} class:list={["tab-btn", { active: isCoverage }]}>
+        <span class="tab-left">
+          <span class="tab-title">Coverage</span>
+          <span class="tab-desc">Plan &amp; preparedness gaps</span>
+        </span>
+        <span class="tab-count">
+          {totalInGis}
+          <span class="tab-denom">/{totalLocations}</span>
+        </span>
+      </a>
+    </nav>
+
+    <slot />
+
+    <footer>
+      <span>Download:</span>
+      <span class="footer-group">
+        <span class="group-label">JIRA</span>
+        <a href={`${dataBase}work.csv`}>Work orders</a>
+      </span>
+      <span class="footer-group">
+        <span class="group-label">ArcGIS</span>
+        <a href={`${dataBase}gis.csv`}>Locations</a>
+        <a href={`${dataBase}cod_metadata.csv`}>Metadata</a>
+      </span>
+      <span class="footer-group">
+        <span class="group-label">External</span>
+        <a href={`${dataBase}hdx.csv`}>HDX</a>
+        <a href={`${dataBase}m49.csv`}>M49</a>
+        <a href={`${dataBase}plans.csv`}>Plans</a>
+        <a href={`${dataBase}offices.csv`}>Offices</a>
+        <a href={`${dataBase}regions.csv`}>Regions</a>
+      </span>
+    </footer>
+  </main>
+</Layout>
+
+<style>
+  .status-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 3rem;
+    font-family: var(--brand-font);
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--cd-grey--900);
+  }
+
+  .tab-bar {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .tab-btn {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.75rem 1.25rem;
+    flex: 1;
+    background: var(--cd-white);
+    border: 2px solid var(--cd-grey--400);
+    border-radius: var(--brand-radius--sm);
+    text-align: left;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .tab-left {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .tab-count {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--brand-primary--text);
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  .tab-btn:not(.active) .tab-count {
+    color: var(--cd-grey--700);
+  }
+
+  .tab-denom {
+    font-size: 0.75em;
+    font-weight: 500;
+    opacity: 0.6;
+  }
+
+  .tab-btn.active {
+    border-color: var(--brand-primary);
+    background: var(--brand-primary--lightest);
+  }
+
+  .tab-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--cd-grey--900);
+  }
+
+  .tab-desc {
+    font-size: 12px;
+    color: var(--cd-grey--700);
+  }
+
+  footer {
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--cd-grey--400);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+    font-size: 0.8rem;
+    color: var(--cd-grey--700);
+  }
+
+  footer a {
+    color: var(--brand-primary--text);
+    text-decoration: none;
+  }
+
+  footer a:hover {
+    text-decoration: underline;
+  }
+
+  .footer-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .footer-group + .footer-group {
+    border-left: 1px solid var(--cd-grey--400);
+    padding-left: 0.5rem;
+  }
+
+  .group-label {
+    font-weight: 600;
+    color: var(--cd-grey--900);
+  }
+</style>

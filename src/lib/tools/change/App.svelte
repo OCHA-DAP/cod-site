@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { toolsBase } from "$lib/utils/paths";
   import DemoLink from "$lib/components/DemoLink.svelte";
   import DownloadMenu from "$lib/components/DownloadMenu.svelte";
   import PrivacyNote from "$lib/components/PrivacyNote.svelte";
@@ -18,8 +19,6 @@
   } from "./pipeline";
   import { detectColumns, type ColumnGuess } from "$lib/db/columns";
   import { buildKeyed, loadSide } from "./pipeline/load";
-
-  const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
 
   const STAGE_LABELS = [
     "Load sources",
@@ -393,7 +392,7 @@
 <div class="cw-layout">
   <aside class="cw-sidebar">
     <header>
-      <a class="cw-back" href={base}>← Topology Tools</a>
+      <a class="cw-back" href={toolsBase}>← Tools</a>
       <h1>Changelog</h1>
       <DemoLink slug="change" />
       <p class="cw-blurb">

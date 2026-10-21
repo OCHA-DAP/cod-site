@@ -1,4 +1,5 @@
 <script lang="ts" generics="R extends { map: FlaggedLayer }">
+  import { toolsBase } from "$lib/utils/paths";
   import type { AsyncDuckDBConnection } from "@duckdb/duckdb-wasm";
   import type { Snippet } from "svelte";
   import { duckdbState, initDuckDB } from "$lib/db/duckdb.svelte";
@@ -42,8 +43,6 @@
     // Hover popup content for a flagged unit's finding on the map.
     describe?: (result: R, key: string) => FeatureInfo | null;
   } = $props();
-
-  const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
 
   let files = $state<File[]>([]);
   let loading = $state(false);
@@ -155,7 +154,7 @@
 <div class="layout">
   <aside class="sidebar">
     <header>
-      <a class="back" href={base}>← Topology Tools</a>
+      <a class="back" href={toolsBase}>← Tools</a>
       <h1>{title}</h1>
       <DemoLink {slug} />
       <p class="blurb">{blurb} Click any finding to zoom to it.</p>

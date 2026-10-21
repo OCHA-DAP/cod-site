@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { toolsBase } from "$lib/utils/paths";
   import { duckdbState, initDuckDB } from "$lib/db/duckdb.svelte";
   import { textParam, syncParam } from "$lib/utils/syncParam.svelte";
   import { loadFile } from "$lib/db/loader";
@@ -29,8 +30,6 @@
   import MapTableSplit from "$lib/components/MapTableSplit.svelte";
   import MapView from "$lib/components/MapView.svelte";
   import ResultsTable from "./ResultsTable.svelte";
-
-  const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
 
   let files = $state<File[]>([]);
   let loading = $state(false);
@@ -293,7 +292,7 @@
 <div class="layout">
   <aside class="sidebar">
     <header>
-      <a class="back" href={base}>← Topology Tools</a>
+      <a class="back" href={toolsBase}>← Tools</a>
       <h1>Schema Map</h1>
       <DemoLink slug="schema-map" />
       <p class="blurb">

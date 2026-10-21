@@ -11,6 +11,8 @@
     "prebuild": "npm run sync:assets",
     "build": "astro build",
     "preview": "astro preview",
+    "fetch:status": "python3 scripts/status/m49.py && python3 scripts/status/gis.py && python3 scripts/status/plans.py && python3 scripts/status/regions.py && python3 scripts/status/offices.py && python3 scripts/status/cod_metadata.py && python3 scripts/status/hdx.py && python3 scripts/status/jira.py && date -u +%Y-%m-%dT%H:%M:%SZ > public/status/data/last_updated.txt",
+    "fetch:status:local": "uv run scripts/status/m49.py && uv run scripts/status/gis.py && uv run scripts/status/plans.py && uv run scripts/status/regions.py && uv run scripts/status/offices.py && uv run scripts/status/cod_metadata.py && uv run scripts/status/hdx.py && uv run scripts/status/jira.py && date -u +%Y-%m-%dT%H:%M:%SZ > public/status/data/last_updated.txt",
     "check": "astro check",
     "lint": "eslint .",
     "format": "prettier --write .",
@@ -23,6 +25,7 @@
     "@eslint/compat": "^2.1.1",
     "@eslint/js": "^10.0.1",
     "@types/node": "^26.6.3",
+    "@types/papaparse": "^5.5.2",
     "@vite-pwa/astro": "^1.2.0",
     "astro": "^7.3.5",
     "eslint": "^10.11.0",
@@ -42,6 +45,7 @@
     "astro-rehype-relative-markdown-links": "^0.19.2",
     "fflate": "^0.8.3",
     "maplibre-gl": "^6.11.2",
+    "papaparse": "^5.7.0",
     "pmtiles": "^4.5.0"
   }
 }

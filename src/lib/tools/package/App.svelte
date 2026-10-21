@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { toolsBase } from "$lib/utils/paths";
   import { duckdbState, initDuckDB } from "$lib/db/duckdb.svelte";
   import { textParam, syncParam } from "$lib/utils/syncParam.svelte";
   import { serialRunner } from "$lib/utils/serialRunner";
@@ -18,8 +19,6 @@
   import PackageMap from "./PackageMap.svelte";
   import { levelStyles } from "./levelStyle";
   import { colorByGroup } from "$lib/utils/groupColor";
-
-  const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
 
   let files = $state<File[]>([]);
   let loading = $state(false);
@@ -170,7 +169,7 @@
 <div class="layout">
   <aside class="sidebar">
     <header>
-      <a class="back" href={base}>← Topology Tools</a>
+      <a class="back" href={toolsBase}>← Tools</a>
       <h1>Package</h1>
       <DemoLink slug="package" />
       <p class="blurb">

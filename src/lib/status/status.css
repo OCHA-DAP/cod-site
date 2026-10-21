@@ -1,0 +1,259 @@
+/* Scoped to .status-page: cssCodeSplit: false bundles this stylesheet into every page. */
+.status-page {
+  /* ── Sections ───────────────────────────────────────────────── */
+  section {
+    background: var(--cd-white);
+    border: 1px solid var(--cd-grey--400);
+    border-radius: var(--brand-radius--sm);
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+
+  section h2 {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--brand-primary--text);
+    margin: 0 0 0.35rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .section-desc {
+    font-size: 13px;
+    color: var(--cd-grey--700);
+    margin: 0 0 1rem;
+  }
+
+  .quarter-heading {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--cd-grey--700);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    margin: 1.25rem 0 0.4rem;
+    padding-bottom: 0.25rem;
+    border-bottom: 1px solid var(--cd-grey--400);
+  }
+
+  section > h3.quarter-heading:first-of-type {
+    margin-top: 0;
+  }
+
+  /* ── Tables ─────────────────────────────────────────────────── */
+  .table-scroll {
+    overflow-x: auto;
+  }
+
+  table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin-bottom: 0.25rem;
+  }
+
+  th,
+  td {
+    padding: 0.35rem 0.6rem;
+    text-align: left;
+    border: 1px solid var(--cd-grey--400);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  th {
+    background: var(--cd-grey--300);
+    font-weight: 700;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    font-feature-settings: "tnum";
+    position: sticky;
+    top: 0;
+  }
+
+  tr:hover td {
+    background: var(--cd-grey--300);
+  }
+
+  tr.row-gap td {
+    background: #fff8e7;
+  }
+  tr.row-gap:hover td {
+    background: #fff3d0;
+  }
+
+  /* ── Status badges ───────────────────────────────────────────── */
+  .badge {
+    display: inline-block;
+    padding: 0.15rem 0.5rem;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .badge.s-done {
+    background: #c6efce;
+    color: #1e6b2e;
+  }
+  .badge.s-in_progress {
+    background: #fff2cc;
+    color: #7a5a00;
+  }
+  .badge.s-blocked {
+    background: #fce4d6;
+    color: #8b3a0e;
+  }
+  .badge.s-selected {
+    background: #e0f2fe;
+    color: #075985;
+  }
+  .badge.s-backlog {
+    background: #f3f4f6;
+    color: #6b7280;
+  }
+  .badge.s-cancelled {
+    background: #ffc7ce;
+    color: #8b0c1a;
+  }
+  .badge.s-none {
+    background: #f0f2f5;
+    color: #666;
+  }
+
+  /* ── Chips, misc ─────────────────────────────────────────────── */
+  .count-chip {
+    display: inline-block;
+    background: var(--cd-grey--300);
+    color: var(--cd-grey--700);
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 0.1rem 0.55rem;
+    vertical-align: middle;
+  }
+
+  .count-chip.warn {
+    background: #fce4d6;
+    color: #8b3a0e;
+  }
+  .count-chip.done {
+    background: #c6efce;
+    color: #1e6b2e;
+  }
+
+  td a,
+  td a:visited {
+    color: var(--cd-grey--900);
+  }
+
+  .iso3 {
+    font-size: 0.7rem;
+    color: var(--cd-grey--700);
+    margin-left: 0.25rem;
+    font-family: var(--brand-font-mono);
+  }
+
+  .upd-icon {
+    font-size: 0.6rem;
+    color: var(--cd-grey--700);
+  }
+
+  .mono {
+    font-family: var(--brand-font-mono);
+    font-size: 12px;
+  }
+
+  .flag-yes {
+    color: #8b3a0e;
+    font-weight: 600;
+  }
+
+  .empty {
+    font-size: 13px;
+    color: var(--cd-grey--700);
+    margin: 0;
+  }
+
+  /* ── Glossary tooltips ──────────────────────────────────────── */
+  .term {
+    display: inline-block;
+    position: relative;
+    cursor: help;
+    border-bottom: 1px dotted currentColor;
+    outline: none;
+    vertical-align: baseline;
+  }
+
+  /* Pills (badges) already have their own visual identity — drop the underline. */
+  .term:has(.badge),
+  .term:has(.wo-badge) {
+    border-bottom: none;
+  }
+
+  .term-tooltip {
+    position: absolute;
+    bottom: calc(100% + 6px);
+    left: 0;
+    z-index: 50;
+    width: max-content;
+    max-width: 280px;
+    padding: 0.5rem 0.7rem;
+    background: var(--cd-grey--900);
+    color: var(--cd-white);
+    font-size: 0.78rem;
+    font-weight: 400;
+    font-family: var(--brand-font);
+    text-transform: none;
+    letter-spacing: normal;
+    line-height: 1.4;
+    border-radius: 4px;
+    white-space: normal;
+    text-align: left;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 0.1s,
+      visibility 0.1s;
+    pointer-events: none;
+  }
+
+  .term-tooltip::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 1rem;
+    border: 5px solid transparent;
+    border-top-color: var(--cd-grey--900);
+  }
+
+  .term.term-right .term-tooltip {
+    left: auto;
+    right: 0;
+  }
+
+  .term.term-right .term-tooltip::after {
+    left: auto;
+    right: 1rem;
+  }
+
+  .term:hover .term-tooltip,
+  .term:focus .term-tooltip,
+  .term:focus-within .term-tooltip {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* Allow tooltip to escape table cells (overflow:hidden is for ellipsis on long text). */
+  th:has(.term),
+  td:has(.term) {
+    overflow: visible;
+  }
+}

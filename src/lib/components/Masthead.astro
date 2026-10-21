@@ -1,0 +1,49 @@
+---
+import SiteHeader from "$lib/components/SiteHeader.astro";
+
+interface Props {
+  title: string;
+  width?: string;
+  toolsNav?: boolean;
+}
+
+const { title, width = "720px", toolsNav = true } = Astro.props;
+---
+
+<header class="masthead">
+  <div class="masthead-inner" style={`max-width: ${width}`}>
+    <SiteHeader class="masthead-bar" toolsNav={toolsNav} />
+    <h1>{title}</h1>
+    <slot />
+  </div>
+</header>
+
+<style>
+  :global(body):has(> .masthead) {
+    background: var(--cd-grey--300);
+  }
+  .masthead {
+    background: var(--brand-primary--dark);
+    color: var(--cd-white);
+  }
+  .masthead-inner {
+    margin: 0 auto;
+    padding: 1.25rem 1.5rem 2.5rem;
+  }
+  .masthead :global(.masthead-bar) {
+    margin-bottom: 2rem;
+  }
+  .masthead h1 {
+    color: var(--cd-white);
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0 0 0.75rem;
+  }
+  .masthead :global(.tagline) {
+    font-size: 1rem;
+    color: var(--cd-blue--lightest);
+    margin: 0;
+    line-height: 1.55;
+    max-width: 56ch;
+  }
+</style>

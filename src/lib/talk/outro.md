@@ -2,7 +2,7 @@
 
 ## Open source
 
-- [github.com/OCHA-DAP/topo-tools-js](https://github.com/OCHA-DAP/topo-tools-js)
-- [github.com/OCHA-DAP/topo-tools-py](https://github.com/OCHA-DAP/topo-tools-py)
+- [github.com/OCHA-DAP/cod-site](https://github.com/OCHA-DAP/cod-site)
+- [github.com/OCHA-DAP/topo-tools](https://github.com/OCHA-DAP/topo-tools)
 
 Both repos are MIT licensed. The Python one has the CLI and the agent skills.

@@ -3,7 +3,7 @@ export interface TargetSchema {
   codeField: string;
 }
 
-// Generic default, ported from topo-tools-py's bundled data/default.yaml.
+// Generic default, ported from topo-tools' bundled data/default.yaml.
 export const DEFAULT_TARGET_SCHEMA: TargetSchema = {
   nameField: "adm{n}_name",
   codeField: "adm{n}_code",

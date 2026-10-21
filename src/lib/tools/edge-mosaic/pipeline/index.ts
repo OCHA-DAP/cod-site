@@ -64,7 +64,7 @@ async function computeBounds(
 // A thin orchestrator chaining assign-one -> clip -> stitch, for an input
 // layer that is already a finished Edge Extender output being fit into a
 // new/different overlay feature (skips re-running Voronoi extension entirely).
-// Ported from topo-tools-py's mosaic; see docs/explanation/edge-mosaic.md for
+// Ported from topo-tools' mosaic; see docs/explanation/edge-mosaic.md for
 // the single-input-file scoping this shares with clip (docs/adr/0026).
 export async function runMosaic(
   db: AsyncDuckDB,

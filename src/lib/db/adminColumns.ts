@@ -1,5 +1,5 @@
 // Admin-hierarchy column matching against `{n}`-templated field names, by name only.
-// Ports topo-tools-py's core/admin_columns.py.
+// Ports topo-tools' core/admin_columns.py.
 
 const NAME = 0;
 const OTHER = 1;

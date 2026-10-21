@@ -32,7 +32,7 @@ export async function loadCrosswalkCsv(
   }
 }
 
-// Ports topo-tools-py's _parse_crosswalk.
+// Ports topo-tools' _parse_crosswalk.
 export async function parseCrosswalk(conn: AsyncDuckDBConnection): Promise<CrosswalkRow[]> {
   const desc = await conn.query(`DESCRIBE ${RAW_TABLE}`);
   const columnNames = (desc.toArray() as Array<{ column_name: string }>).map((r) => r.column_name);

@@ -23,7 +23,7 @@ working values (reconfirmed at finer grain by a later 155-value sweep, see
 
 **Mitigations**: Edge Extender's merge step snaps each Voronoi cell onto its
 neighbour union with `ST_Snap` before differencing, and a difference that
-still throws propagates, matching topo-tools-py
+still throws propagates, matching topo-tools
 ([`0022`](../adr/0022-noding-precision-retry-removed-for-python-parity.md)).
 Its per-fid dissolve retries a failing fid's union on a 1e-11° grid
 ([`0038`](../adr/0038-extend-merge-union-grid-fallback.md)).

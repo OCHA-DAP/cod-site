@@ -5,7 +5,7 @@ majority vote across every input polygon, not per-input-polygon), then clips eve
 to exactly that overlay polygon's boundary. Built for already-extended, overshooting
 geometry — e.g. one country's admin units after Edge Extender — where a
 per-input-polygon assignment could be fooled by an input polygon that overshoots into a
-neighboring overlay polygon's territory. Ported from topo-tools-py's `edge-clip`; see
+neighboring overlay polygon's territory. Ported from topo-tools' `edge-clip`; see
 `docs/adr/0025` and `docs/adr/0026` for the two WASM/browser-specific
 scoping decisions the port required.
 
@@ -27,7 +27,7 @@ scoping decisions the port required.
    vertex count exceeds `CLIP_TILE_MIN_VERTICES`, so input polygons are matched
    against bounding-box-nearby tiles instead of one huge polygon.
    Every input polygon is assigned to the winner, including one that does
-   not overlap it, as topo-tools-py's `assign_one` does (its ADR 0082).
+   not overlap it, as topo-tools' `assign_one` does (its ADR 0082).
 3. **Clip** (`pipeline/engine.ts`, `clipEngine`), every input polygon assigned to
    the winning overlay polygon is intersected against that overlay polygon's own geometry
    (tiled the same way as the assign stage), and any assigned input polygon whose
@@ -52,12 +52,12 @@ beside it. `edge-match` uses its pre-extension input as the original;
 only report such pieces. A piece with no edge neighbour is never changed and
 isn't reported. Every JS clip runs against one overlay polygon, so the
 same-overlay neighbour rule holds without an overlay column. See
-`docs/adr/0042` and topo-tools-py's ADR 0120 for why the rule is a ratio
+`docs/adr/0042` and topo-tools' ADR 0120 for why the rule is a ratio
 checked against the original, with no absolute size limit.
 
 ## Single winning overlay polygon, no per-overlay-polygon loop
 
-topo-tools-py's `edge-clip` can vote independently per source file and clip
+topo-tools' `edge-clip` can vote independently per source file and clip
 against a per-fid loop of winner overlay polygons, each isolated in its own OS
 subprocess. This app's DropZone has no per-file voting-group concept (see
 `docs/adr/0026`): one input upload is one vote, producing exactly one
@@ -78,7 +78,7 @@ disagreement; a file whose code has no overlapping overlay match falls back
 to the spatial result. This gives `edge-clip` its first issues report
 (`pipeline/issues.ts`, `buildClipIssues`), produced only when the override
 is supplied and yields at least one `code-mismatch`/`code-fallback` row.
-Ported from topo-tools-py's `core/assign`; see `docs/adr/0029` and
+Ported from topo-tools' `core/assign`; see `docs/adr/0029` and
 `docs/reference/shared.md` for the full contract, and
 `src/lib/db/codeJoin.ts` for the shared implementation `edge-match` and `edge-mosaic`
 also use.

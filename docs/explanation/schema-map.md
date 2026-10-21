@@ -2,7 +2,7 @@
 
 Schema Map (at `/schema-map`) infers a crosswalk from a layer's structure,
 lets the user edit it in a table, and applies it. It is one page over two
-pipeline steps that mirror topo-tools-py's separate commands: inference
+pipeline steps that mirror topo-tools' separate commands: inference
 (Inference, below) and `schema-refactor`, which renames and drops
 (`docs/explanation/schema-refactor.md`).
 
@@ -13,10 +13,10 @@ On the command line, the human review between inference and
 commands. In the browser the review happens in the table, and a separate
 page per step would only send the user out to a spreadsheet. The CSV stays
 available as an output and an optional input, for sharing a crosswalk or
-re-applying it to another delivery, and it round-trips with topo-tools-py's
+re-applying it to another delivery, and it round-trips with topo-tools'
 `schema-refactor`.
 
-Unmapped columns default to dropped, as in topo-tools-py, so the same CSV
+Unmapped columns default to dropped, as in topo-tools, so the same CSV
 yields the same layer in both. Keep and drop are a checkbox per row, separate
 from the target name, so dropping a column never discards the name it would
 be renamed to.
@@ -65,14 +65,14 @@ district), and proposes a crosswalk to a target schema for a human to
 review and edit. It never matches column names or value vocabulary against
 a known list: levels come from cardinality, containment, textual embedding,
 and correspondence, and column names are only compared with each other to
-settle a tie. Ported from topo-tools-py's `schema-map`
+settle a tie. Ported from topo-tools' `schema-map`
 (`docs/dev/explanation/1-schema/schema_map.md` there) at its 0.12 algorithm;
 this app carries over the same algorithm, adapted to many small targeted DuckDB queries orchestrated by
 TypeScript control flow instead of Python loops around `conn.execute()`
 calls, following this app's own "scale with columns, not rows" precedent
 already used by `package-polygons`.
 
-Column-name/vocabulary matching was topo-tools-py's original design
+Column-name/vocabulary matching was topo-tools' original design
 (deleted in its ADR-0054, after failing on real French-vocabulary Malagasy
 and GRID3 DRC data) and was never ported here; this app has no name-based
 fallback to fall back to.
@@ -84,7 +84,7 @@ fallback to fall back to.
    column-picker step of its own.
 2. **Candidate columns** (`pipeline/inference.ts`'s `candidateColumns`) -
    `DESCRIBE layer_attr`, minus `fid`/`geom`, minus a noise column
-   (`pipeline/constants.ts`'s `isNoiseColumn`, matching topo-tools-py's
+   (`pipeline/constants.ts`'s `isNoiseColumn`, matching topo-tools'
    GDAL-collision-suffix-aware check exactly).
 3. **Cardinality** (`pipeline/queries.ts`'s `distinctCounts`) - one query,
    `COUNT(DISTINCT)` for every candidate column at once. An all-null,
@@ -118,7 +118,7 @@ A chain edge (coarser group -> finer group) needs containment to hold, plus
 one of three justifications: the coarser group is a true constant (nothing
 to embed against); at least one column pair embeds; or no pair anywhere in
 the file embeds at all. All three come from real country files in
-topo-tools-py's history (its ADR-0064, ADR-0066, ADR-0070): a constant
+topo-tools' history (its ADR-0064, ADR-0066, ADR-0070): a constant
 admin0 needs no embedding evidence to anchor a hierarchy under it; a
 country whose admin1 is numbered independently of its admin0 (DRC's ISO2
 admin1 vs ISO3 admin0) still needs to chain via containment alone; and a
@@ -133,7 +133,7 @@ enough to rule that risk out.
 
 An earlier version defaulted a non-embedding column to `name` whenever
 some other column in its group embedded the parent. This broke twice on
-real data (topo-tools-py's ADR-0067): a genuine second numeric code column
+real data (topo-tools' ADR-0067): a genuine second numeric code column
 with no compound structure got mislabeled `name` purely because a sibling
 embedded; and a coincidentally-row-unique `area_sqkm` column, sharing a
 level's cardinality by chance, claimed the `name` role and displaced the
@@ -150,7 +150,7 @@ same-level rival: by pigeonhole, a function between two equal-cardinality
 finite sets is automatically one-to-one, so failing bijection means the
 candidate has strictly different (coarser) cardinality. It's a genuine,
 independently-defined coarser grouping, not noise, hence a distinct
-`supplemental` label from `ambiguous` (topo-tools-py's ADR-0065). A
+`supplemental` label from `ambiguous` (topo-tools' ADR-0065). A
 candidate failing the function check in both directions has no defensible
 relationship to report at all, and stays `ambiguous`.
 
@@ -162,7 +162,7 @@ containment-based ordering, not raw `COUNT(DISTINCT)`) is trusted as a free
 chain root needing no embedding evidence of its own. A single-value group
 anywhere else in the ordering, most often a sparse audit-style column that
 happens to have one non-null value, cannot silently justify an
-embedding-free chain link (topo-tools-py's ADR-0100).
+embedding-free chain link (topo-tools' ADR-0100).
 
 ### Why the root's embedding-free freebie sometimes needs spatial corroboration
 
@@ -207,13 +207,13 @@ maps to every value), so they used to fall out of their level and get
 bracketed as `ambiguous`. A sparse column is instead compared with each
 cluster only where both are populated, and needs at least 10 joint values,
 or every value of both sides, so two small coincidentally aligned columns
-are not merged (topo-tools-py's ADR-0114). A column matching
+are not merged (topo-tools' ADR-0114). A column matching
 several clusters joins none, since the data cannot say which level it
 belongs to.
 
 ### Why strong, bridged and vetoed levels
 
-Three edge cases from topo-tools-py's corpus extend the chain rules. A
+Three edge cases from topo-tools' corpus extend the chain rules. A
 finer level whose codes are surrogate IDs (nothing embeds) still chains
 under a parent it maps perfectly into, when it is nearly row-unique and
 the chain above it is already grounded by an embedding (a "strong" edge).
@@ -223,7 +223,7 @@ skip across it embeds (a "bridged" edge). And a level linked to its child
 only by bare containment is dropped as a supplemental grouping when the
 chain's columns share more naming text without it: data alone can't tell
 Nigeria's senatorial districts over LGAs from a real level
-(topo-tools-py's ADR-0113). Names may veto a level this way, never add
+(topo-tools' ADR-0113). Names may veto a level this way, never add
 one, and are only compared with each other, never against a vocabulary.
 
 ### Level numbering
@@ -254,7 +254,7 @@ bijection) is its own small, targeted DuckDB query in `pipeline/queries.ts`,
 run for one column pair at a time and orchestrated by TypeScript loops in
 `pipeline/inference.ts`. Candidate columns run to single digits or low
 dozens per file, so the total query count (roughly quadratic in column
-count for chain-building) stays cheap; this mirrors topo-tools-py's own
+count for chain-building) stays cheap; this mirrors topo-tools' own
 structure of Python loops around individual `conn.execute()` calls, and
 this app's own `package-polygons` precedent of a query shape that scales with
 column count, not row count.
@@ -266,11 +266,11 @@ This app runs DuckDB WASM with `preserve_insertion_order = false` (see
 guaranteed to return rows in insertion order. `writeCrosswalkTable` stores
 an explicit `column_order` column, and `$lib/db/export.ts`'s `schema_map`
 source config selects with `ORDER BY column_order`, mirroring
-topo-tools-py's own explicit `ORDER BY column_order` at CSV-export time.
+topo-tools' own explicit `ORDER BY column_order` at CSV-export time.
 
 ### Verification
 
-Cross-checked against topo-tools-py's `schema-map --map-only` on eleven
+Cross-checked against topo-tools' `schema-map --map-only` on eleven
 portolan `original` files (AFG, AGO, ARM, BDI, BEN, BFA, BGD, ETH, GNB, LAO,
 MEX, ZMB, admin1 to admin4) and five derived variants (anonymised column
 names, custom names, a name-only middle level, a partly populated alternate

@@ -6,7 +6,7 @@ It uses the pole of inaccessibility (`ST_MaximumInscribedCircle`) rather
 than the centroid, since a centroid can fall outside a concave or
 multi-part polygon (e.g. a crescent-shaped or archipelago admin unit),
 which would place a label off its own territory. Ported from
-topo-tools-py's `package-points`.
+topo-tools' `package-points`.
 
 ## Pipeline
 
@@ -31,7 +31,7 @@ topo-tools-py's `package-points`.
    row, stamps the depth column, and verifies every point is
    `ST_Covers`-ed by its own source polygon.
 4. **Generalizable-columns gate** - processing runs coarsest-to-finest,
-   as in topo-tools-py; `generalizable` seeds from the coarsest real
+   as in topo-tools; `generalizable` seeds from the coarsest real
    level's own surviving column set, and every finer level's own output is
    filtered down to that set before renaming. A column a coarser dissolve
    drops (e.g. a finest-level-only attribute) would be `NULL` on that

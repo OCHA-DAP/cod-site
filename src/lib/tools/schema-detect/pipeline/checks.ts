@@ -1,7 +1,7 @@
 import type { AsyncDuckDBConnection } from "@duckdb/duckdb-wasm";
 import { quoteIdent } from "$lib/db/code";
 
-// Ported from topo-tools-py's core/schema_detect/_03_checks.py.
+// Ported from topo-tools' core/schema_detect/_03_checks.py.
 
 const COLUMNS = "kind VARCHAR, level INTEGER, column_name VARCHAR, code VARCHAR, reason VARCHAR";
 

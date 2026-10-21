@@ -46,7 +46,7 @@ four UI modes:
 
 - **Minimal** (default) — fills only gaps at or below `SNAP_TOLERANCE`
   (floating-point-noise scale), at exactly that width. No shape heuristic.
-  Matches topo-tools-py's own default (ADR-0033/0034 there).
+  Matches topo-tools' own default (ADR-0033/0034 there).
 - **Thin** — fills gaps shaped like a digitization sliver: a Polsby-Popper
   compactness ratio (`4·π·Area / Perimeter²`) at or below 0.3, the same
   formula and cutoff guidance ArcGIS Pro's "Polygon Sliver" check uses. The

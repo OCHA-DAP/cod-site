@@ -3,7 +3,7 @@
 `schema-refactor` applies a crosswalk to the loaded layer, renaming and
 dropping its columns. It is the apply step of the Schema Map tool
 (`docs/explanation/schema-map.md`), which feeds it either the crosswalk edited in
-its table or an imported crosswalk CSV. Ported from topo-tools-py's
+its table or an imported crosswalk CSV. Ported from topo-tools'
 `schema-refactor` (`docs/explanation/schema_refactor.md` there).
 
 ## Pipeline
@@ -24,12 +24,12 @@ its table or an imported crosswalk CSV. Ported from topo-tools-py's
    minus a noise column. Noise-column detection (`isNoiseColumn`) is
    imported directly from `schema-map`'s `pipeline/constants.ts` rather than
    reimplemented, since it already carries ~20 real-world edge cases from
-   topo-tools-py's own ADR history. A second check rejects a duplicate or
+   topo-tools' own ADR history. A second check rejects a duplicate or
    reserved-name (`fid`/`geom`/`geometry`, case-insensitive) `target_column`.
 5. **Rename** (`pipeline/rename.ts`) - one `SELECT` renames every source
    column to its `target_column` and drops any column whose `target_column`
    is null/empty, writing `sr_result_attr` with columns in crosswalk row
-   order (topo-tools-py ADR 0115: reordering is a row move, in a
+   order (topo-tools ADR 0115: reordering is a row move, in a
    spreadsheet or in Schema Map's table). `misorderedSiblings` in
    `$lib/db/adminColumns.ts`, a port of its `core/admin_columns.py`, flags
    the swapped-sibling case (`adm2_name1` before `adm2_name`) that template
@@ -46,7 +46,7 @@ A `target_column` of null/empty means "drop this column"; anything else is
 the new name to rename it to, including the column's own original name if
 the intent is simply to retain it unchanged. `schema-map` leaves an
 unmatched column's target empty, so an unedited crosswalk drops it, as in
-topo-tools-py; keeping it is an explicit edit.
+topo-tools; keeping it is an explicit edit.
 
 ## Why this needed new CSV-input infrastructure
 

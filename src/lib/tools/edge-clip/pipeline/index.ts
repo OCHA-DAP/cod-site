@@ -66,7 +66,7 @@ async function computeBounds(
 // Assigns every input feature in the uploaded input layer to the one overlay feature
 // that wins a majority vote by count (assign-one, see pipeline/assign.ts),
 // then clips each assigned input feature to exactly that overlay feature's geometry
-// (pipeline/engine.ts). Ported from topo-tools-py's clip; see
+// (pipeline/engine.ts). Ported from topo-tools' clip; see
 // docs/explanation/edge-clip.md for the scoping difference from Python's general
 // multi-file/multi-overlay feature CLI contract.
 export async function runClip(

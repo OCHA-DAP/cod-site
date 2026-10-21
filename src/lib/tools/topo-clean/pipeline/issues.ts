@@ -27,7 +27,7 @@ const DEFAULT_THINNESS_RATIO = 0.3;
 // reliably clears ST_CoverageClean's internal <= width comparison — just
 // enough, not "2x and round," to avoid also sweeping in a wider, non-thin
 // gap Thin wasn't meant to touch (ST_CoverageClean only understands width,
-// not thinness). Matches topo-tools-py's current tuning
+// not thinness). Matches topo-tools' current tuning
 // (AUTO_GAP_WIDTH_EPSILON_FACTOR, widened from 1.001 to 1.01 after real-data
 // testing).
 const AUTO_GAP_WIDTH_EPSILON_FACTOR = 1.01;
@@ -117,7 +117,7 @@ export async function syncOutputMicroIssues(
 // neighbour.
 //
 // Also persists outcome columns (measured after the fix, not detection-time
-// values) matching topo-tools-py's issues-file schema: unit_a/b_area_change_m2
+// values) matching topo-tools' issues-file schema: unit_a/b_area_change_m2
 // (an overlap-adjacent unit's own area delta) and filled_area_m2 (how much of
 // a gap the cleaned coverage now actually fills, 0 if unfilled).
 export async function checkFixedIssues(
@@ -204,10 +204,10 @@ export async function checkFixedIssues(
 //
 // Minimal (the default) only considers gaps at or below SNAP_TOLERANCE —
 // floating-point-noise scale, never a real feature — and fills them at
-// exactly that width. Matches topo-tools-py's own default (no shape
+// exactly that width. Matches topo-tools' own default (no shape
 // heuristic; ADR-0033/0034).
 //
-// Thin (topo-tools-py's "thin", formerly this UI's default "Auto") only
+// Thin (topo-tools' "thin", formerly this UI's default "Auto") only
 // considers gaps shaped like a digitization sliver
 // (thinnessRatio <= DEFAULT_THINNESS_RATIO), and uses just enough headroom
 // over the widest one (AUTO_GAP_WIDTH_EPSILON_FACTOR) to reliably clear it —
@@ -216,7 +216,7 @@ export async function checkFixedIssues(
 //
 // sliderCeilingM ("2x the widest detected gap, rounded up to a nice number")
 // is UI-only: it sizes the Manual slider's max/step and All mode's display
-// text. All mode's actual fill width is topo-tools-py's fixed
+// text. All mode's actual fill width is topo-tools' fixed
 // GAP_MAXIMUM_WIDTH_ALL_DEG sentinel (applied directly in pipeline/index.ts),
 // not derived from this number — a looser bound changes no outcome for All
 // regardless, since it already fills every detected gap.

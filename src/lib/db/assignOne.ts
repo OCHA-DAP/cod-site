@@ -48,7 +48,7 @@ export function assignOneDropIssuesSql(
     WHERE a.input_fid NOT IN (SELECT fid FROM ${clipTable}) ${notMicro}`;
 }
 
-// Port of topo-tools-py's assign_one (py ADR 0082): every input feature goes to
+// Port of topo-tools' assign_one (py ADR 0082): every input feature goes to
 // the majority-vote winner, into cl_assign, even one that doesn't overlap it.
 export async function assignOne(
   conn: AsyncDuckDBConnection,
@@ -96,7 +96,7 @@ export async function assignOne(
   `);
 
   // Area-weighted overlap per piece pair. A touch-only pair (shared edge or
-  // corner) has zero area and is dropped below, matching topo-tools-py's
+  // corner) has zero area and is dropped below, matching topo-tools'
   // assign_one, which only counts shared_area > 0.
   await intersectPairs(conn, "assignOne", "cl_input_parts", "cl_overlay_pieces", "cl_pairs_geom");
   await conn.query(`--sql

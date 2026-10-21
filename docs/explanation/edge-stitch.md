@@ -5,7 +5,7 @@ Closes seams in an already-tiled polygon layer with one whole-table
 Extender's per-group Voronoi extension (Edge Matcher) or a future per-parent
 clip primitive. Once a layer's independently-computed tiles sit next to each
 other, whatever seam disagreements remain between them get closed here.
-Ported from topo-tools-py's `edge-stitch` (`docs/explanation/edge_stitch.md` there),
+Ported from topo-tools' `edge-stitch` (`docs/explanation/edge_stitch.md` there),
 which extracted this exact operation out of `edge-match`'s and (eventually)
 `edge-mosaic`'s own final merge stage into a standalone primitive.
 

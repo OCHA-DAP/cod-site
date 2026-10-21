@@ -113,7 +113,7 @@ export async function buildGapTable(
 }
 
 // True if sourceTable's coverage has an interior hole at or below maxWidth
-// (degrees) — mirrors topo-tools-py's has_gaps(gap_maximum_width=...).
+// (degrees) — mirrors topo-tools' has_gaps(gap_maximum_width=...).
 // sourceTable is expected to already have been cleaned with a matching
 // gap-fill width, so a hole this small surviving means the fill silently
 // failed; a wider hole may be a legitimate feature (see docs/adr/0028) and
@@ -141,7 +141,7 @@ export async function hasNoiseFloorGap(
 export const MICRO_MERGED_REASON = "merged into neighbouring polygon";
 export const MICRO_DROPPED_REASON = "dropped: touches no polygon";
 
-// Ported from topo-tools-py's is_micro_sql: 2*area/perimeter bounds the
+// Ported from topo-tools' is_micro_sql: 2*area/perimeter bounds the
 // inscribed-circle diameter from below, so CASE skips it for every wide part.
 export function isMicroSql(geom: string, width: number = SNAP_TOLERANCE): string {
   return (
@@ -212,7 +212,7 @@ async function rebuildRowwise(
   return snapped;
 }
 
-// Ported from topo-tools-py's merge_micro_polygons, which holds the merge rule;
+// Ported from topo-tools' merge_micro_polygons, which holds the merge rule;
 // writes one micro-polygon row per part to issuesTable and returns the count.
 export async function mergeMicroPolygons(
   conn: AsyncDuckDBConnection,
@@ -358,7 +358,7 @@ async function queryOrGrid(
   }
 }
 
-// Ported from topo-tools-py's merge_detached_parts, which holds the merge rule;
+// Ported from topo-tools' merge_detached_parts, which holds the merge rule;
 // writes one detached-part row per non-isolated piece to issuesTable and
 // returns the merged count. Without originalTable nothing merges.
 export async function mergeDetachedParts(
@@ -751,7 +751,7 @@ async function classifyDetachedCandidates(
   }
 }
 
-// Ported from topo-tools-py's check_no_erosion; hard error, since a footprint
+// Ported from topo-tools' check_no_erosion; hard error, since a footprint
 // shrunk by extend/merge is data loss, not a cosmetic topology defect.
 export async function checkNoErosion(
   conn: AsyncDuckDBConnection,

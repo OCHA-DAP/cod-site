@@ -55,10 +55,10 @@ async function computeBounds(
 }
 
 // Close seams in an already-tiled sourceTable/attrTable with one whole-table
-// ST_CoverageClean pass, at SNAP_TOLERANCE gap/snap (topo-tools-py's
+// ST_CoverageClean pass, at SNAP_TOLERANCE gap/snap (topo-tools'
 // stitch default, ADR-0040) — not the shape-based heuristics clean's
 // Minimal/Thin/All modes use, since stitch has no user-facing gap-width
-// control. preserveOriginal: true, matching topo-tools-py's coverage_clean
+// control. preserveOriginal: true, matching topo-tools' coverage_clean
 // (every input row survives into the output; see docs/explanation/edge-stitch.md).
 // sourceTable/attrTable default to stitch's own standard-loaded input
 // (layer_01/layer_attr); mosaic calls this directly against its own

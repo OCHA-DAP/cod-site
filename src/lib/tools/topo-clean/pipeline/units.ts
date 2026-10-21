@@ -5,7 +5,7 @@ import { METERS_PER_DEGREE } from "$lib/db/units";
 
 // Sentinel gap-fill width for All mode: large enough to exceed any real gap
 // by construction, so All doesn't need to first measure the widest one.
-// Matches topo-tools-py's GAP_MAXIMUM_WIDTH_ALL_DEG (ADR-0034).
+// Matches topo-tools' GAP_MAXIMUM_WIDTH_ALL_DEG (ADR-0034).
 export const GAP_MAXIMUM_WIDTH_ALL_DEG = 360.0;
 
 // Convert a width in meters back to degrees, the exact inverse of degToM (gap

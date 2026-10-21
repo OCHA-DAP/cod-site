@@ -1,4 +1,4 @@
-// Ported from topo-tools-py's core.constants type-prefix checks.
+// Ported from topo-tools' core.constants type-prefix checks.
 
 const TEMPORAL_DUCKDB_TYPE_PREFIXES = ["DATE", "TIME", "TIMESTAMP", "INTERVAL"];
 

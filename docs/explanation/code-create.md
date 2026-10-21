@@ -5,7 +5,7 @@ numbered within its parent, or builds the code from each level's own
 source codes. It is the tool for when there is no previous release to
 carry codes from; `code-update` is the one for when there is. The input
 needs only a hierarchy embedded as columns (the same shape
-`package-polygons`/`schema-fill` expect). Ported from topo-tools-py's
+`package-polygons`/`schema-fill` expect). Ported from topo-tools'
 `code-create`. Attribute-only, no geometry touched.
 
 ## Pipeline

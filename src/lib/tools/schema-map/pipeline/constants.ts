@@ -1,4 +1,4 @@
-// Ported from topo-tools-py's core.constants.is_noise_column (docs/adr/0068 there).
+// Ported from topo-tools' core.constants.is_noise_column (docs/adr/0068 there).
 
 export const NOISE_COLUMNS = new Set([
   "objectid",
@@ -40,11 +40,11 @@ export const CODE_SHAPE_MAJORITY = 0.5;
 export const MIN_TIED_CODES = 2;
 
 // Collapse-ratio ceiling below which a non-bijective bracket winner becomes a
-// numbered sibling instead of supplemental (empirical, topo-tools-py).
+// numbered sibling instead of supplemental (empirical, topo-tools).
 export const WINNER_MAX_COLLAPSE_RATIO = 0.3;
 
 // containmentHolds's one-violator tolerance only applies once there are more
-// than this many finer-side groups to evaluate (topo-tools-py's ADR-0100).
+// than this many finer-side groups to evaluate (topo-tools' ADR-0100).
 export const MIN_GROUPS_FOR_TOLERANCE = 2;
 
 // spatiallyCoherent is waived under this many evaluated rows: too little

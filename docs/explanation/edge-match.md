@@ -2,7 +2,7 @@
 
 Assigns a fine (input) layer to coarse (overlay) polygons, either all of it
 to the one overlay polygon most input polygons overlap (assign-one, the
-"One" mode and topo-tools-py's default) or each input polygon to the overlay
+"One" mode and topo-tools' default) or each input polygon to the overlay
 polygon it overlaps most (per-polygon, "Many"). The default "auto" mode
 picks between them from the data and shows the pick on the switch, so the
 user can compare the other mode on the map
@@ -43,7 +43,7 @@ an optional code-based assignment override is available (see below).
    the shared no-erosion guard (`docs/reference/shared.md`) as a hard
    failure, then clipped against the known overlay polygon geometry by the
    shared clip engine (`src/lib/db/clipEngine.ts`, the same one Clip and
-   Mosaic use, as in topo-tools-py), except the passthrough group, which
+   Mosaic use, as in topo-tools), except the passthrough group, which
    has no real overlay polygon boundary and lands in `ge_results` unclipped.
    Each clipped group's detached pieces are merged or kept against the
    whole pre-extension input (`input_layer_01`, see
@@ -89,7 +89,7 @@ disagreement; an input polygon whose code has no overlapping overlay match falls
 to the spatial result. Both outcomes are recorded on `ge_assignment`
 (`assignment_method`, `spatial_agrees`) and surfaced as `ge_issues` rows
 (`kind='code-mismatch'`/`'code-fallback'`), alongside the existing
-`unassigned`/`dropped_group` kinds. Ported from topo-tools-py's
+`unassigned`/`dropped_group` kinds. Ported from topo-tools'
 `core/assign`; see `docs/adr/0029` and `docs/reference/shared.md` for the
 full contract, and `src/lib/db/codeJoin.ts` for the shared implementation
 `edge-mosaic` and `edge-clip` also use.

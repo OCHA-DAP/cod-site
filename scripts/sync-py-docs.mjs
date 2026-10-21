@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Symlinks topo-tools-py's docs/pages into the Starlight collection so /docs/
+// Symlinks topo-tools' docs/pages into the Starlight collection so /docs/
 // renders the py docs. PY_DOCS_DIR overrides the sibling-checkout default.
 
 import { existsSync } from "node:fs";
@@ -10,7 +10,7 @@ import { fileURLToPath } from "node:url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, "..");
 
-const source = resolve(ROOT, process.env.PY_DOCS_DIR ?? "../topo-tools-py/docs/pages");
+const source = resolve(ROOT, process.env.PY_DOCS_DIR ?? "../topo-tools/docs/pages");
 const dest = resolve(ROOT, "src/content/docs/tools/docs");
 
 if (!existsSync(source)) {

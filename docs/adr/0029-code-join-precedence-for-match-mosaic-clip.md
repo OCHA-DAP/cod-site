@@ -19,7 +19,7 @@ parent/child pairs carry a matching administrative-code column (e.g. a
 pcode), a signal cheaper and often more reliable than spatial overlap, but
 one that can be wrong exactly when a real boundary adjustment or a data
 error has occurred on one side. See
-[topo-tools-py ADR-0045](../../../topo-tools-py/docs/adr/0045-code-join-precedence-and-fallback.md)
+[topo-tools-py ADR-0045](../../../topo-tools/docs/adr/0045-code-join-precedence-and-fallback.md)
 for the full rationale; this ADR ports that decision to the JS app rather
 than re-deriving it.
 

@@ -3,7 +3,7 @@
 ## Status
 
 Accepted. Ports
-[topo-tools-py ADR-0097](../../../topo-tools-py/docs/adr/0097-package-lines-shared-boundary-via-boundary-intersection-not-shared-paths.md).
+[topo-tools-py ADR-0097](../../../topo-tools/docs/adr/0097-package-lines-shared-boundary-via-boundary-intersection-not-shared-paths.md).
 
 ## Context
 

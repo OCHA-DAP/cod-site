@@ -3,7 +3,7 @@
 ## Status
 
 Accepted. Ports
-[topo-tools-py ADR-0100](../../../topo-tools-py/docs/adr/0100-spatial-coherence-safety-net-for-chain-justification.md).
+[topo-tools-py ADR-0100](../../../topo-tools/docs/adr/0100-spatial-coherence-safety-net-for-chain-justification.md).
 
 ## Context
 

@@ -1,4 +1,4 @@
-// Ported from topo-tools-py's core/name_detect/_constants.py.
+// Ported from topo-tools' core/name_detect/_constants.py.
 
 export const SEVERITY = {
   "check-failed": "error",

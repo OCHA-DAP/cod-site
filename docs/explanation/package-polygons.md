@@ -9,7 +9,7 @@ assumed); supplying an explicit `nameField`/`codeField` pair uses that
 naming convention instead. It reuses this app's own dissolve primitive
 (`pipeline/dissolveCore.ts`'s `runDissolveCore`), the richer, schema-aware
 successor to the old `dissolve` tool's aggregation logic. Ported from
-topo-tools-py's `package-polygons`.
+topo-tools' `package-polygons`.
 
 ## Pipeline
 

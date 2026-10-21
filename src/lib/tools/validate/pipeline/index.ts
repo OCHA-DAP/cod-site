@@ -6,7 +6,7 @@ import { runSchemaDetect } from "$lib/tools/schema-detect/pipeline/index";
 import type { TargetSchema } from "$lib/tools/schema-map/pipeline/targetSchema";
 import { computeBounds, scanTopology } from "$lib/tools/topo-detect/pipeline/index";
 
-// Ported from topo-tools-py's core/validate and api/validate.py.
+// Ported from topo-tools' core/validate and api/validate.py.
 
 export const STAGES = ["schema", "topo", "code", "name"] as const;
 export type Stage = (typeof STAGES)[number];

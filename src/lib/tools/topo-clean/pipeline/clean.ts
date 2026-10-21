@@ -14,7 +14,7 @@ import { validateCleanOutput } from "./validate";
 // by Edge Extender's input-clean gate and merge finalization).
 
 // The table the clean starts from: layer_01, or a copy of it with its notches
-// closed (tc_notched) when tc_notch_regions has any, as topo-tools-py's _03_clean.py.
+// closed (tc_notched) when tc_notch_regions has any, as topo-tools' _03_clean.py.
 export async function buildNotched(conn: AsyncDuckDBConnection): Promise<string> {
   const r = await conn.query("SELECT count(*) AS n FROM tc_notch_regions");
   if (Number((r.toArray()[0] as { n: bigint | number }).n) === 0) return "layer_01";
@@ -24,7 +24,7 @@ export async function buildNotched(conn: AsyncDuckDBConnection): Promise<string>
 }
 
 // Build the frozen input list ONCE per load (tc_input), from sourceTable with
-// micro-polygons merged (tc_merged), as topo-tools-py's coverage_clean does.
+// micro-polygons merged (tc_merged), as topo-tools' coverage_clean does.
 export async function buildInput(
   conn: AsyncDuckDBConnection,
   sourceTable: string,
@@ -46,14 +46,14 @@ export async function inputHasViolations(
 // `hasViolations` is layer_01's cached inputHasViolations() result: when
 // there are no overlaps/unmatched edges AND no gap fill is requested,
 // ST_CoverageClean has nothing to do, so skip it entirely and copy layer_01
-// straight into targetTable — same gate topo-tools-py's _03_clean.py uses
+// straight into targetTable — same gate topo-tools' _03_clean.py uses
 // (has_coverage_violations() is False and gap_maximum_width_deg is None).
 // Matters beyond speed: ST_CoverageClean's WASM-GEOS path has its own
 // robustness edges (see gatedCoverageClean's comment in coverageClean.ts) that
 // get exercised more, the more it's called on data that didn't need it.
 //
 // After a real ST_CoverageClean run, validateCleanOutput (pipeline/validate.ts)
-// gates the result the same way topo-tools-py's _03_clean.py does — throwing
+// gates the result the same way topo-tools' _03_clean.py does — throwing
 // rather than accepting an output that's still invalid or has collapsed
 // beyond what the detected defects account for. The skip-gate branch above
 // never calls it: a straight copy-through can't fail those checks.
@@ -85,7 +85,7 @@ export async function buildClean(
     await conn.query(`DROP TABLE IF EXISTS ${scratch}`);
     throw e;
   }
-  // Catches parts the clean itself left micro, as topo-tools-py's topo-clean does.
+  // Catches parts the clean itself left micro, as topo-tools' topo-clean does.
   await mergeMicroPolygons(conn, scratch, targetTable, `${targetTable}_micro`);
   await conn.query(`DROP TABLE IF EXISTS ${scratch}`);
 }

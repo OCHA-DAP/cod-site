@@ -2,7 +2,7 @@ import type { AsyncDuckDBConnection } from "@duckdb/duckdb-wasm";
 import { hasNoiseFloorGap } from "$lib/db/coverage";
 import { hasCoverageViolations } from "$lib/db/coverageClean";
 
-// Post-fix validation gate, matching topo-tools-py's _03_clean.py checks
+// Post-fix validation gate, matching topo-tools' _03_clean.py checks
 // (docs/adr/0009-area-floor-anchored-to-overlap-area.md there). Runs
 // immediately after every successful ST_CoverageClean call, before the
 // result is accepted — a failure here throws, which both buildClean callers
@@ -10,11 +10,11 @@ import { hasCoverageViolations } from "$lib/db/coverageClean";
 // rather than silently showing a corrupted "Fixed" view.
 
 // Baseline area-loss tolerance when no overlaps are detected — double the
-// ~1% per-fid renoding drift topo-tools-py confirmed on real defect-dense data.
+// ~1% per-fid renoding drift topo-tools confirmed on real defect-dense data.
 const AREA_NOISE_FACTOR = 0.02;
 // Multiplier on detected overlap area: resolving an overlap can legitimately
 // redraw well beyond its own footprint (confirmed up to ~1.5x on a real
-// regression case in topo-tools-py; headroom set to 3x).
+// regression case in topo-tools; headroom set to 3x).
 const OVERLAP_LOSS_HEADROOM = 3.0;
 
 async function totalArea(conn: AsyncDuckDBConnection, table: string): Promise<number> {

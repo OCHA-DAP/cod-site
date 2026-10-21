@@ -13,7 +13,7 @@ export interface SchemaRefactorResult {
   droppedColumns: string[];
   // Deepest level's code column the rows are sorted by; null keeps input order.
   sortColumn: string | null;
-  // Columns whose numbered siblings don't follow them in numeric order (topo-tools-py warns).
+  // Columns whose numbered siblings don't follow them in numeric order (topo-tools warns).
   misorderedSiblings: string[];
 }
 

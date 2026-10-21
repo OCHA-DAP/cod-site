@@ -1,4 +1,4 @@
-// Ported from topo-tools-py's core/schema_detect/_constants.py.
+// Ported from topo-tools' core/schema_detect/_constants.py.
 
 export const SEVERITY = {
   "check-failed": "error",

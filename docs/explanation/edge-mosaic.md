@@ -7,7 +7,7 @@ this app exposes standalone: assign-one (`$lib/db/assignOne.ts`, shared
 with Clip), clip (`$lib/db/clipEngine.ts`/`clipTiling.ts`, shared with
 Clip), and stitch (`stitch/pipeline/index.ts`'s `runStitch`, called
 directly with `edge-mosaic`'s own already-clipped table in place of `edge-stitch`'s
-usual `layer_01`). Ported from topo-tools-py's `edge-mosaic`.
+usual `layer_01`). Ported from topo-tools' `edge-mosaic`.
 
 ## Pipeline
 
@@ -56,7 +56,7 @@ boundary without redoing the Voronoi work.
 
 ## Warn-only, not a hard export gate
 
-Unlike topo-tools-py's `edge-mosaic`, which raises before export if the
+Unlike topo-tools' `edge-mosaic`, which raises before export if the
 stitched output still fails a topology check, this app's `edge-mosaic`
 reports a residual overlap or gap (via the issues download and a console
 warning) without blocking export — see `docs/adr/0027` for why this

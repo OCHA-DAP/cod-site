@@ -8,7 +8,7 @@ import {
   NOTCH_WINDOW_MARGIN,
 } from "./constants";
 
-// Ported from topo-tools-py's core/coverage.py (detect_notches, close_notches).
+// Ported from topo-tools' core/coverage.py (detect_notches, close_notches).
 // A notch is two units' unshared edges running within NOTCH_SPACING / 8 of each other.
 
 // Two edges this close count as touching, not as a notch.

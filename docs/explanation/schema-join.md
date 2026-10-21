@@ -3,7 +3,7 @@
 Copies a join layer's admin-hierarchy columns onto every input polygon, from
 the join polygon it overlaps most, without touching geometry: an admin 2
 layer carrying only `adm2_code`/`adm2_name` gets `adm1_code`/`adm1_name` from
-an admin 1 layer. Ported from topo-tools-py's `schema-join`, and named after
+an admin 1 layer. Ported from topo-tools' `schema-join`, and named after
 QGIS's "Join attributes by location" with the largest-overlap join type,
 which it narrows to hierarchy columns. A source file often carries only its
 own level's code; Schema Fill can't help, since it only cascades values

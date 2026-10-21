@@ -4,7 +4,7 @@ Scans a single polygon layer for gap/overlap coverage defects and reports
 them, without fixing anything. The gap/overlap region-building and
 issue-row assembly are the same shared logic Topology Cleaner's own
 detection stage uses (`$lib/db/issues.ts`), exposed here as a standalone,
-read-only tool with no reclean loop. Ported from topo-tools-py's `topo-detect`
+read-only tool with no reclean loop. Ported from topo-tools' `topo-detect`
 (`docs/explanation/topo_detect.md` there), which extracted the same logic out of
 `topo-clean`'s own issue-detection stage for the same reason.
 

@@ -7,7 +7,7 @@ populated, and exterior to all of them when they're `NULL`; there is no
 separate boundary-type column. A web map can style or filter
 international vs. sub-national boundaries from this one layer, instead of
 drawing every level's own polygon outline on top of each other. Ported
-from topo-tools-py's `package-lines`.
+from topo-tools' `package-lines`.
 
 ## Why not a shared-paths function
 

@@ -17,7 +17,7 @@ function fmt(n: number): string {
 
 export interface CoverageCleanOptions {
   // GEOS snapping tolerance, in degrees. Defaults to SNAP_TOLERANCE (matches
-  // topo-tools-py ADR-0040): GEOS's own auto-default (-1, dataset_diameter /
+  // topo-tools ADR-0040): GEOS's own auto-default (-1, dataset_diameter /
   // 1e8) swings from too tight on small territories to too loose on a global
   // mosaic, so it's no longer the default; -1 remains available as an
   // explicit override.
@@ -30,7 +30,7 @@ export interface CoverageCleanOptions {
 
 // Freezes an (fid, geom) source table into a single-row (geoms[], fids[]) array
 // table, both ordered by geometry hash then fid so geoms[i] <-> fids[i] holds and
-// ST_CoverageClean (input-order dependent) sees topo-tools-py's order. Returns the row count (array
+// ST_CoverageClean (input-order dependent) sees topo-tools' order. Returns the row count (array
 // length) so callers can detect an empty/all-null input before cleaning.
 export async function buildCoverageCleanInput(
   conn: AsyncDuckDBConnection,
@@ -94,7 +94,7 @@ export async function hasCoverageViolations(
 }
 
 // True if `table`'s union has any interior hole, however narrow: the input
-// auto-clean trigger of topo-tools-py's read_reproject_and_clean.
+// auto-clean trigger of topo-tools' read_reproject_and_clean.
 export async function hasAnyHole(conn: AsyncDuckDBConnection, table: string): Promise<boolean> {
   const scratch = `${table}_any_hole`;
   try {
@@ -107,7 +107,7 @@ export async function hasAnyHole(conn: AsyncDuckDBConnection, table: string): Pr
 }
 
 // The clean trigger: invalid edges or a micro-polygon, plus any hole when
-// anyHole is set (for inputs, as topo-tools-py's has_valid_topology(gap=0)).
+// anyHole is set (for inputs, as topo-tools' has_valid_topology(gap=0)).
 export async function needsCoverageClean(
   conn: AsyncDuckDBConnection,
   table: string,
@@ -146,7 +146,7 @@ export async function gatedCoverageClean(
 const SNAP_ESCALATION_STEP = SNAP_TOLERANCE;
 const SNAP_ESCALATION_MAX_STEPS = 9;
 
-// Ported from topo-tools-py's coverage_clean_escalating: widens snap by
+// Ported from topo-tools' coverage_clean_escalating: widens snap by
 // SNAP_TOLERANCE per retry (up to 9 steps) until no invalid edges remain.
 export async function buildCoverageCleanEscalating(
   conn: AsyncDuckDBConnection,

@@ -2,7 +2,7 @@
 
 `$lib/db/code.ts` is the shared hierarchical-code primitive behind
 `code-create` and `code-update`: a leaf module with no dependency on
-either tool, ported from topo-tools-py's `core.code`.
+either tool, ported from topo-tools' `core.code`.
 
 ## `CodeFormat`
 

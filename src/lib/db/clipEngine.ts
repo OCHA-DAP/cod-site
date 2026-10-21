@@ -11,7 +11,7 @@ export interface ClipEngineResult {
 
 // Clips every (fid, geom) row of `sourceSql` to the single polygon `boundarySql`
 // selects, writing (fid, geom) to `targetTable`, adaptively grid-tiling the
-// boundary first if it's large. Ported from topo-tools-py's core/clip/_engine.py,
+// boundary first if it's large. Ported from topo-tools' core/clip/_engine.py,
 // minus the per-overlay-fid subprocess isolation (unneeded in WASM, see
 // docs/adr/0025): every caller clips against exactly one known boundary.
 export async function clipEngine(

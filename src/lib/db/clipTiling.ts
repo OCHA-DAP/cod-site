@@ -7,7 +7,7 @@ import {
 } from "./constants";
 
 // Solve a tile size from this overlay feature's own vertex density, not a fixed
-// constant. Calibrated (topo-tools-py) so a real worst case (South Africa,
+// constant. Calibrated (topo-tools) so a real worst case (South Africa,
 // 281k vertices) lands at ~1 degree cells; sparser or simpler overlay features get
 // coarser cells, denser ones finer.
 function adaptiveCellSize(vertexCount: number, width: number, height: number): number {
@@ -18,7 +18,7 @@ function adaptiveCellSize(vertexCount: number, width: number, height: number): n
 
 // Grid-subdivides sourceTable's single-row geometry into outTable, tile by
 // tile — below CLIP_TILE_MIN_VERTICES, outTable just gets the geometry
-// directly (no subdivision needed). Ported from topo-tools-py's
+// directly (no subdivision needed). Ported from topo-tools'
 // core/clip/_tiling.py subdivide_boundary; shared by clip and mosaic (see
 // docs/adr/0025 for why this stays a WASM-safe direct port rather than
 // needing worker isolation).

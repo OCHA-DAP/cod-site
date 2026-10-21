@@ -8,7 +8,7 @@ import { degSqToM2, degToM } from "./units";
 // its own tc_* tables, plus reclean-loop fixed-status tracking layered on top
 // in its own pipeline/issues.ts) and by detect (a thin, read-only pass over
 // these same builders with no reclean loop). Column shape matches
-// topo-tools-py's unified issues schema (ADR-0036): every row carries every
+// topo-tools' unified issues schema (ADR-0036): every row carries every
 // column, null where the row's kind doesn't apply.
 
 export interface IssueRow {
@@ -54,7 +54,7 @@ export async function buildGapRegions(
 // Degrades to an empty table on GEOS overlay failure. Returns false when that
 // happens. Skips the O(n²) self-join entirely when the input already has no
 // coverage violations — a coverage with no invalid edges cannot contain an
-// overlapping or nested pair either, matching topo-tools-py's
+// overlapping or nested pair either, matching topo-tools'
 // has_coverage_violations() pre-check (confirmed there to cut a ~20min run on
 // an already-clean 9,658-fid layer to ~23s, dominated by gap detection).
 export async function buildOverlapRegions(
@@ -127,7 +127,7 @@ export async function buildNotchRegions(
 }
 
 // Gap issue rows for regionsTable's holes wider than the noise floor, as
-// topo-tools-py's gap_issues_sql.
+// topo-tools' gap_issues_sql.
 export function gapIssuesSql(regionsTable: string): string {
   const areaFactor = degSqToM2(1).toExponential();
   const widthFactor = degToM(1).toExponential();

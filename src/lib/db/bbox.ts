@@ -3,7 +3,7 @@
 // Bbox columns must be precomputed in a CTE, not called inline in a JOIN
 // condition — DuckDB recomputes an inline ST_XMin/ST_XMax/etc. per pairwise
 // comparison, not once per row, which hangs indefinitely on a table with even
-// a few very-high-vertex-count polygons. Mirrors topo-tools-py's
+// a few very-high-vertex-count polygons. Mirrors topo-tools'
 // bbox_columns_sql() (core/duckdb_utils.py).
 
 export function bboxColumnsSql(geomExpr = "geom"): string {

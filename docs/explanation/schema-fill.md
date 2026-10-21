@@ -6,7 +6,7 @@ whose real data stops at, say, admin 2 still has a usable admin 3 value
 (copied down from admin 2) instead of a `NULL`. Stamps a new depth column
 recording each row's real (pre-fill) depth, since that's the only way to
 tell a genuine leaf row from a coarser one apart after filling. Attribute-only,
-no geometry touched. Ported from topo-tools-py's `schema-fill`. A target
+no geometry touched. Ported from topo-tools' `schema-fill`. A target
 schema is optional: given one, levels and column families are matched by its
 `nameField`/`codeField` naming templates; omitted, `schema-map`'s structural
 level-detection engine (`schema-map/pipeline/levelColumns.ts`) infers the
@@ -71,7 +71,7 @@ mutates geometry.
 ## Where this fits in a pipeline
 
 Intended to run after `edge-match`/`edge-mosaic`, on already-matched-and-clipped
-output, the same position topo-tools-py's `schema-fill` occupies. Running it
+output, the same position topo-tools' `schema-fill` occupies. Running it
 on raw pre-match source data works mechanically (it only needs the code
 columns to exist) but produces a depth column describing the _source_ data's
 depth, not the depth of whatever downstream geometry the rest of this app's

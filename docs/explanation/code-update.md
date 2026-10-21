@@ -3,7 +3,7 @@
 `code-update` reconciles an already-coded OLD layer against an uncoded
 NEW candidate: classify what changed via `change`'s own engine, then
 apply the standard changelog-driven retention policy so a unit's code
-survives, gets replaced, or retires. Ported from topo-tools-py's
+survives, gets replaced, or retires. Ported from topo-tools'
 `code-update`.
 
 ## Table shape: split geometry/attribute tables, not one combined table

@@ -10,7 +10,7 @@ export async function actualColumns(conn: AsyncDuckDBConnection): Promise<Set<st
   return new Set(names.filter((c) => c !== "fid" && !isNoiseColumn(c)));
 }
 
-// Ports topo-tools-py's _validate_columns_match.
+// Ports topo-tools' _validate_columns_match.
 export function validateColumnsMatch(crosswalkColumns: Set<string>, actual: Set<string>): void {
   const missing = [...crosswalkColumns].filter((c) => !actual.has(c)).sort();
   const extra = [...actual].filter((c) => !crosswalkColumns.has(c)).sort();
@@ -45,7 +45,7 @@ export function targetIssues(crosswalk: CrosswalkRow[]): Map<string, string> {
   return issues;
 }
 
-// Ports topo-tools-py's _validate_targets, except reserved-name collision is
+// Ports topo-tools' _validate_targets, except reserved-name collision is
 // checked case-insensitively per this port's own spec, not python's exact-case check.
 export function validateTargets(crosswalk: CrosswalkRow[]): void {
   const targets = crosswalk.map((r) => r.targetColumn).filter((t): t is string => !!t);

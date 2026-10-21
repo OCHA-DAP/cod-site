@@ -5,7 +5,7 @@ import { emptyDetachedIssues, mergeDetachedParts } from "$lib/db/coverage";
 import { queryToGeoJSON } from "$lib/db/geojson";
 
 // Sentinel overlay_fid for the orphan passthrough pseudo-group (ported from
-// topo-tools-py's PASSTHROUGH_OVERLAY_FID).
+// topo-tools' PASSTHROUGH_OVERLAY_FID).
 export const PASSTHROUGH_OVERLAY_FID = -1;
 
 export interface GroupInfo {

@@ -12,7 +12,7 @@ import {
 import { resolveLevels } from "$lib/tools/schema-map/pipeline/resolveLevels";
 import type { TargetSchema } from "$lib/tools/schema-map/pipeline/targetSchema";
 
-// Ported from topo-tools-py's core/schema_detect/_02_levels.py.
+// Ported from topo-tools' core/schema_detect/_02_levels.py.
 
 interface Row {
   level: number | null;

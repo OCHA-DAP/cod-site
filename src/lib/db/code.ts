@@ -1,6 +1,6 @@
 import type { AsyncDuckDBConnection } from "@duckdb/duckdb-wasm";
 
-// Shared hierarchical-code primitive, ported from topo-tools-py's core.code.
+// Shared hierarchical-code primitive, ported from topo-tools' core.code.
 // A leaf module: no dependency on code-create or code-update.
 
 // One width for every level, one per level coarsest first, or each level's widest tail.

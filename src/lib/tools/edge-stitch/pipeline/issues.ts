@@ -8,7 +8,7 @@ import { gapIssuesSql } from "$lib/db/issues";
 // topo-clean's issues table, stitch has no "fixed" concept (there's
 // only ever one clean pass, not a reclean loop) and no overlap rows
 // (ST_CoverageClean removes those by construction) — matches
-// topo-tools-py's gap_issues_sql(). Column shape matches topo-clean's
+// topo-tools' gap_issues_sql(). Column shape matches topo-clean's
 // tc_issues for schema consistency, though unit_a/unit_b/fixed etc. are
 // always null/false here.
 

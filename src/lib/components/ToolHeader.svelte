@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { Snippet } from "svelte";
   import { toolsBase } from "$lib/utils/paths";
+  import Arrow from "./Arrow.svelte";
   import DemoLink from "./DemoLink.svelte";
 
   let {
@@ -20,9 +21,7 @@
 
 <header class="tool-header">
   <a class="back" href={back.href}>
-    <svg width="12" height="12" viewBox="0 0 16 16" aria-hidden="true">
-      <path d="M10 3 5 8l5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-    </svg>
+    <Arrow dir="back" />
     {back.label}
   </a>
   <h1>{title}</h1>

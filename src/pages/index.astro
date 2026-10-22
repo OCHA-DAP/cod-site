@@ -1,11 +1,20 @@
 ---
+import Arrow from "$lib/components/Arrow.svelte";
 import HomeGlobe from "$lib/components/home/HomeGlobe.svelte";
 import SiteHeader from "$lib/components/SiteHeader.astro";
+import { loadData } from "$lib/status/loadData";
 import { base, toolsBase } from "$lib/utils/paths";
 import Layout from "../layouts/Layout.astro";
 
 const lede =
   "Administrative boundaries and population statistics to support coordinated humanitarian preparedness and response.";
+
+const { totalInGis, adminUnits, openTotal } = loadData();
+const stats = [
+  { value: totalInGis, label: "countries and territories", href: `${base}status/coverage` },
+  { value: adminUnits, label: "administrative units", href: `${base}status/coverage` },
+  { value: openTotal, label: "updates in progress", href: `${base}status/` },
+].sort((a, b) => a.value - b.value);
 
 const products = [
   {
@@ -44,18 +53,31 @@ const logos = [
     <SiteHeader />
 
     <main>
-      <section class="wrap hero">
-        <div class="hero-text">
-          <h1><span class="name">Common<br />Operational<br />Datasets</span> <span class="tagline">for humanitarian response</span></h1>
-          <p class="lede">{lede}</p>
-        </div>
-        <div class="hero-globe">
-          <HomeGlobe client:load />
+      <div class="grid-bg">
+        <section class="wrap hero">
+          <div class="hero-text">
+            <h1><span class="name">Common<br />Operational<br />Datasets</span> <span class="tagline">for humanitarian response</span></h1>
+            <p class="lede">{lede}</p>
+          </div>
+          <div class="hero-globe">
+            <HomeGlobe client:load />
+          </div>
+        </section>
+      </div>
+
+      <section class="band stats" aria-label="Key figures">
+        <div class="wrap stats-row">
+          {stats.map((s, i) => (
+            <a class="stat" href={s.href} data-reveal style={`--delay: ${i * 100}ms`}>
+              <b data-count={s.value}>{s.value.toLocaleString("en-US")}</b>
+              <span>{s.label}</span>
+            </a>
+          ))}
         </div>
       </section>
 
       <section class="band">
-        <div class="intro">
+        <div class="intro" data-reveal>
           <h2>What are CODs?</h2>
           <p>
             Common Operational Datasets (CODs) are administrative boundaries (COD-AB) and population
@@ -90,16 +112,23 @@ const logos = [
       </section>
 
       {products.map((p, i) => (
-        <section class="band">
+        <section class="band grid-bg">
           <div class:list={["wrap", "product", { reverse: i % 2 === 1 }]}>
-            <div>
+            <div data-reveal>
               <h2>{p.title}</h2>
               <p class="product-text">{p.text}</p>
               <a class="more" href={p.href}>
-                Open {p.title} →
+                Open {p.title} <Arrow />
               </a>
             </div>
-            <a class="shot" href={p.href} tabindex="-1" aria-hidden="true">
+            <a
+              class="shot"
+              href={p.href}
+              tabindex="-1"
+              aria-hidden="true"
+              data-reveal
+              style="--delay: 100ms"
+            >
               <img src={p.image} alt="" loading="lazy" width="1200" height="750" />
             </a>
           </div>
@@ -119,6 +148,52 @@ const logos = [
     </footer>
   </div>
 </Layout>
+
+<script>
+  const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function countUp(el: HTMLElement) {
+    const target = Number(el.dataset.count);
+    const steps = 18;
+    let step = 0;
+    const timer = setInterval(() => {
+      step++;
+      el.textContent = Math.round((target * step) / steps).toLocaleString("en-US");
+      if (step === steps) {
+        clearInterval(timer);
+        el.classList.add("settle");
+        el.addEventListener("animationend", () => el.classList.remove("settle"), { once: true });
+      }
+    }, 40);
+  }
+
+  if (!reduceMotion && "IntersectionObserver" in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          const el = entry.target as HTMLElement;
+          observer.unobserve(el);
+          el.classList.remove("pending");
+          el.querySelectorAll<HTMLElement>("[data-count]").forEach((n) => {
+            setTimeout(() => countUp(n), parseInt(getComputedStyle(el).transitionDelay) || 0);
+          });
+        }
+      },
+      { rootMargin: "0px 0px -10% 0px" },
+    );
+    for (const el of document.querySelectorAll<HTMLElement>("[data-reveal]")) {
+      // Content already on screen at load stays put; only counters start from zero.
+      if (el.getBoundingClientRect().top < innerHeight) {
+        if (!el.querySelector("[data-count]")) continue;
+      } else {
+        el.classList.add("pending");
+      }
+      el.querySelectorAll<HTMLElement>("[data-count]").forEach((n) => (n.textContent = "0"));
+      observer.observe(el);
+    }
+  }
+</script>
 
 <style>
   .home {
@@ -191,6 +266,48 @@ const logos = [
     line-height: 1.7;
     color: var(--cd-grey--800);
   }
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+  .stat {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    text-decoration: none;
+    color: var(--cd-grey--800);
+  }
+  .stat b {
+    align-self: flex-start;
+    font-family: var(--brand-font-heading);
+    font-size: 3rem;
+    line-height: 1;
+    color: var(--brand-primary--text);
+    font-variant-numeric: tabular-nums;
+  }
+  .stat:hover span {
+    text-decoration: underline;
+  }
+  :global(.settle) {
+    animation: settle var(--dur-enter) var(--ease-enter);
+  }
+  @keyframes settle {
+    40% {
+      transform: scale(1.12);
+    }
+  }
+  [data-reveal] {
+    transition:
+      opacity var(--dur-enter) var(--ease-enter) var(--delay, 0ms),
+      transform var(--dur-enter) var(--ease-enter) var(--delay, 0ms);
+  }
+  :global([data-reveal].pending) {
+    opacity: 0;
+    transform: translateY(var(--move-layer));
+  }
   .types {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -253,6 +370,9 @@ const logos = [
     color: var(--cd-grey--800);
   }
   .more {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
     color: var(--brand-primary--text);
     font-weight: 700;
     text-decoration: none;
@@ -299,6 +419,7 @@ const logos = [
     .hero,
     .product,
     .product.reverse,
+    .stats-row,
     .types {
       grid-template-columns: 1fr;
     }

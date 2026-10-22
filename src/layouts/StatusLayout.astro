@@ -11,12 +11,7 @@ interface Props {
 }
 
 const { data } = Astro.props;
-const { openTotal } = data;
-const totalInGis = data.planGroups.reduce(
-  (sum, g) => sum + g.countries.filter((c) => c.inGis).length,
-  0,
-);
-const totalLocations = data.planGroups.reduce((sum, g) => sum + g.countries.length, 0);
+const { openTotal, totalInGis, totalLocations } = data;
 const lastUpdatedFormatted = data.lastUpdatedAt
   ? new Date(data.lastUpdatedAt).toLocaleDateString("en-GB", {
       day: "numeric",

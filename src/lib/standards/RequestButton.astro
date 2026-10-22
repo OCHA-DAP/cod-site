@@ -1,0 +1,48 @@
+---
+const href =
+  "https://forms.cloud.microsoft/pages/responsepage.aspx?id=2zWeD09UYE-9zF6kFubccJhozkkSVplEn8AP0EtHkJpUNVJNR1Y1U01JMlZCSDRKOERKUUYyWTgxNy4u&route=shorturl";
+---
+
+<div class="request">
+  <a class="button" href={href} target="_blank" rel="noopener">
+    Open the COD-AB Request Form
+    <svg viewBox="0 0 16 16" aria-hidden="true">
+      <path d="M6 3h7v7M13 3 4 12" fill="none" stroke="currentColor" stroke-width="1.8" />
+    </svg>
+  </a>
+  <span>Microsoft Forms, opens in a new tab. Takes less than five minutes.</span>
+</div>
+
+<style>
+  .request {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem 1.25rem;
+    margin: 0 0 2.5rem;
+  }
+  .button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.85rem 1.4rem;
+    border-radius: var(--brand-radius--sm);
+    background: var(--brand-primary--text);
+    color: var(--cd-white);
+    font-weight: 700;
+    text-decoration: none;
+    transition: background 0.15s ease;
+  }
+  .button:hover,
+  .button:focus-visible {
+    background: var(--brand-primary--dark);
+  }
+  svg {
+    width: 0.9rem;
+    height: 0.9rem;
+  }
+  span {
+    font-size: 0.9rem;
+    color: var(--brand-grey--text);
+  }
+</style>

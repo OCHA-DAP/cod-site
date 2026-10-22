@@ -1,0 +1,206 @@
+---
+import SiteHeader from "$lib/components/SiteHeader.astro";
+import Layout from "./Layout.astro";
+
+interface Props {
+  title: string;
+  summary: string;
+  crumbs?: { label: string; href: string }[];
+  meta?: string[];
+}
+
+const { title, summary, crumbs = [], meta = [] } = Astro.props;
+const pageTitle = crumbs.length ? `${title} · ${crumbs.map((c) => c.label).join(" · ")}` : title;
+---
+
+<Layout title={pageTitle} description={summary}>
+  <div class="standards-page">
+    <aside class="wip" id="wip-banner" aria-label="Draft notice">
+      <div class="wrap wip-inner">
+        <span class="wip-badge">Draft</span>
+        <p>
+          These documents are a work in progress. They may change and do not yet represent agreed
+          COD-AB policy.
+        </p>
+        <button type="button" class="wip-close" aria-label="Dismiss notice">
+          &times;
+        </button>
+      </div>
+    </aside>
+    <script is:inline>
+      // Runs before first paint so a dismissed banner never flashes.
+      const wip = document.getElementById("wip-banner");
+      if (wip && localStorage.getItem("standards-wip-dismissed")) wip.hidden = true;
+    </script>
+    <header class="masthead grid-bg">
+      <SiteHeader />
+      <div class="wrap masthead-inner">
+        {crumbs.length > 0 && (
+          <nav class="crumbs" aria-label="Breadcrumb">
+            {crumbs.map((c) => (
+              <a href={c.href}>{c.label}</a>
+            ))}
+          </nav>
+        )}
+        <h1>{title}</h1>
+        <p class="lede">{summary}</p>
+        {meta.length > 0 && (
+          <p class="meta">
+            {meta.map((m) => (
+              <span>{m}</span>
+            ))}
+          </p>
+        )}
+      </div>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+  </div>
+</Layout>
+
+<script>
+  const banner = document.getElementById("wip-banner");
+  banner?.querySelector(".wip-close")?.addEventListener("click", () => {
+    banner.hidden = true;
+    localStorage.setItem("standards-wip-dismissed", "1");
+  });
+</script>
+
+<style>
+  .standards-page {
+    min-height: 100%;
+    font-family: var(--brand-font);
+    background: var(--cd-white);
+    color: var(--brand-default-text-color);
+  }
+  .standards-page :global(.wrap) {
+    max-width: 1120px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+  .wip {
+    background: var(--brand-grey);
+    border-bottom: 1px solid var(--brand-grey--border);
+    color: var(--cd-grey--800);
+  }
+  .wip[hidden] {
+    display: none;
+  }
+  .wip-inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    padding-top: 0.35rem;
+    padding-bottom: 0.35rem;
+  }
+  .wip-badge {
+    flex: none;
+    padding: 0 0.45rem;
+    border: 1px solid var(--brand-warning);
+    border-radius: var(--brand-radius--pill);
+    color: var(--brand-warning);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    line-height: 1.5;
+    text-transform: uppercase;
+  }
+  .wip p {
+    margin: 0;
+    font-size: 0.82rem;
+    line-height: 1.4;
+  }
+  .wip-close {
+    flex: none;
+    width: 1.5rem;
+    height: 1.5rem;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--brand-grey--text);
+    font-size: 1.1rem;
+    line-height: 1;
+    cursor: pointer;
+  }
+  .wip-close:hover,
+  .wip-close:focus-visible {
+    background: var(--brand-grey--border);
+    color: var(--cd-grey--900);
+  }
+  @media (max-width: 600px) {
+    .wip-inner {
+      justify-content: flex-start;
+      padding-left: 1rem;
+      padding-right: 0.5rem;
+    }
+    .wip p {
+      font-size: 0.78rem;
+    }
+  }
+  .masthead {
+    border-bottom: 1px solid var(--cd-blue--lightest);
+  }
+  .masthead-inner {
+    padding-top: 3rem;
+    padding-bottom: 2.75rem;
+  }
+  .crumbs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+    font-size: 0.9rem;
+  }
+  .crumbs a {
+    color: var(--brand-primary--text);
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .crumbs a:hover {
+    text-decoration: underline;
+  }
+  .crumbs a + a::before {
+    content: "/";
+    margin-right: 0.5rem;
+    color: var(--brand-grey--text);
+    font-weight: 400;
+  }
+  h1 {
+    margin: 0 0 1rem;
+    font-size: 2.6rem;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--brand-primary--text);
+  }
+  .lede {
+    max-width: 52ch;
+    margin: 0;
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: var(--cd-grey--800);
+  }
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 1.25rem 0 0;
+  }
+  .meta span {
+    padding: 0.2rem 0.7rem;
+    border-radius: var(--brand-radius--pill);
+    background: var(--brand-primary--lightest);
+    color: var(--brand-primary--dark);
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+  @media (max-width: 700px) {
+    h1 {
+      font-size: 2rem;
+    }
+  }
+</style>

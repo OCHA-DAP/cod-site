@@ -1,0 +1,113 @@
+---
+const parts = [
+  { code: "AFG", label: "Country", note: "ISO3 code" },
+  { code: "001", label: "Admin 1", note: "First province" },
+  { code: "012", label: "Admin 2", note: "Twelfth district" },
+  { code: "003", label: "Admin 3", note: "Third sub-district" },
+];
+---
+
+<figure class="anatomy">
+  <div class="code" role="img" aria-label="Example P-code AFG.001.012.003, broken into its parts">
+    {parts.map((p, i) => (
+      <>
+        {i > 0 && (
+          <span class="dot" aria-hidden="true">
+            .
+          </span>
+        )}
+        <span class="part" style={`--i: ${i}`}>
+          <b>{p.code}</b>
+          <span class="label">{p.label}</span>
+          <span class="note">{p.note}</span>
+        </span>
+      </>
+    ))}
+  </div>
+  <figcaption>
+    Dots separate the levels. After the country code, each level is a three-digit number counted
+    within the unit above it.
+  </figcaption>
+</figure>
+
+<style>
+  .anatomy {
+    margin: 2rem 0;
+    padding: 1.75rem 1.5rem 1.25rem;
+    border: 1px solid var(--brand-primary--lighter);
+    border-radius: var(--brand-radius);
+    background: var(--cd-white);
+  }
+  .code {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 0.25rem;
+  }
+  .part {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
+    min-width: 6.5rem;
+    text-align: center;
+  }
+  .part b {
+    display: block;
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    border-radius: var(--brand-radius--sm);
+    font-size: 1.6rem;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.06em;
+    color: var(--cd-white);
+    background: color-mix(
+      in srgb,
+      var(--brand-primary--dark) calc(100% - var(--i) * 22%),
+      var(--brand-primary)
+    );
+    margin-bottom: 0.35rem;
+  }
+  .dot {
+    align-self: flex-start;
+    padding-top: 0.4rem;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--brand-primary--text);
+  }
+  .label {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--cd-grey--900);
+  }
+  .note {
+    font-size: 0.8rem;
+    color: var(--brand-grey--text);
+  }
+  @media (max-width: 600px) {
+    .anatomy {
+      padding: 1.25rem 0.75rem 1rem;
+    }
+    .part {
+      min-width: 0;
+    }
+    .part b {
+      padding: 0.4rem 0.5rem;
+      font-size: 1.1rem;
+    }
+    .dot {
+      padding-top: 0.2rem;
+      font-size: 1.3rem;
+    }
+    .note {
+      display: none;
+    }
+  }
+  figcaption {
+    margin-top: 1.25rem;
+    text-align: center;
+    font-size: 0.95rem;
+    color: var(--cd-grey--800);
+  }
+</style>

@@ -1,8 +1,8 @@
 ---
 import type { ScheduleGroup } from "$lib/status/loadData";
 import { statusClass, statusLabel, STATUS_TERMS } from "$lib/status/status";
-import Term from "./Term.astro";
-import type { TermSlug } from "$lib/status/glossary";
+import Term from "$lib/components/Term.astro";
+import type { TermSlug } from "$lib/glossary";
 
 interface Props {
   groups: ScheduleGroup[];

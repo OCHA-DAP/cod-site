@@ -1,0 +1,170 @@
+---
+import Arrow from "$lib/components/Arrow.svelte";
+import { loadStandards } from "$lib/standards/docs";
+import { standardsBase } from "$lib/utils/paths";
+import StandardsLayout from "../../layouts/StandardsLayout.astro";
+
+const docs = await loadStandards();
+const summary =
+  "The shared rules behind COD-AB: what the data looks like, and how it is produced, reviewed and published.";
+---
+
+<StandardsLayout title="COD-AB Standards" summary={summary}>
+  <section class="wrap" aria-label="Request an update">
+    <div class="request">
+      <p>
+        <b>Has a country's boundary data changed?</b> Tell us through the COD-AB Request Form.
+      </p>
+      <a href={`${standardsBase}process/request/`}>Request an update <Arrow /></a>
+    </div>
+  </section>
+  <section class="wrap docs" aria-label="Documents">
+    {docs.map((doc, n) => (
+      <a class="doc" href={doc.href}>
+        <span class="num">{n + 1}</span>
+        <h2>{doc.index.data.title}</h2>
+        <p>{doc.index.data.summary}</p>
+        <ul>
+          {doc.pages.slice(1).map((p) => (
+            <li>{p.entry.data.title}</li>
+          ))}
+        </ul>
+        <span class="more">
+          Open {doc.index.data.title} <Arrow />
+        </span>
+      </a>
+    ))}
+    <div class="doc soon">
+      <span class="num">{docs.length + 1}</span>
+      <h2>Governance</h2>
+      <p>How decisions about COD-AB are made, and by whom.</p>
+      <span class="more">Coming soon</span>
+    </div>
+  </section>
+</StandardsLayout>
+
+<style>
+  .request {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem 1.5rem;
+    margin: 2.5rem 0 -1rem;
+    padding: 1.1rem 1.5rem;
+    border-radius: var(--brand-radius);
+    background: var(--brand-primary--lightest);
+  }
+  .request p {
+    margin: 0;
+    color: var(--cd-grey--900);
+  }
+  .request a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    color: var(--brand-primary--text);
+    font-weight: 700;
+    text-decoration: none;
+  }
+  .request a:hover {
+    text-decoration: underline;
+  }
+  .docs {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    padding-top: 3.5rem;
+    padding-bottom: 5rem;
+  }
+  .doc {
+    display: flex;
+    flex-direction: column;
+    padding: 1.75rem 1.75rem 1.5rem;
+    border: 1px solid var(--cd-grey--500);
+    border-radius: var(--brand-radius);
+    box-shadow: inset 0 6px 0 var(--brand-primary--text);
+    background: var(--cd-white);
+    color: inherit;
+    text-decoration: none;
+    transition:
+      border-color 0.15s ease,
+      box-shadow 0.15s ease,
+      transform 0.15s ease;
+  }
+  a.doc:hover {
+    border-color: var(--brand-primary--text);
+    box-shadow:
+      inset 0 10px 0 var(--brand-primary--text),
+      0 18px 40px -24px rgba(0, 46, 110, 0.45);
+    transform: translateY(-2px);
+  }
+  .num {
+    display: grid;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    margin-bottom: 1.25rem;
+    border-radius: 50%;
+    background: var(--brand-primary--lightest);
+    color: var(--brand-primary--text);
+    font-weight: 700;
+  }
+  h2 {
+    margin: 0 0 0.6rem;
+    font-size: 1.5rem;
+    letter-spacing: -0.01em;
+    color: var(--brand-primary--text);
+  }
+  p {
+    margin: 0 0 1.25rem;
+    line-height: 1.6;
+    color: var(--cd-grey--800);
+  }
+  ul {
+    margin: 0 0 1.5rem;
+    padding: 1rem 0 0;
+    border-top: 1px solid var(--cd-blue--lightest);
+    list-style: none;
+    font-size: 0.9rem;
+  }
+  li {
+    padding: 0.25rem 0;
+    color: var(--cd-grey--800);
+  }
+  li::before {
+    content: "";
+    display: inline-block;
+    width: 0.4rem;
+    height: 0.4rem;
+    margin-right: 0.6rem;
+    border-radius: 50%;
+    background: var(--brand-primary--light);
+    vertical-align: middle;
+  }
+  .more {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    margin-top: auto;
+    color: var(--brand-primary--text);
+    font-weight: 700;
+  }
+  .soon {
+    border-style: dashed;
+    box-shadow: inset 0 6px 0 var(--brand-grey--border);
+  }
+  .soon h2,
+  .soon .more {
+    color: var(--brand-grey--text);
+  }
+  .soon .num {
+    background: var(--brand-grey);
+    color: var(--brand-grey--text);
+  }
+  @media (max-width: 900px) {
+    .docs {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

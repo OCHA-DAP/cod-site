@@ -29,14 +29,16 @@ const STEPS_MARKER = "<!-- steps -->";
 const GLUE_MARKER = "<!-- duckdb -->";
 // A slide holding this comment keeps its image full width with the bullets underneath.
 const WIDE_MARKER = "<!-- wide -->";
+// A slide that opens with an h1 (after any comments) gets the title-slide style.
+const isTitle = (html: string) => /^(<!--[\s\S]*?-->\s*)*<h1/.test(html);
 
 const before = await toSlides(intro);
 const after = await toSlides(outro);
 ---
 
 <Layout
-  title="Tools: an introduction"
-  description="An introduction to Tools: why harmonized admin boundaries matter for UN80, and how the tools clean them in the browser."
+  title="COD-AB: a common map for humanitarian response"
+  description="An introduction to COD-AB: why shared admin boundaries matter, the standard UN agencies agreed, and the browser tools that clean boundaries to it."
 >
   <div class="talk">
     <SiteHeader class="site-bar">
@@ -92,17 +94,17 @@ const after = await toSlides(outro);
           <section
             class:list={[
               "slide",
-              { title: i === 0 || html.startsWith("<h1"), wide: html.includes(WIDE_MARKER) },
+              {
+                title: i === 0 || isTitle(html),
+                "grid-bg": i === 0 || isTitle(html),
+                wide: html.includes(WIDE_MARKER),
+              },
             ]}
           >
             <Fragment set:html={html} />
             {i === 0 && (
               <div class="logos">
-                <img src={`${base}logos/ocha-white.png`} alt="OCHA" />
-                <img
-                  src={`${base}logos/centre-humdata-white.png`}
-                  alt="Centre for Humanitarian Data"
-                />
+                <img src={`${base}logos/cod-logo.svg`} alt="Common Operational Datasets" />
               </div>
             )}
           </section>
@@ -116,7 +118,10 @@ const after = await toSlides(outro);
         </section>
       ))}
       {after.map((html) => (
-        <section class="slide" set:html={html} />
+        <section
+          class:list={["slide", { title: isTitle(html), "grid-bg": isTitle(html) }]}
+          set:html={html}
+        />
       ))}
     </main>
   </div>
@@ -276,7 +281,7 @@ const after = await toSlides(outro);
     padding: 2rem 2.25rem;
     border: 1px solid var(--cd-grey--500);
     border-radius: var(--brand-radius--sm);
-    background: #fff;
+    background-color: #fff;
     line-height: 1.55;
   }
   .slide :global(h1),
@@ -359,20 +364,16 @@ const after = await toSlides(outro);
     border-top: 1px dashed var(--cd-grey--500);
   }
   .title {
-    background: var(--brand-primary--dark);
-    border-color: var(--brand-primary--dark);
-    color: #fff;
+    border-color: var(--cd-blue--lightest);
   }
-  .title :global(:is(h1, h2, h3)) {
-    color: inherit;
+  .title :global(h1) {
+    font-size: 2.6rem;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--brand-primary--text);
   }
-  .title :global(h3),
-  .title :global(a) {
-    color: #fff;
-  }
-  .title :global(p) {
-    color: var(--cd-blue--lightest);
-    border-color: rgb(255 255 255 / 0.2);
+  .title :global(h3) {
+    color: var(--cd-grey--800);
   }
   .logos {
     display: flex;
@@ -408,21 +409,28 @@ const after = await toSlides(outro);
     grid-template-rows: subgrid;
     row-gap: 0.4rem;
     min-height: 11rem;
-    padding: 0.8rem;
+    padding: 1.1rem 0.8rem 0.8rem;
     font-size: 0.8em;
-    border-top: 4px solid var(--brand-primary--text);
-    border-radius: var(--brand-radius--sm);
-    background: var(--cd-blue--lightest);
+    border: 1px solid var(--cd-grey--500);
+    border-radius: var(--brand-radius);
+    box-shadow: inset 0 6px 0 var(--brand-primary--text);
+    background: var(--cd-white);
   }
   .pipeline li + li {
     margin-top: 0;
   }
   .pipeline .num {
-    font-family: var(--brand-font-heading);
-    font-size: 2.6em;
-    font-weight: 700;
-    line-height: 1;
-    color: var(--brand-primary--dark);
+    display: grid;
+    place-items: center;
+    width: 2em;
+    height: 2em;
+    border-radius: 50%;
+    background: var(--brand-primary--text);
+    color: var(--cd-white);
+    font-weight: 600;
+  }
+  .pipeline strong {
+    color: var(--brand-primary--text);
   }
   .pipeline strong {
     line-height: 1.2;
@@ -454,11 +462,12 @@ const after = await toSlides(outro);
     display: flex;
     flex-direction: column;
     gap: 0.3rem;
-    padding: 1rem;
+    padding: 1.3rem 1rem 1rem;
     font-size: 0.8em;
-    border-top: 4px solid var(--brand-primary--text);
-    border-radius: var(--brand-radius--sm);
-    background: var(--cd-blue--lightest);
+    border: 1px solid var(--cd-grey--500);
+    border-radius: var(--brand-radius);
+    box-shadow: inset 0 6px 0 var(--brand-primary--text);
+    background: var(--cd-white);
   }
   .glue span {
     color: var(--cd-grey--800);
@@ -468,6 +477,8 @@ const after = await toSlides(outro);
     text-align: center;
     color: white;
     background: var(--brand-primary--text);
+    border-color: var(--brand-primary--text);
+    box-shadow: none;
   }
   .glue .core strong {
     font-family: var(--brand-font-heading);

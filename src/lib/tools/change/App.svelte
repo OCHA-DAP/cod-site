@@ -664,11 +664,11 @@
   }
   .cw-field select {
     width: 100%;
-    padding: 0.25rem 0.4rem;
+    padding-block: 0.25rem;
+    padding-left: 0.4rem;
     font-size: 0.8rem;
     border: 1px solid var(--cd-grey--500);
     border-radius: var(--brand-radius--sm);
-    background: var(--cd-white);
   }
   .cw-slider {
     display: flex;

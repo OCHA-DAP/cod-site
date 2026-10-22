@@ -1,11 +1,17 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 500" font-family="Roboto, system-ui, sans-serif" font-size="30" text-anchor="middle">
-<rect x="100" y="12" width="800" height="140" rx="10" fill="#e3edf6" stroke="#0074b7" stroke-width="3" stroke-dasharray="12 8"/>
-<text x="500" y="76" fill="#222" font-size="46" font-weight="600">Skills</text>
-<text x="500" y="118" fill="#737373">optional, agents drive the CLI</text>
-<rect x="50" y="176" width="900" height="140" rx="10" fill="#64bdea"/>
-<text x="500" y="240" fill="#002e6e" font-size="46" font-weight="600">Docs</text>
-<text x="500" y="282" fill="#002e6e">how to use the CLI</text>
+<defs>
+<clipPath id="skills"><rect x="100" y="12" width="800" height="140" rx="10"/></clipPath>
+<clipPath id="docs"><rect x="50" y="176" width="900" height="140" rx="10"/></clipPath>
+</defs>
+<rect x="101" y="13" width="798" height="138" rx="9" fill="#fff" stroke="#bfbfbf" stroke-width="2" stroke-dasharray="12 8"/>
+<rect x="100" y="12" width="800" height="12" fill="#64bdea" clip-path="url(#skills)"/>
+<text x="500" y="84" fill="#0074b7" font-size="46" font-weight="600">Skills</text>
+<text x="500" y="126" fill="#737373">optional, agents drive the CLI</text>
+<rect x="51" y="177" width="898" height="138" rx="9" fill="#fff" stroke="#bfbfbf" stroke-width="2"/>
+<rect x="50" y="176" width="900" height="12" fill="#0074b7" clip-path="url(#docs)"/>
+<text x="500" y="248" fill="#0074b7" font-size="46" font-weight="600">Docs</text>
+<text x="500" y="290" fill="#4d4d4d">how to use the CLI</text>
 <rect x="0" y="340" width="1000" height="140" rx="10" fill="#0074b7"/>
 <text x="500" y="404" fill="#fff" font-size="46" font-weight="600">Tools</text>
-<text x="500" y="446" fill="#c5dfef">institutional knowledge, made deterministic</text>
+<text x="500" y="446" fill="#e3edf6">institutional knowledge, made deterministic</text>
 </svg>

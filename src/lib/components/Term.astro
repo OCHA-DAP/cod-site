@@ -1,0 +1,92 @@
+---
+import { GLOSSARY, type TermSlug } from "$lib/glossary";
+
+interface Props {
+  term: TermSlug;
+  align?: "left" | "right";
+}
+
+const { term, align = "left" } = Astro.props;
+const entry = GLOSSARY[term];
+---
+
+{entry ? (
+  <span class:list={["term", { "term-right": align === "right" }]} tabindex="0">
+    <slot />
+    <span class="term-tooltip" role="tooltip">
+      {entry.definition}
+    </span>
+  </span>
+) : (
+  <slot />
+)}
+
+<style>
+  .term {
+    display: inline-block;
+    position: relative;
+    cursor: help;
+    border-bottom: 1px dotted transparent;
+    outline: none;
+    vertical-align: baseline;
+  }
+
+  .term:hover,
+  .term:focus-visible {
+    border-bottom-color: currentColor;
+  }
+
+  .term-tooltip {
+    position: absolute;
+    bottom: calc(100% + 6px);
+    left: 0;
+    z-index: 50;
+    width: max-content;
+    max-width: 280px;
+    padding: 0.5rem 0.7rem;
+    background: var(--cd-grey--900);
+    color: var(--cd-white);
+    font-size: 0.78rem;
+    font-weight: 400;
+    font-family: var(--brand-font);
+    text-transform: none;
+    letter-spacing: normal;
+    line-height: 1.4;
+    border-radius: 4px;
+    white-space: normal;
+    text-align: left;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 0.1s,
+      visibility 0.1s;
+    pointer-events: none;
+  }
+
+  .term-tooltip::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 1rem;
+    border: 5px solid transparent;
+    border-top-color: var(--cd-grey--900);
+  }
+
+  .term.term-right .term-tooltip {
+    left: auto;
+    right: 0;
+  }
+
+  .term.term-right .term-tooltip::after {
+    left: auto;
+    right: 1rem;
+  }
+
+  .term:hover .term-tooltip,
+  .term:focus .term-tooltip,
+  .term:focus-within .term-tooltip {
+    opacity: 1;
+    visibility: visible;
+  }
+</style>

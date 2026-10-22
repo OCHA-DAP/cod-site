@@ -1,0 +1,56 @@
+---
+title: P-code format
+summary: Every administrative unit gets a P-code made of the country code followed by one three-digit number per level, separated by dots.
+order: 1
+---
+
+import PcodeAnatomy from "$lib/standards/PcodeAnatomy.astro";
+import Term from "$lib/components/Term.astro";
+
+<Term term="p-code">P-codes</Term> follow a hierarchical structure built from three components:
+
+<PcodeAnatomy />
+
+| Component | Standard |
+| :---- | :---- |
+| **Country code** | ISO3 (*AFG*) |
+| **Delimiter** | Dot (*.*) |
+| **Digit width** | 3-digit zero-padded (*001*) |
+
+Level examples:
+
+| Level | Example | Meaning |
+| :---- | :---- | :---- |
+| Admin0 | *AFG* | Country stub |
+| Admin1 | *AFG.001* | First province |
+| Admin2 | *AFG.001.012* | Twelfth district within first province |
+| Admin3 | *AFG.001.012.003* | Third sub-district within that district |
+
+The code is always hierarchical, any unit is a valid prefix of every code below it, enabling SQL prefix queries to return all children without a join.
+
+P-codes carry no version information. Dataset version is tracked as metadata using *version*, *valid\_from*, and *valid\_to* fields. The system starts at version 1; previous COD-AB versions are linked through a migration table and migration services.
+
+## Country code
+
+<Term term="iso3">ISO3</Term> is the standard for country codes, consistent with its use across statistical and humanitarian data systems.
+
+For territories with contested or disputed status, P-codes use the ISO3 code assigned by UN geodata, including user-assigned ISO3 codes for areas outside standard country boundaries. Administrative units receive the ISO3 prefix for the territory they fall within, not the country administering them. Where a country administers both disputed and undisputed territory, its dataset spans two prefixes: the standard country code for undisputed units and the UN geodata user-assigned code for disputed units. User assigned prefixes always begin with a capital *X*.
+
+## Delimiter
+
+The dot (*.*) is the delimiter. It is safe in SQL *LIKE* queries, safe in Excel (plain text, not a formula), safe in URLs, and self-documenting: *AFG.001.012* reads as a hierarchy without explanation. The delimiter allows digit width to vary when needed. Because each level is separated explicitly, a code can be parsed into its components without relying on fixed positions.
+
+## Digit width
+
+Digit width was determined empirically using a global boundary dataset (186,526 features, 285 countries/territories) and IBGE Brazil (5,572 municipalities). The relevant ceiling is not the global total but the maximum number of children any single parent has at each level.
+
+| Level | Global max | Country / unit | 3-digit headroom |
+| :---- | :---- | :---- | :---- |
+| ADM1 | 81 | Turkey | 91.9% |
+| ADM2 | 853 | Minas Gerais (BRA) | 14.6% ← watch case |
+| ADM3 | 414 | Burgos (ESP) | 58.6% |
+| ADM4 | 312 | Provincia di Roma (ITA) | 68.8% |
+
+Three digits clears every level across the full dataset. Systems using fewer digits produce incorrect string sort order in Excel, SQL, and every tool that sorts alphanumerically.
+
+**Minas Gerais ceiling watch case**: Brazil’s Minas Gerais state has 853 municipalities as direct ADM2 children, occupying 85.4% of a 999-unit ceiling. Brazil has historically added municipalities at roughly 4 per major state per decade. A level that exceeds 999 units , A level that exceeds 999 units can therefore take a fourth digit (e.g. BRA.001.1000) without repadding or reissuing existing codes, previously assigned codes are not repadded: *BRA.001.001* remains *BRA.001.001*, and the thousandth unit is assigned *BRA.001.1000*. This outcome is recorded in the country’s metadata.

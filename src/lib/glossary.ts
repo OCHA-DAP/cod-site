@@ -7,16 +7,16 @@ export const GLOSSARY = {
   "cod-ab": {
     label: "COD-AB",
     definition:
-      "Common Operational Dataset for Administrative Boundaries — OCHA's authoritative reference layer for a country's official admin subdivisions (country, province, district, etc.), used across humanitarian response.",
+      "Common Operational Dataset for Administrative Boundaries: the shared reference layer, maintained by OCHA, for a country's admin subdivisions (country, province, district and so on), used across humanitarian response.",
   },
   cod: {
     label: "COD",
     definition:
-      "Common Operational Datasets — authoritative reference data used by humanitarian responders for emergency coordination.",
+      "Common Operational Datasets: shared reference data that humanitarian responders use to coordinate in an emergency.",
   },
   hdx: {
     label: "HDX",
-    definition: "Humanitarian Data Exchange — OCHA's open platform for sharing humanitarian data.",
+    definition: "Humanitarian Data Exchange: OCHA's open platform for sharing humanitarian data.",
   },
   iso3: {
     label: "ISO3",
@@ -27,6 +27,31 @@ export const GLOSSARY = {
     definition:
       "UN Statistics Division standard codes for countries and regions; used here to align country lists across data sources.",
   },
+  "p-code": {
+    label: "P-code",
+    definition:
+      "Place code: the unique identifier of an administrative unit, such as AFG.001.012. Every code starts with the code of the unit above it.",
+  },
+  "admin-level": {
+    label: "Admin level",
+    definition:
+      "A tier in a country's hierarchy of subdivisions. Admin 0 is the country, admin 1 its largest subdivisions (such as provinces), and each level below divides the one above.",
+  },
+  "edge-matching": {
+    label: "Edge matching",
+    definition:
+      "Aligning a country's outer boundary with the UN admin 0 layer, so neighbouring countries meet without gaps or overlaps.",
+  },
+  imwg: {
+    label: "IMWG",
+    definition:
+      "Information Management Working Group: the in-country group of agencies that coordinates information management and accepts CODs.",
+  },
+  "cod-ab-wg": {
+    label: "COD-AB WG",
+    definition:
+      "COD-AB Working Group: the agencies that manage COD-AB together (OCHA, WFP, UNICEF, UNHCR and IOM).",
+  },
   arcgis: {
     label: "ArcGIS",
     definition: "Esri's GIS platform where OCHA publishes the COD-AB catalog of admin boundaries.",
@@ -34,26 +59,26 @@ export const GLOSSARY = {
 
   hrp: {
     label: "HRP",
-    definition: "Humanitarian Response Plan — country-level coordinated humanitarian appeal.",
+    definition: "Humanitarian Response Plan: a coordinated humanitarian appeal for one country.",
   },
   hnrp: {
     label: "HNRP",
     definition:
-      "Humanitarian Needs and Response Plan — combined needs + response document, the newer format that replaces separate HNO and HRP plans.",
+      "Humanitarian Needs and Response Plan: one document that covers both the needs overview (HNO) and the response plan (HRP).",
   },
   fa: {
     label: "Flash Appeal",
-    definition: "Flash Appeal — short-term emergency appeal for sudden-onset crises.",
+    definition: "Flash Appeal: a short-term emergency appeal for a sudden-onset crisis.",
   },
   reg: {
     label: "Regional Plan",
     definition:
-      "Regional Refugee Response Plan — multi-country plan addressing refugee outflows from a shared crisis.",
+      "Regional Refugee Response Plan: a plan across several countries for refugees fleeing the same crisis.",
   },
   "current-other": {
     label: "Other Plans (Current)",
     definition:
-      "Locations with an active plan in the current cycle that is not an HNRP, HRP, or Flash Appeal — typically a Regional Response Plan (REG) or another lower-priority type (CAP, SRP, CIAA, Other).",
+      "Locations with an active plan in the current cycle that is not an HNRP, HRP, or Flash Appeal, usually a Regional Response Plan (REG) or another lower-priority type (CAP, SRP, CIAA, Other).",
   },
   "prior-other": {
     label: "Other Plans (Prior Years)",
@@ -67,16 +92,16 @@ export const GLOSSARY = {
 
   co: {
     label: "CO",
-    definition: "Country Office — OCHA office in a specific country.",
+    definition: "Country Office: an OCHA office in one country.",
   },
   hat: {
     label: "HAT",
     definition:
-      "Humanitarian Advisory Team — smaller OCHA presence advising on humanitarian coordination, typically embedded in a UN Resident Coordinator's office.",
+      "Humanitarian Advisory Team: a smaller OCHA presence that advises on humanitarian coordination, usually based in a UN Resident Coordinator's office.",
   },
   ro: {
     label: "RO",
-    definition: "Regional Office — OCHA office covering multiple countries in a region.",
+    definition: "Regional Office: an OCHA office covering several countries in a region.",
   },
   "office-type": {
     label: "Office Type",
@@ -95,7 +120,7 @@ export const GLOSSARY = {
   pipeline: {
     label: "Pipeline",
     definition:
-      "End-to-end flow of a work order from Backlog through Done — the sequence of statuses a work order passes through.",
+      "The sequence of statuses a work order passes through, from Backlog to Done.",
   },
   selected: {
     label: "Selected for Development",
@@ -112,7 +137,7 @@ export const GLOSSARY = {
   "major-minor": {
     label: "Major / Minor",
     definition:
-      "Whether the update is substantive (Major, ●) — e.g. boundaries or codes change materially — or cosmetic (Minor, ○) — e.g. metadata or formatting corrections.",
+      "Whether the update is substantive (Major, ●), such as a real change to boundaries or codes, or cosmetic (Minor, ○), such as a metadata or formatting correction.",
   },
   "plan-type": {
     label: "Plan Type",
@@ -162,12 +187,12 @@ export const GLOSSARY = {
   "current-priority": {
     label: "HNRP / HRP / FA (Current)",
     definition:
-      "Locations with an active Humanitarian Needs and Response Plan (HNRP), Humanitarian Response Plan (HRP), or Flash Appeal (FA) in the current cycle — the priority group for boundary readiness.",
+      "Locations with an active Humanitarian Needs and Response Plan (HNRP), Humanitarian Response Plan (HRP), or Flash Appeal (FA) in the current cycle. These are the priority group for boundary readiness.",
   },
   "prior-priority": {
     label: "HNRP / HRP / FA (Prior Years)",
     definition:
-      "Locations with no plan in the current cycle whose most recent prior plan was an HNRP, HRP, or Flash Appeal — still a higher priority for boundary readiness than a current-cycle Other Plan.",
+      "Locations with no plan in the current cycle whose most recent prior plan was an HNRP, HRP, or Flash Appeal. These rank above a current-cycle Other Plan for boundary readiness.",
   },
 } as const satisfies Record<string, GlossaryEntry>;
 

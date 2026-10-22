@@ -1,26 +1,28 @@
 <!-- `---` starts a new slide. Headings, lists, tables and images are the slide; plain paragraphs are speaker notes. A slide that starts with `#` gets the title-slide style. -->
 
-# Tools: an introduction
+# COD-AB: a common map for humanitarian response
 
-### UN OCHA Centre for Humanitarian Data
+### Administrative boundaries, the shared standard, and the tools that build them
 
-This page introduces the tools and works as a slide deck. Paragraphs like this one are the notes. Press P to switch to presentation mode, and use the arrow keys to move between slides.
+Every humanitarian response depends on partners agreeing where places are and what they're called. This talk covers four things: what COD-ABs are and why they matter, the problems with how boundary data is produced today, how UN agencies are growing COD-AB into one shared standard, and the tools OCHA built to clean and package boundaries to that standard. The tools run in the browser with nothing to install, so the demos are live.
+
+The notes are written to be read as is, so anyone can present this deck. Press P for presentation mode and use the arrow keys to move between slides.
 
 ---
 
-# Part 1: What COD-ABs are, and why they matter
+# Part 1: COD-ABs and what they're used for
 
 ---
 
 ## COD-ABs: the common map of a humanitarian response
 
-![Cameroon's COD-AB at three levels, 10, 58 and 360 units, with one unit highlighted at each: Centre (CM002), Mbam-et-Kim (CM002004) and Yoko (CM002004005)](/talk/cmr-admin-levels.svg)
+![Cameroon's COD-AB at three levels, 10, 58 and 360 units, with one unit highlighted at each: Centre (CMR.002), Mbam-et-Kim (CMR.002.004) and Yoko (CMR.002.004.005)](/talk/cmr-admin-levels.svg)
 
 - Admin boundaries form a common operational picture of humanitarian activities, sourced from national authorities if possible
 - P-codes: a stable code for every unit, down to the lowest level available
 - Maintained by OCHA for the countries where it operates
 
-COD-AB stands for Common Operational Dataset for Administrative Boundaries. In a crisis, everyone responding needs to agree on where the provinces and districts are and what they're called. The COD-AB is that shared reference, endorsed in-country and published openly. In Cameroon, each P-code extends its parent's: Yoko is CM002004005, inside Mbam-et-Kim (CM002004), inside Centre (CM002).
+COD-AB stands for Common Operational Dataset for Administrative Boundaries. In a crisis, everyone responding needs to agree on where the provinces and districts are and what they're called. The COD-AB is that shared reference, endorsed in-country and published openly. In Cameroon, each P-code extends its parent's: Yoko is CMR.002.004.005, inside Mbam-et-Kim (CMR.002.004), inside Centre (CMR.002).
 
 OCHA maintains COD-ABs for 114 of 248 countries and territories, including every country with an active humanitarian response plan this year.
 
@@ -55,7 +57,7 @@ All-time counts are from HDX's public API in October 2026, and monthly figures f
 | Appeals, emergencies | Response plans, emergency declarations                     |
 | Protection           | Protection risks and incidents                             |
 
-These are the kinds of tabular data on HDX, and they all locate their rows by admin unit through COD-AB P-codes. HAPI, the HDX Humanitarian API, standardizes indicators from many organizations into one schema. Nine of its thirteen indicators are reported by admin unit, and they line up only because they share COD-AB P-codes. It also taught us that standardizing other people's data after the fact doesn't scale.
+These are the kinds of tabular data on HDX, and they all locate their rows by admin unit through COD-AB P-codes. HAPI, the HDX Humanitarian API, standardizes indicators from many organizations into one schema. Nine of its thirteen indicators are reported by admin unit, and they line up only because they share COD-AB P-codes. It also showed that standardizing other people's data after the fact doesn't scale.
 
 The Humanitarian Data Model replaces it, and its draft is being agreed across agencies. Most of HAPI's data carries over into the model's domains, and the model adds new ones. Every domain locates its data through the Location domain, which holds the admin boundaries.
 
@@ -71,7 +73,7 @@ People in need are counted by district, against a baseline population for that d
 
 ---
 
-# Part 2: The problems, fragmentation and delays
+# Part 2: Competing boundaries and slow updates
 
 ---
 
@@ -84,7 +86,7 @@ People in need are counted by district, against a baseline population for that d
 
 Each dot is a country where OCHA has a country office, a regional office or a humanitarian advisory team. That's where OCHA has people with local knowledge of the boundaries.
 
-The other agencies each have their own map like this, and their own global boundary dataset built from it. Where they overlap, we have competing versions. Where they don't, one agency may hold the only good data.
+The other agencies each have their own map like this, and their own global boundary dataset built from it. Where they overlap, there are competing versions. Where they don't, one agency may hold the only good data.
 
 ---
 
@@ -123,7 +125,7 @@ Country offices and national agencies know the ground, but the cleaning and codi
 
 ---
 
-# Part 3: Growing COD-AB into a shared standard
+# Part 3: One standard across UN agencies
 
 ---
 
@@ -137,25 +139,25 @@ Country offices and national agencies know the ground, but the cleaning and codi
 
 UN80 is the reform effort across the UN system. Its report commits to a Humanitarian Data Collaborative so that all actors can work from one evidence base.
 
-For boundaries, that meant getting the five agencies in a room. Over three days in Rome we agreed the P-code specification, the governance process for updates, and the roadmap. We're starting with OCHA's own process, then the five agencies, then partners like FAO and the World Bank.
+For boundaries, that meant getting the five agencies in a room. Over three days in Rome, they agreed the P-code specification, the governance process for updates, and the roadmap. The rollout starts with OCHA's own process, then the five agencies, then partners like FAO and the World Bank.
 
 ---
 
-## Lessons from STAC: build the tools with the standard
+## A standard only works if it's easy to follow
 
-![STAC and COD-AB side by side: STAC's spec, PySTAC and STAC Browser, and stac-validator line up with COD-AB's P-code standard, the CLI and web app, and validate](/talk/stac-cod-ab.svg)
+![Three boxes joined by arrows: Standard (P-code format and fields), Tools (Python CLI and web app), and Check (Validate checks schema, topology, codes and names)](/talk/standard-tools-check.svg)
 
-- Like STAC, we tested the standard on real data while it was still being agreed
-- Field teams run the same checks as HQ, so there are fewer round trips
-- Reaching staff on the ground who don't use git or Python was a priority from day one
+- The tools were built alongside the standard and tested on real COD-ABs while it was still being agreed
+- Field teams run the same checks as HQ, so problems are caught before data is sent, with fewer round trips
+- Built for staff who don't use code: everything also runs in a web browser
 
-Element 84's STAC retrospective says a standard earns its authority through use, and warns against "if you build it, they will come". This audience has seen it work with STAC, GeoParquet and COG.
+A standard written only as a document tends to get read once and followed loosely. When the rules are built into the tools people already use, following the standard is simply what the tools do, and the check tells you right away if something's off.
 
-We also built on what already exists: GeoParquet, DuckDB, and P-codes aligned with UN Secretariat conventions.
+The tools also use open, widely used formats and P-codes that follow UN Secretariat conventions, so nothing locks partners in.
 
 ---
 
-# Part 4: From concepts to tools
+# Part 4: The tools
 
 ---
 
@@ -188,15 +190,15 @@ Each step is DuckDB spatial SQL, with GeoParquet between steps, so any intermedi
 - Docs came next: goal-oriented Diátaxis how-to guides, one per step, chained from raw data to release
 - Skills came last, so agents can follow the docs and run the CLI
 
-The skills are optional. They open the CLI up to colleagues who are comfortable with data but aren't software developers. Our Field Information Services team works this way in VS Code on Windows.
+The skills are optional. They open the CLI up to colleagues who are comfortable with data but aren't software developers. OCHA's Field Information Services team works this way in VS Code on Windows.
 
 ---
 
-## Validated on our whole catalog, then ported to the browser
+## Validated on every COD-AB, then ported to the browser
 
 ![A terminal running topo-tools topo-clean on admin2.parquet with the Python CLI on DuckDB, and an arrow labelled same SQL to a browser window with the same file in a drop zone, the web app on DuckDB-WASM](/talk/cli-to-browser.svg)
 
-- We converted our COD-AB catalog to a Portolan catalog to test against, then ran every dataset from raw to cleaned
+- OCHA converted its COD-AB catalog to a Portolan catalog to test against, then ran every dataset from raw to cleaned
 - The hard algorithmic work happens in Python, then ports to JS with the UI added on top, so both stay at feature parity
 - Field teams get the same tools HQ uses, in a browser with nothing to install
 - Files stay on the local machine, so nothing has to be uploaded over a slow connection

@@ -3,7 +3,7 @@ import Arrow from "$lib/components/Arrow.svelte";
 import HomeGlobe from "$lib/components/home/HomeGlobe.svelte";
 import SiteHeader from "$lib/components/SiteHeader.astro";
 import { loadData } from "$lib/status/loadData";
-import { base, toolsBase } from "$lib/utils/paths";
+import { base, standardsBase, toolsBase } from "$lib/utils/paths";
 import Layout from "../layouts/Layout.astro";
 
 const lede =
@@ -17,6 +17,13 @@ const stats = [
 ].sort((a, b) => a.value - b.value);
 
 const products = [
+  {
+    href: standardsBase,
+    title: "Standards",
+    text: "The shared rules behind COD-AB: how P-codes and fields are structured, and how each dataset is produced, reviewed and published.",
+    image: `${base}home/standards.webp`,
+    extra: { href: `${standardsBase}process/request/`, label: "Request an update" },
+  },
   {
     href: toolsBase,
     title: "Tools",
@@ -117,9 +124,16 @@ const logos = [
             <div data-reveal>
               <h2>{p.title}</h2>
               <p class="product-text">{p.text}</p>
-              <a class="more" href={p.href}>
-                Open {p.title} <Arrow />
-              </a>
+              <div class="links">
+                <a class="more" href={p.href}>
+                  Open {p.title} <Arrow />
+                </a>
+                {p.extra && (
+                  <a class="more secondary" href={p.extra.href}>
+                    {p.extra.label} <Arrow />
+                  </a>
+                )}
+              </div>
             </div>
             <a
               class="shot"
@@ -375,6 +389,14 @@ const logos = [
   }
   .more:hover {
     text-decoration: underline;
+  }
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.75rem;
+  }
+  .more.secondary {
+    font-weight: 500;
   }
   .shot {
     display: block;

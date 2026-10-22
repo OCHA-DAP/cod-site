@@ -1,0 +1,441 @@
+---
+import Arrow from "$lib/components/Arrow.svelte";
+import { loadStandards, type StandardsDoc, type StandardsPage } from "$lib/standards/docs";
+import { standardsBase } from "$lib/utils/paths";
+import { render } from "astro:content";
+import StandardsLayout from "../../layouts/StandardsLayout.astro";
+
+export async function getStaticPaths() {
+  const docs = await loadStandards();
+  return docs.flatMap((doc) =>
+    doc.pages.map((page, i) => ({ params: { slug: page.slug }, props: { doc, i } })),
+  );
+}
+
+interface Props {
+  doc: StandardsDoc;
+  i: number;
+}
+
+const { doc, i } = Astro.props;
+const page = doc.pages[i];
+const { data } = page.entry;
+const docData = doc.index.data;
+const isIndex = i === 0;
+const { Content, headings } = await render(page.entry);
+const toc = headings.filter((h) => h.depth === 2);
+const label = (p: StandardsPage, n: number) => (n === 0 ? "Overview" : p.entry.data.title);
+const prev = doc.pages[i - 1];
+const next = doc.pages[i + 1];
+const meta = [data.status ?? docData.status, docData.date].filter((m): m is string => !!m);
+---
+
+<StandardsLayout
+  title={data.title}
+  summary={data.summary}
+  crumbs={
+    isIndex
+      ? [{ label: "Standards", href: standardsBase }]
+      : [
+          { label: "Standards", href: standardsBase },
+          { label: docData.title, href: doc.href },
+        ]
+  }
+  meta={meta}
+>
+  <nav class="chapters" aria-label={`${docData.title} pages`}>
+    <ol class="wrap">
+      {doc.pages.map((p, n) => (
+        <li>
+          <a href={p.href} aria-current={n === i ? "page" : undefined}>
+            <span class="num">{n + 1}</span>
+            {label(p, n)}
+          </a>
+        </li>
+      ))}
+    </ol>
+  </nav>
+
+  <div class="wrap body">
+    <article class:list={["prose", data.variant]}>
+      <Content />
+
+      {isIndex && doc.pages.length > 1 && (
+        <section class="contents" aria-labelledby="contents-title">
+          <h2 id="contents-title">In this document</h2>
+          <ul>
+            {doc.pages.slice(1).map((p, n) => (
+              <li>
+                <a href={p.href}>
+                  <span class="num">{n + 2}</span>
+                  <span>
+                    <b>{p.entry.data.title}</b>
+                    <span class="card-summary">{p.entry.data.summary}</span>
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      <nav class="pager" aria-label="Previous and next page">
+        {prev ? (
+          <a class="prev" href={prev.href}>
+            <span>Previous</span>
+            <b>{label(prev, i - 1)}</b>
+          </a>
+        ) : (
+          <span />
+        )}
+        {next && (
+          <a class="next" href={next.href}>
+            <span>Next</span>
+            <b>
+              {label(next, i + 1)} <Arrow />
+            </b>
+          </a>
+        )}
+      </nav>
+    </article>
+
+    {toc.length > 1 && (
+      <aside class="toc" aria-label="On this page">
+        <p>On this page</p>
+        <ul>
+          {toc.map((h) => (
+            <li>
+              <a href={`#${h.slug}`}>{h.text}</a>
+            </li>
+          ))}
+        </ul>
+      </aside>
+    )}
+  </div>
+</StandardsLayout>
+
+<style>
+  .chapters {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: color-mix(in srgb, var(--cd-white) 92%, transparent);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--cd-blue--lightest);
+  }
+  .chapters ol {
+    display: flex;
+    gap: 0.25rem;
+    margin: 0 auto;
+    padding-top: 0.6rem;
+    padding-bottom: 0.6rem;
+    list-style: none;
+    overflow-x: auto;
+  }
+  .chapters a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.85rem 0.4rem 0.45rem;
+    border-radius: var(--brand-radius--pill);
+    color: var(--cd-grey--800);
+    font-size: 0.9rem;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .chapters a:hover {
+    background: var(--brand-primary--lightest);
+    color: var(--brand-primary--dark);
+  }
+  .chapters a[aria-current="page"] {
+    background: var(--brand-primary--lightest);
+    color: var(--brand-primary--text);
+    font-weight: 700;
+  }
+  .num {
+    display: inline-grid;
+    place-items: center;
+    flex: none;
+    width: 1.6rem;
+    height: 1.6rem;
+    border-radius: 50%;
+    background: var(--brand-grey);
+    color: var(--cd-grey--800);
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+  [aria-current="page"] .num {
+    background: var(--brand-primary--text);
+    color: var(--cd-white);
+  }
+
+  .body {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 14rem;
+    gap: 4rem;
+    padding-top: 3rem;
+    padding-bottom: 5rem;
+  }
+  .prose {
+    max-width: 46rem;
+    font-size: 1.05rem;
+    line-height: 1.75;
+  }
+  .prose :global(h2) {
+    margin: 3rem 0 1rem;
+    font-size: 1.6rem;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    color: var(--brand-primary--text);
+    scroll-margin-top: 5rem;
+  }
+  .prose > :global(:first-child) {
+    margin-top: 0;
+  }
+  .prose :global(h3) {
+    margin: 2rem 0 0.75rem;
+    font-size: 1.2rem;
+    color: var(--cd-grey--900);
+  }
+  .prose :global(p),
+  .prose :global(ul),
+  .prose :global(ol) {
+    margin: 0 0 1.1rem;
+  }
+  .prose :global(li) {
+    margin: 0.3rem 0;
+  }
+  .prose :global(li > ul) {
+    margin: 0.3rem 0 0;
+  }
+  .prose :global(strong) {
+    color: var(--cd-grey--900);
+  }
+  .prose :global(table) {
+    width: 100%;
+    margin: 1.5rem 0 2rem;
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 1px solid var(--cd-blue--lightest);
+    border-radius: var(--brand-radius);
+    font-size: 0.92rem;
+    line-height: 1.5;
+  }
+  .prose :global(th) {
+    padding: 0.7rem 1rem;
+    background: var(--brand-primary--lightest);
+    color: var(--brand-primary--dark);
+    font-weight: 700;
+    text-align: left;
+    white-space: nowrap;
+  }
+  .prose :global(td) {
+    padding: 0.7rem 1rem;
+    border-top: 1px solid var(--cd-blue--lightest);
+    vertical-align: top;
+  }
+  .prose :global(tbody tr:nth-child(even) td) {
+    background: color-mix(in srgb, var(--brand-primary--lightest) 35%, var(--cd-white));
+  }
+  .prose :global(td:first-child em) {
+    font-family: var(--brand-font-mono);
+    font-style: normal;
+    font-size: 0.88em;
+    color: var(--cd-grey--900);
+    white-space: nowrap;
+  }
+
+  .prose :global(.flow ol) {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.75rem;
+    margin: 1.5rem 0 2rem;
+    padding: 0;
+    list-style: none;
+    counter-reset: stage;
+  }
+  .prose :global(.flow li) {
+    position: relative;
+    margin: 0;
+    padding: 2.6rem 0.85rem 1rem;
+    border: 1px solid var(--cd-blue--lightest);
+    border-radius: var(--brand-radius);
+    box-shadow: inset 0 4px 0 var(--brand-primary);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    counter-increment: stage;
+  }
+  .prose :global(.flow li::before) {
+    content: counter(stage);
+    position: absolute;
+    top: 0.9rem;
+    left: 1rem;
+    display: grid;
+    place-items: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    background: var(--brand-primary--text);
+    color: var(--cd-white);
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+  .prose :global(.flow strong) {
+    display: block;
+    color: var(--brand-primary--text);
+  }
+
+  .timeline {
+    position: relative;
+    padding-left: 2.5rem;
+  }
+  .timeline::before {
+    content: "";
+    position: absolute;
+    top: 0.5rem;
+    bottom: 8rem;
+    left: 0.6rem;
+    width: 2px;
+    background: var(--brand-primary--lighter);
+  }
+  .timeline :global(h2) {
+    position: relative;
+  }
+  .timeline :global(h2::before) {
+    content: "";
+    position: absolute;
+    top: 0.35rem;
+    left: -2.4rem;
+    width: 1rem;
+    height: 1rem;
+    border: 3px solid var(--brand-primary--text);
+    border-radius: 50%;
+    background: var(--cd-white);
+  }
+
+  .contents h2 {
+    margin-top: 3rem;
+  }
+  .contents ul {
+    display: grid;
+    gap: 0.75rem;
+    padding: 0;
+    list-style: none;
+  }
+  .contents li {
+    margin: 0;
+  }
+  .contents a {
+    display: flex;
+    gap: 1rem;
+    padding: 1.1rem 1.25rem;
+    border: 1px solid var(--cd-grey--500);
+    border-radius: var(--brand-radius);
+    box-shadow: inset 6px 0 0 var(--brand-primary--text);
+    color: inherit;
+    text-decoration: none;
+    line-height: 1.5;
+    transition:
+      border-color 0.15s ease,
+      box-shadow 0.15s ease;
+  }
+  .contents a:hover {
+    border-color: var(--brand-primary--text);
+    box-shadow: inset 10px 0 0 var(--brand-primary--text);
+  }
+  .contents b {
+    display: block;
+    color: var(--brand-primary--text);
+  }
+  .card-summary {
+    font-size: 0.95rem;
+    color: var(--cd-grey--800);
+  }
+
+  .pager {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--cd-blue--lightest);
+  }
+  .pager a {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    padding: 1rem 1.25rem;
+    border: 1px solid var(--cd-grey--500);
+    border-radius: var(--brand-radius);
+    color: inherit;
+    text-decoration: none;
+  }
+  .pager a:hover {
+    border-color: var(--brand-primary--text);
+  }
+  .pager .next {
+    grid-column: 2;
+    text-align: right;
+    align-items: flex-end;
+  }
+  .pager span {
+    font-size: 0.8rem;
+    color: var(--brand-grey--text);
+  }
+  .pager b {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    color: var(--brand-primary--text);
+  }
+
+  .toc {
+    position: sticky;
+    top: 5rem;
+    align-self: start;
+    font-size: 0.9rem;
+  }
+  .toc p {
+    margin: 0 0 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--brand-grey--text);
+  }
+  .toc ul {
+    margin: 0;
+    padding: 0 0 0 1rem;
+    border-left: 2px solid var(--cd-blue--lightest);
+    list-style: none;
+  }
+  .toc li {
+    margin: 0.5rem 0;
+    line-height: 1.4;
+  }
+  .toc a {
+    color: var(--cd-grey--800);
+    text-decoration: none;
+  }
+  .toc a:hover {
+    color: var(--brand-primary--dark);
+  }
+
+  @media (max-width: 700px) {
+    .prose :global(.flow ol) {
+      grid-template-columns: 1fr;
+    }
+    .prose :global(table) {
+      display: block;
+      overflow-x: auto;
+    }
+  }
+  @media (max-width: 960px) {
+    .body {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .toc {
+      display: none;
+    }
+  }
+</style>

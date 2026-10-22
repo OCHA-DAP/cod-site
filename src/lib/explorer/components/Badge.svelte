@@ -28,7 +28,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 3px 4px 1px;
+    padding: 2px 4px;
     border-radius: 8px;
     font-size: 10px;
     line-height: 1;

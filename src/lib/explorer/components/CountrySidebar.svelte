@@ -245,7 +245,8 @@
   }
 
   select {
-    padding: 6px 8px;
+    padding-block: 6px;
+    padding-left: 8px;
     border: 1px solid var(--brand-grey--border);
     border-radius: 4px;
     font-size: 13px;

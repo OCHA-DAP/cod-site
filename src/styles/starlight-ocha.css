@@ -1,6 +1,7 @@
 :root,
 :root[data-theme="light"] {
   --sl-font: var(--brand-font);
+  --sl-content-width: 55rem;
   --sl-color-white: var(--cd-grey--900);
   --sl-color-gray-1: var(--cd-grey--900);
   --sl-color-gray-2: var(--cd-grey--900);

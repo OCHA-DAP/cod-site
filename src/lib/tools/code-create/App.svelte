@@ -387,7 +387,8 @@
 
   .field input,
   .field select {
-    padding: 0.4rem 0.55rem;
+    padding-block: 0.4rem;
+    padding-left: 0.55rem;
     border: 1px solid var(--cd-grey--500);
     border-radius: var(--brand-radius--sm);
     font-size: 0.85rem;

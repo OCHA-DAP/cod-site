@@ -9,7 +9,7 @@ interface Props {
 const { title, width = "720px" } = Astro.props;
 ---
 
-<header class="masthead">
+<header class="masthead grid-bg">
   <SiteHeader />
   <div class="masthead-inner" style={`max-width: ${width}`}>
     <h1>{title}</h1>

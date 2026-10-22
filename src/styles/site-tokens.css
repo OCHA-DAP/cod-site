@@ -47,8 +47,18 @@
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* Faint brand grid that fades out toward the edges; set --grid-bg-fill to the surrounding background. */
-.grid-bg {
+/* Key-figure number shared by the home page and the status dashboard. */
+.figure-num {
+  font-family: var(--brand-font-heading);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--figure-color, var(--brand-primary--text));
+  font-variant-numeric: tabular-nums;
+}
+
+/* Faint brand grid that fades out toward the edges; set --grid-bg-fill to the surrounding background. Also behind Starlight's page-title panel. */
+.grid-bg,
+main > .content-panel:first-child {
   position: relative;
   isolation: isolate;
   background-color: var(--grid-bg-fill, var(--cd-white));
@@ -58,7 +68,8 @@
   background-size: 48px 48px;
   background-position: -1px -1px;
 }
-.grid-bg::before {
+.grid-bg::before,
+main > .content-panel:first-child::before {
   content: "";
   position: absolute;
   inset: 0;

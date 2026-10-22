@@ -55,4 +55,14 @@ const { title, description } = Astro.props;
   textarea {
     font-family: inherit;
   }
+  /* Firefox on macOS paints native selects grey; the caret stroke is --cd-grey--800. */
+  select {
+    appearance: none;
+    padding-right: 1.75rem;
+    background: var(--cd-white)
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%234D4D4D' stroke-width='1.5'/%3E%3C/svg%3E")
+      no-repeat right 0.6rem center / 0.6rem auto;
+    color: var(--cd-grey--900);
+    cursor: pointer;
+  }
 </style>

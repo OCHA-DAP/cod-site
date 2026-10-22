@@ -272,7 +272,7 @@
   }
 
   .dl-group.dl-secondary .dl-btn:hover:not(:disabled) {
-    background: var(--cd-grey--300);
+    background: var(--brand-primary--lightest);
   }
 
   .dl-group.dl-secondary .dl-primary {
@@ -328,7 +328,7 @@
   }
 
   .dl-item:hover:not(:disabled) {
-    background: var(--cd-grey--300);
+    background: var(--brand-primary--lightest);
   }
 
   .dl-item:disabled {

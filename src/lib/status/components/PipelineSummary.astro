@@ -14,7 +14,7 @@ const total = pipeline.reduce((sum, item) => sum + item.count, 0);
 
 <style>
   .pipeline-card {
-    border-top: 1px solid var(--cd-grey--400);
+    border-top: 1px solid var(--brand-primary--lightest);
     padding: 2rem 0 0.5rem;
     margin-bottom: 1rem;
   }
@@ -40,62 +40,6 @@ const total = pipeline.reduce((sum, item) => sum + item.count, 0);
     border-radius: 999px;
     padding: 0.15rem 0.6rem;
   }
-
-  /* ── Stat cards ─────────────────────────────────────────────── */
-  .stat-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
-
-  .stat-card {
-    flex: 1 1 90px;
-    border-radius: var(--brand-radius--sm);
-    padding: 0.6rem 0.75rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.15rem;
-    border: 1px solid transparent;
-  }
-
-  .stat-num {
-    font-size: 1.6rem;
-    font-weight: 700;
-    line-height: 1;
-  }
-
-  .stat-lbl {
-    font-size: 0.72rem;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    color: var(--cd-grey--800);
-  }
-
-  .stat-card.s-done {
-    background: var(--tint-green);
-    border-color: var(--cd-green--light);
-  }
-  .stat-card.s-in_progress {
-    background: var(--tint-yellow);
-    border-color: var(--cd-yellow--light);
-  }
-  .stat-card.s-blocked {
-    background: var(--tint-orange);
-    border-color: var(--cd-orange--light);
-  }
-  .stat-card.s-selected {
-    background: var(--brand-primary--lightest);
-    border-color: var(--brand-primary--lighter);
-  }
-  .stat-card.s-backlog {
-    background: var(--cd-grey--300);
-    border-color: var(--cd-grey--500);
-  }
-  .stat-card.s-cancelled {
-    background: var(--tint-red);
-    border-color: var(--cd-red--light);
-  }
 </style>
 
 <div class="pipeline-card">
@@ -105,11 +49,11 @@ const total = pipeline.reduce((sum, item) => sum + item.count, 0);
     </span>
     <span class="pipeline-total">{total} total</span>
   </div>
-  <div class="stat-grid">
+  <div class="figure-row">
     {pipeline.map((item) => (
-      <div class={`stat-card ${statusClass(item.status)}`}>
-        <span class="stat-num">{item.count}</span>
-        <span class="stat-lbl">
+      <div class={`figure ${statusClass(item.status)}`}>
+        <span class="figure-num">{item.count}</span>
+        <span class="figure-lbl">
           <Term term={STATUS_TERMS[item.status] as TermSlug}>{item.label}</Term>
         </span>
       </div>

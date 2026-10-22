@@ -69,7 +69,7 @@ const logos = [
         <div class="wrap stats-row">
           {stats.map((s, i) => (
             <a class="stat" href={s.href} data-reveal style={`--delay: ${i * 100}ms`}>
-              <b data-count={s.value}>{s.value.toLocaleString("en-US")}</b>
+              <b class="figure-num" data-count={s.value}>{s.value.toLocaleString("en-US")}</b>
               <span>{s.label}</span>
             </a>
           ))}
@@ -282,11 +282,7 @@ const logos = [
   }
   .stat b {
     align-self: flex-start;
-    font-family: var(--brand-font-heading);
     font-size: 3rem;
-    line-height: 1;
-    color: var(--brand-primary--text);
-    font-variant-numeric: tabular-nums;
   }
   .stat:hover span {
     text-decoration: underline;

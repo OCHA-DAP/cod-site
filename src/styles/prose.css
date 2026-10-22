@@ -1,0 +1,48 @@
+/* Long-form text pages (PageLayout): article column plus an optional Toc sidebar. */
+.prose-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 14rem;
+  gap: 4rem;
+  padding-top: 3rem;
+  padding-bottom: 5rem;
+}
+.prose {
+  max-width: 46rem;
+  font-size: 1.05rem;
+  line-height: 1.75;
+}
+.prose h2 {
+  margin: 3rem 0 1rem;
+  font-size: 1.6rem;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: var(--brand-primary--text);
+  scroll-margin-top: 5rem;
+}
+.prose > :first-child {
+  margin-top: 0;
+}
+.prose h3 {
+  margin: 2rem 0 0.75rem;
+  font-size: 1.2rem;
+  color: var(--cd-grey--900);
+}
+.prose p,
+.prose ul,
+.prose ol {
+  margin: 0 0 1.1rem;
+}
+.prose li {
+  margin: 0.3rem 0;
+}
+.prose li > ul {
+  margin: 0.3rem 0 0;
+}
+.prose strong {
+  color: var(--cd-grey--900);
+}
+@media (max-width: 960px) {
+  .prose-body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

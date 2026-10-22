@@ -1,0 +1,65 @@
+---
+import map from "./morafeno.svg?raw";
+---
+
+<figure class="morafeno">
+  <div class="frame" role="img" aria-label="Map of Madagascar with a dot for each of the 81 fokontany named Morafeno, and an inset of the commune of Morafeno, where one fokontany has the same name">
+    <Fragment set:html={map} />
+    <p class="count" aria-hidden="true"><span>81</span>fokontany named Morafeno</p>
+  </div>
+  <figcaption>The commune of Morafeno. One of its fokontany is also called Morafeno.</figcaption>
+</figure>
+
+<style>
+  .morafeno {
+    margin: 2rem 0;
+  }
+  .frame {
+    position: relative;
+  }
+  .frame :global(svg) {
+    display: block;
+    width: 100%;
+    height: auto;
+    font-family: var(--brand-font);
+  }
+  .count {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 7rem;
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.3;
+    color: var(--cd-grey--800);
+  }
+  .count span {
+    display: block;
+    font-size: 4rem;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--brand-primary);
+  }
+  figcaption {
+    width: 41%;
+    margin: 0.5rem 0 0 auto;
+    font-size: 0.8rem;
+    line-height: 1.45;
+    color: var(--brand-grey--text);
+  }
+  @media (max-width: 40rem) {
+    .count {
+      position: static;
+      width: auto;
+      margin-bottom: 0.5rem;
+    }
+    .count span {
+      display: inline;
+      margin-right: 0.4rem;
+      font-size: 2.5rem;
+    }
+    figcaption {
+      width: auto;
+    }
+  }
+</style>

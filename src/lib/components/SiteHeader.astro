@@ -34,6 +34,7 @@ const menus = [
     ],
   },
 ];
+const aboutHref = `${base}about/`;
 const statusHref = `${base}status/`;
 const explorerHref = `${base}explorer/`;
 ---
@@ -46,6 +47,7 @@ const explorerHref = `${base}explorer/`;
   </a>
   <slot />
   <nav class="topnav" aria-label="Site">
+    <a href={aboutHref} aria-current={current(aboutHref)}>About</a>
     {menus.map((m) => (
       <details class="menu">
         <summary class:list={{ active: path.startsWith(m.base) }}>

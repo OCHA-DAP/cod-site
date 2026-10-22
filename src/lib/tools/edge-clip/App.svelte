@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { toolsBase } from "$lib/utils/paths";
+  import ToolHeader from "$lib/components/ToolHeader.svelte";
   import CarryColumnsPicker from "$lib/components/CarryColumnsPicker.svelte";
   import DownloadMenu from "$lib/components/DownloadMenu.svelte";
   import PrivacyNote from "$lib/components/PrivacyNote.svelte";
@@ -185,16 +185,9 @@
 
 <div class="layout">
   <aside class="sidebar">
-    <header>
-      <a class="back" href={toolsBase}>← Tools</a>
-      <h1>Clip</h1>
-      <p class="blurb">
-        Force an input layer onto the one overlay polygon it overlaps most (by majority vote across
-        every input), then clip every input to exactly that overlay's boundary. Built for
-        already-extended, overshooting geometry — e.g. one country's units after Edge Extender —
-        where a per-input assignment could be fooled by border overshoot.
-      </p>
-    </header>
+    <ToolHeader title="Clip">
+      Force an input layer onto the one overlay polygon it overlaps most (by majority vote across every input), then clip every input to exactly that overlay's boundary. Built for already-extended, overshooting geometry — e.g. one country's units after Edge Extender — where a per-input assignment could be fooled by border overshoot.
+    </ToolHeader>
 
     {#if duckdbState.initError}
       <div class="error-panel">
@@ -354,7 +347,7 @@
   .layout {
     display: grid;
     grid-template-columns: 320px 1fr;
-    height: 100dvh;
+    height: var(--app-height, 100dvh);
     overflow: hidden;
   }
 
@@ -368,39 +361,9 @@
     background: var(--cd-white);
   }
 
-  header {
-    margin: -1.25rem -1.25rem 0;
-    padding: 1.25rem 1.25rem 0.8125rem;
-    background: var(--brand-primary--dark);
-  }
-  header + .step {
+  :global(.tool-header) + .step {
     border-top: none;
     padding-top: 0;
-  }
-  header .blurb,
-  header .back {
-    color: var(--cd-blue--lightest);
-  }
-  header .back:hover {
-    color: var(--cd-white);
-  }
-  header h1 {
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: var(--cd-white);
-    margin: 0 0 0.5rem;
-  }
-
-  .back {
-    display: inline-block;
-    font-size: 0.75rem;
-    color: var(--cd-grey--800);
-    text-decoration: none;
-    margin: 0 0 0.5rem;
-  }
-
-  .back:hover {
-    color: var(--cd-grey--900);
   }
 
   .hint {
@@ -408,13 +371,6 @@
     color: var(--cd-grey--800);
     margin: 0;
     line-height: 1.4;
-  }
-
-  .blurb {
-    font-size: 0.825rem;
-    color: var(--cd-grey--800);
-    margin: 0;
-    line-height: 1.5;
   }
 
   .step {

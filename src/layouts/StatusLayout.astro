@@ -11,12 +11,7 @@ interface Props {
 }
 
 const { data } = Astro.props;
-const { openTotal } = data;
-const totalInGis = data.planGroups.reduce(
-  (sum, g) => sum + g.countries.filter((c) => c.inGis).length,
-  0,
-);
-const totalLocations = data.planGroups.reduce((sum, g) => sum + g.countries.length, 0);
+const { openTotal, totalInGis, totalLocations } = data;
 const lastUpdatedFormatted = data.lastUpdatedAt
   ? new Date(data.lastUpdatedAt).toLocaleDateString("en-GB", {
       day: "numeric",
@@ -35,7 +30,7 @@ const isCoverage = Astro.url.pathname.replace(/\/$/, "").endsWith("/coverage");
   title="COD-AB Status Dashboard"
   description="COD-AB work orders, pipeline status, and plan coverage."
 >
-  <Masthead title="COD-AB Status Dashboard" width="1200px" toolsNav={false}>
+  <Masthead title="COD-AB Status Dashboard" width="1200px">
     <p class="tagline">
       Data updated daily at 06:00 UTC
       {lastUpdatedFormatted && `. Last updated ${lastUpdatedFormatted}.`}
@@ -103,7 +98,6 @@ const isCoverage = Astro.url.pathname.replace(/\/$/, "").endsWith("/coverage");
     font-family: var(--brand-font);
     font-size: 14px;
     line-height: 1.5;
-    color: var(--cd-grey--900);
   }
 
   .tab-bar {
@@ -121,11 +115,19 @@ const isCoverage = Astro.url.pathname.replace(/\/$/, "").endsWith("/coverage");
     padding: 0.75rem 1.25rem;
     flex: 1;
     background: var(--cd-white);
-    border: 2px solid var(--cd-grey--400);
-    border-radius: var(--brand-radius--sm);
+    border: 1px solid var(--cd-grey--500);
+    border-radius: var(--brand-radius);
     text-align: left;
     text-decoration: none;
     color: inherit;
+    transition:
+      border-color 0.15s ease,
+      box-shadow 0.15s ease;
+  }
+
+  .tab-btn:not(.active):hover {
+    border-color: var(--brand-primary);
+    box-shadow: inset 4px 0 0 var(--brand-primary);
   }
 
   .tab-left {
@@ -153,11 +155,17 @@ const isCoverage = Astro.url.pathname.replace(/\/$/, "").endsWith("/coverage");
   }
 
   .tab-btn.active {
-    border-color: var(--brand-primary);
-    background: var(--brand-primary--lightest);
+    padding: calc(0.75rem - 1px) calc(1.25rem - 1px);
+    border: 2px solid var(--brand-primary--text);
+    box-shadow: inset 6px 0 0 var(--brand-primary--text);
+  }
+
+  .tab-btn.active .tab-title {
+    color: var(--brand-primary--text);
   }
 
   .tab-title {
+    font-family: var(--brand-font-heading);
     font-size: 14px;
     font-weight: 600;
     color: var(--cd-grey--900);

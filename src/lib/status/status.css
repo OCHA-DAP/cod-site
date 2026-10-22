@@ -1,12 +1,16 @@
 /* Scoped to .status-page: cssCodeSplit: false bundles this stylesheet into every page. */
 .status-page {
+  --tint-green: color-mix(in srgb, var(--cd-green) 20%, var(--cd-white));
+  --tint-yellow: color-mix(in srgb, var(--cd-yellow) 22%, var(--cd-white));
+  --tint-yellow-faint: color-mix(in srgb, var(--cd-yellow) 10%, var(--cd-white));
+  --tint-orange: color-mix(in srgb, var(--cd-orange) 18%, var(--cd-white));
+  --tint-red: color-mix(in srgb, var(--cd-red) 15%, var(--cd-white));
+
   /* ── Sections ───────────────────────────────────────────────── */
   section {
-    background: var(--cd-white);
-    border: 1px solid var(--cd-grey--400);
-    border-radius: var(--brand-radius--sm);
-    padding: 1.25rem 1.5rem;
-    margin-bottom: 1.25rem;
+    border-top: 1px solid var(--cd-grey--400);
+    padding: 2rem 0 0.5rem;
+    margin-bottom: 1rem;
   }
 
   section h2 {
@@ -82,10 +86,10 @@
   }
 
   tr.row-gap td {
-    background: #fff8e7;
+    background: var(--tint-yellow-faint);
   }
   tr.row-gap:hover td {
-    background: #fff3d0;
+    background: var(--tint-yellow);
   }
 
   /* ── Status badges ───────────────────────────────────────────── */
@@ -99,32 +103,32 @@
   }
 
   .badge.s-done {
-    background: #c6efce;
-    color: #1e6b2e;
+    background: var(--tint-green);
+    color: var(--cd-green--aa);
   }
   .badge.s-in_progress {
-    background: #fff2cc;
-    color: #7a5a00;
+    background: var(--tint-yellow);
+    color: var(--cd-grey--900);
   }
   .badge.s-blocked {
-    background: #fce4d6;
-    color: #8b3a0e;
+    background: var(--tint-orange);
+    color: var(--cd-orange--aa);
   }
   .badge.s-selected {
-    background: #e0f2fe;
-    color: #075985;
+    background: var(--brand-primary--lightest);
+    color: var(--brand-primary--text-strong);
   }
   .badge.s-backlog {
-    background: #f3f4f6;
-    color: #6b7280;
+    background: var(--cd-grey--300);
+    color: var(--brand-grey--text);
   }
   .badge.s-cancelled {
-    background: #ffc7ce;
-    color: #8b0c1a;
+    background: var(--tint-red);
+    color: var(--cd-red--aaa);
   }
   .badge.s-none {
-    background: #f0f2f5;
-    color: #666;
+    background: var(--cd-grey--300);
+    color: var(--brand-grey--text);
   }
 
   /* ── Chips, misc ─────────────────────────────────────────────── */
@@ -140,17 +144,17 @@
   }
 
   .count-chip.warn {
-    background: #fce4d6;
-    color: #8b3a0e;
+    background: var(--tint-orange);
+    color: var(--cd-orange--aa);
   }
   .count-chip.done {
-    background: #c6efce;
-    color: #1e6b2e;
+    background: var(--tint-green);
+    color: var(--cd-green--aa);
   }
 
   td a,
   td a:visited {
-    color: var(--cd-grey--900);
+    color: var(--brand-primary--text);
   }
 
   .iso3 {
@@ -171,7 +175,7 @@
   }
 
   .flag-yes {
-    color: #8b3a0e;
+    color: var(--cd-orange--aa);
     font-weight: 600;
   }
 

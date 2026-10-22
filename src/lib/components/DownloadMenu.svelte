@@ -253,7 +253,7 @@
   }
 
   .dl-btn:hover:not(:disabled) {
-    background: var(--cd-blue--darkest);
+    background: var(--brand-primary--dark);
   }
 
   .dl-btn:disabled {

@@ -39,7 +39,7 @@
   let entered = $state(false);
   let revealed = $state<Level[]>([]);
   let shown: Level | undefined;
-  let cycling = true;
+  let pauseCycle = () => {};
 
   const fitZoom = () =>
     Math.log2((FIT * Math.min(container.clientWidth, container.clientHeight)) / 2 / RADIUS_PX_AT_Z0);
@@ -165,21 +165,26 @@
     });
     observer.observe(container);
     document.addEventListener("visibilitychange", run);
-    // Cycles through the levels in order until a chip is clicked, holding until the next one has loaded.
+    // Cycles through the levels in order, pausing RESUME_IDLE_MS after a chip click, holding until the next one has loaded.
     let cycle: ReturnType<typeof setTimeout> | undefined;
     let due = false;
     const advance = () => {
       const next = LEVELS[level % LEVELS.length];
-      if (!cycling || !due || !revealed.includes(next) || !onScreen || document.hidden) return;
+      if (!due || !revealed.includes(next) || !onScreen || document.hidden) return;
       due = false;
       show(next);
       wait();
     };
     const wait = (ms = CYCLE_MS) => {
+      clearTimeout(cycle);
       cycle = setTimeout(() => {
         due = true;
         advance();
       }, ms);
+    };
+    pauseCycle = () => {
+      due = false;
+      wait(RESUME_IDLE_MS);
     };
     document.addEventListener("visibilitychange", advance);
     const resize = new ResizeObserver(() => map?.setZoom(fitZoom()));
@@ -260,7 +265,7 @@
         aria-pressed={level === n}
         aria-busy={loading}
         onclick={() => {
-          cycling = false;
+          pauseCycle();
           show(n);
         }}>Admin {n}</button
       >
@@ -322,8 +327,8 @@
     border-color: var(--cd-blue--bright);
   }
   .levels button[aria-pressed="true"] {
-    background: var(--cd-blue--darkest);
-    border-color: var(--cd-blue--darkest);
+    background: var(--brand-primary--text);
+    border-color: var(--brand-primary--text);
     color: var(--cd-white);
     font-weight: 700;
   }

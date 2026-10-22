@@ -1,5 +1,4 @@
 ---
-import OfflineToggle from "$lib/components/OfflineToggle.svelte";
 import ToolCard from "$lib/components/ToolCard.astro";
 import GroupBox from "$lib/components/GroupBox.astro";
 import Step from "$lib/components/Step.astro";
@@ -7,6 +6,7 @@ import { step } from "$lib/steps";
 import Disclosure from "$lib/components/Disclosure.astro";
 import { tools } from "$lib/tools";
 import Masthead from "$lib/components/Masthead.astro";
+import { toolsBase } from "$lib/utils/paths";
 import Layout from "../../layouts/Layout.astro";
 
 const bySlug = (slug: string) => tools.find((t) => t.slug === slug)!;
@@ -128,18 +128,25 @@ const validate = bySlug("validate");
       </ol>
     </section>
 
-    <details class="settings">
-      <summary>
-        <h2 class="section-heading">Site settings</h2>
-      </summary>
-      <div class="settings-card">
-        <OfflineToggle client:load />
-      </div>
-    </details>
   </main>
+  <footer class="page-footer">
+    <a href={`${toolsBase}privacy`}>Privacy</a>
+  </footer>
 </Layout>
 
 <style>
+  .page-footer {
+    border-top: 1px solid var(--brand-grey--border);
+    padding: 1.5rem;
+    text-align: center;
+    font-size: 0.875rem;
+  }
+  .page-footer a {
+    color: var(--cd-grey--800);
+  }
+  .page-footer a:hover {
+    color: var(--cd-blue--darker);
+  }
   .page {
     max-width: 720px;
     margin: 0 auto;
@@ -164,45 +171,5 @@ const validate = bySlug("validate");
     display: flex;
     flex-direction: column;
     gap: 0.6rem;
-  }
-  .settings > summary {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    cursor: pointer;
-    color: var(--cd-grey--800);
-    list-style: none;
-    user-select: none;
-  }
-  .settings > summary::-webkit-details-marker {
-    display: none;
-  }
-  .settings > summary::before {
-    content: "";
-    width: 0.4rem;
-    height: 0.4rem;
-    border-right: 1.5px solid currentColor;
-    border-bottom: 1.5px solid currentColor;
-    transform: rotate(-45deg);
-    transition: transform 120ms ease;
-  }
-  .settings[open] > summary::before {
-    transform: rotate(45deg);
-  }
-  .settings > summary .section-heading {
-    margin: 0;
-  }
-  .settings[open] > summary {
-    margin-bottom: 0.75rem;
-  }
-  .settings > summary:hover,
-  .settings > summary:hover .section-heading {
-    color: var(--cd-grey--900);
-  }
-  .settings-card {
-    padding: 1rem 1.25rem;
-    border: 1px solid var(--cd-grey--400);
-    border-radius: var(--brand-radius--sm);
-    background: var(--cd-white);
   }
 </style>

@@ -298,16 +298,16 @@
     vertical-align: middle;
   }
   .tc-key--overlap {
-    background: var(--brand-error);
+    background: var(--cd-red--600);
   }
   .tc-key--gap {
     background: var(--cd-orange--600);
   }
   .tc-key--micro-polygon {
-    background: var(--cd-grey--800);
+    background: var(--cd-slate--700);
   }
   .tc-key--notch {
-    background: var(--brand-primary--dark);
+    background: var(--cd-purple);
   }
   .tc-check-cell {
     text-align: center;

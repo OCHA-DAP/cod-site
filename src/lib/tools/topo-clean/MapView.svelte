@@ -10,7 +10,7 @@
   } from "maplibre-gl";
   import "maplibre-gl/dist/maplibre-gl.css";
   import { onDestroy, onMount } from "svelte";
-  import { MAP_COLORS, MAP_FILL_OPACITY } from "$lib/utils/mapColors";
+  import { MAP_COLORS, MAP_STATUS_OPACITY, MAP_TINT_OPACITY } from "$lib/utils/mapColors";
 
   let {
     originalGeojson = null,
@@ -96,7 +96,7 @@
         source: "tc-original",
         filter: polyFilter,
         layout: { visibility: "none" },
-        paint: { "fill-color": ORIGINAL_FILL, "fill-opacity": MAP_FILL_OPACITY },
+        paint: { "fill-color": ORIGINAL_FILL, "fill-opacity": MAP_TINT_OPACITY },
       });
       map!.addLayer({
         id: "tc-original-line",
@@ -117,7 +117,7 @@
         source: "tc-cleaned",
         filter: polyFilter,
         layout: { visibility: "none" },
-        paint: { "fill-color": ORIGINAL_FILL, "fill-opacity": MAP_FILL_OPACITY },
+        paint: { "fill-color": ORIGINAL_FILL, "fill-opacity": MAP_TINT_OPACITY },
       });
       map!.addLayer({
         id: "tc-cleaned-line",
@@ -192,7 +192,7 @@
           source: "tc-modified",
           filter: polyFilter,
           layout: { visibility: "none" },
-          paint: { "fill-color": CLEANED_FILL, "fill-opacity": MAP_FILL_OPACITY },
+          paint: { "fill-color": CLEANED_FILL, "fill-opacity": MAP_STATUS_OPACITY },
         },
         map!.getLayer("tc-cleaned-line") ? "tc-cleaned-line" : undefined,
       );

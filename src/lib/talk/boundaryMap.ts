@@ -1,14 +1,12 @@
 import { loadMaplibre, loadStyle } from "$lib/utils/mapStyle";
-import type { FilterSpecification, LngLatBoundsLike, Map as MaplibreMap } from "maplibre-gl";
+import type { ExpressionSpecification, FilterSpecification, LngLatBoundsLike, Map as MaplibreMap } from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { FileSource, PMTiles } from "pmtiles";
+import { MAP_COLORS, MAP_STATUS_OPACITY, MAP_TINT_OPACITY } from "$lib/utils/mapColors";
 import { pmtilesProtocol } from "$lib/utils/pmtiles";
 import { PMTILES_LAYER, PMTILES_URL, explorerViews } from "./explorer";
 
-const CURRENT_FILL = "#009edb";
-const OLDER_FILL = "#aea29a";
-const LINE = "#004987";
-const FILL_OPACITY = 0.6;
+const FILL_OPACITY: ExpressionSpecification = ["case", ["get", "matches_ocha"], MAP_TINT_OPACITY, MAP_STATUS_OPACITY];
 const PADDING = 40;
 
 let fileAdded = false;
@@ -93,7 +91,7 @@ export function startBoundaryLoop(
         id: `${id}-fill`,
         type: "fill",
         paint: {
-          "fill-color": ["case", ["get", "matches_ocha"], CURRENT_FILL, OLDER_FILL],
+          "fill-color": ["case", ["get", "matches_ocha"], MAP_COLORS.original, MAP_COLORS.error],
           "fill-opacity": 0,
         },
       });
@@ -101,7 +99,7 @@ export function startBoundaryLoop(
         ...base,
         id: `${id}-line`,
         type: "line",
-        paint: { "line-color": LINE, "line-opacity": 0 },
+        paint: { "line-color": MAP_COLORS.outline, "line-opacity": 0 },
       });
     }
     let i = 0;

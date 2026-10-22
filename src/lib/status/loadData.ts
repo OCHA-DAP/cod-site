@@ -379,9 +379,21 @@ export function loadData() {
 
   // Load COD Global Metadata (may not exist until npm run fetch:status has been run)
   const codMetaByIso3: Record<string, { anchor_date: string; update_frequency: number }> = {};
+  const unitsByIso3: Record<string, { date: string; units: number }> = {};
   try {
     const codMetaText = readFileSync(join(dataDir, "cod_metadata.csv"), "utf-8");
     for (const r of parseCsv(codMetaText)) {
+      const date = r.date_updated ?? "";
+      if (
+        r.country_iso3 &&
+        (!unitsByIso3[r.country_iso3] || date > unitsByIso3[r.country_iso3].date)
+      ) {
+        const units = [1, 2, 3, 4, 5].reduce(
+          (sum, l) => sum + (Number(r[`admin_${l}_count`]) || 0),
+          0,
+        );
+        unitsByIso3[r.country_iso3] = { date, units };
+      }
       if (!r.country_iso3 || !r.update_frequency) continue;
       const anchor = [r.date_reviewed, r.date_updated, r.date_valid_from]
         .filter(Boolean)
@@ -572,6 +584,9 @@ export function loadData() {
     workByQuarter,
     planCoverageByYear,
     planGroups,
+    totalInGis: planGroups.reduce((sum, g) => sum + g.countries.filter((c) => c.inGis).length, 0),
+    totalLocations: planGroups.reduce((sum, g) => sum + g.countries.length, 0),
+    adminUnits: Object.values(unitsByIso3).reduce((sum, c) => sum + c.units, 0),
     total: dedupedRows.length,
     openTotal: dedupedRows.filter(
       (r) => !["done", "backlog", "cancelled"].includes(r.work_order_status),

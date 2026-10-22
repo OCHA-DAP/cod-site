@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { toolsBase } from "$lib/utils/paths";
+  import ToolHeader from "$lib/components/ToolHeader.svelte";
   import { duckdbState, initDuckDB } from "$lib/db/duckdb.svelte";
   import { textParam, syncParam } from "$lib/utils/syncParam.svelte";
   import { serialRunner } from "$lib/utils/serialRunner";
@@ -10,7 +10,6 @@
   import { runPackage, type PackageResult, type TargetSchema } from "./pipeline/index";
   import { onMount, untrack } from "svelte";
   import AdvancedOptions from "$lib/components/AdvancedOptions.svelte";
-  import DemoLink from "$lib/components/DemoLink.svelte";
   import DownloadMenu from "$lib/components/DownloadMenu.svelte";
   import PrivacyNote from "$lib/components/PrivacyNote.svelte";
   import InputStep from "$lib/components/InputStep.svelte";
@@ -168,15 +167,9 @@
 
 <div class="layout">
   <aside class="sidebar">
-    <header>
-      <a class="back" href={toolsBase}>← Tools</a>
-      <h1>Package</h1>
-      <DemoLink slug="package" />
-      <p class="blurb">
-        Run Package Polygons, Package Points, and Package Lines against the same layer in one
-        pass, and browse all three outputs.
-      </p>
-    </header>
+    <ToolHeader title="Package" demo="package">
+      Run Package Polygons, Package Points, and Package Lines against the same layer in one pass, and browse all three outputs.
+    </ToolHeader>
 
     {#if duckdbState.initError}
       <div class="error-panel">
@@ -307,7 +300,7 @@
   .layout {
     display: grid;
     grid-template-columns: 340px 1fr;
-    height: 100dvh;
+    height: var(--app-height, 100dvh);
     overflow: hidden;
   }
 
@@ -321,46 +314,9 @@
     background: var(--cd-white);
   }
 
-  header {
-    margin: -1.25rem -1.25rem 0;
-    padding: 1.25rem 1.25rem 0.8125rem;
-    background: var(--brand-primary--dark);
-  }
-  header + .step {
+  :global(.tool-header) + .step {
     border-top: none;
     padding-top: 0;
-  }
-  header .blurb,
-  header .back {
-    color: var(--cd-blue--lightest);
-  }
-  header .back:hover {
-    color: var(--cd-white);
-  }
-  header h1 {
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: var(--cd-white);
-    margin: 0 0 0.5rem;
-  }
-
-  .back {
-    display: inline-block;
-    font-size: 0.75rem;
-    color: var(--cd-grey--800);
-    text-decoration: none;
-    margin: 0 0 0.5rem;
-  }
-
-  .back:hover {
-    color: var(--cd-grey--900);
-  }
-
-  .blurb {
-    font-size: 0.825rem;
-    color: var(--cd-grey--800);
-    margin: 0;
-    line-height: 1.5;
   }
 
   .step {

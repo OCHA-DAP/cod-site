@@ -159,7 +159,7 @@
   .cw-result {
     display: grid;
     grid-template-rows: 65% 35%;
-    height: 100dvh;
+    height: var(--app-height, 100dvh);
     min-width: 0;
   }
   .cw-map-pane {

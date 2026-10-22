@@ -29,7 +29,7 @@ function coverageClass(inGis: number, total: number): string {
 
   .cycle-card {
     border-radius: var(--brand-radius--sm);
-    border: 1px solid var(--cd-grey--400);
+    border: 1px solid var(--cd-grey--500);
     padding: 1rem 1.25rem;
     background: var(--cd-white);
     display: flex;
@@ -63,23 +63,23 @@ function coverageClass(inGis: number, total: number): string {
   }
 
   .stat-card.s-ok {
-    background: #c6efce;
-    border-color: #93d09a;
+    background: var(--tint-green);
+    border-color: var(--cd-green--light);
   }
 
   .stat-card.s-warn-low {
-    background: #fff2cc;
-    border-color: #f5d262;
+    background: var(--tint-yellow);
+    border-color: var(--cd-yellow--light);
   }
 
   .stat-card.s-warn-mid {
-    background: #fce4d6;
-    border-color: #f4b183;
+    background: var(--tint-orange);
+    border-color: var(--cd-orange--light);
   }
 
   .stat-card.s-critical {
-    background: #ffc7ce;
-    border-color: #f09098;
+    background: var(--tint-red);
+    border-color: var(--cd-red--light);
   }
 
   .stat-num {

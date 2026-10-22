@@ -1,6 +1,5 @@
 <script lang="ts">
-  import { toolsBase } from "$lib/utils/paths";
-  import DemoLink from "$lib/components/DemoLink.svelte";
+  import ToolHeader from "$lib/components/ToolHeader.svelte";
   import DownloadMenu from "$lib/components/DownloadMenu.svelte";
   import PrivacyNote from "$lib/components/PrivacyNote.svelte";
   import InputStep from "$lib/components/InputStep.svelte";
@@ -341,16 +340,9 @@
 
 <div class="tc-layout">
   <aside class="tc-sidebar">
-    <header>
-      <a class="tc-back" href={toolsBase}>← Tools</a>
-      <h1>Topology Cleaner</h1>
-      <DemoLink slug="topo-clean" />
-      <p class="tc-blurb">
-        Drop a polygon layer to detect and fix overlaps and gaps. Click any issue to zoom to it.
-        By default only noise-scale gaps get filled — switch modes or use the slider to control
-        how much gets filled.
-      </p>
-    </header>
+    <ToolHeader title="Topology Cleaner" demo="topo-clean">
+      Drop a polygon layer to detect and fix overlaps and gaps. Click any issue to zoom to it. By default only noise-scale gaps get filled — switch modes or use the slider to control how much gets filled.
+    </ToolHeader>
 
     {#if duckdbState.initError}
       <div class="tc-error"><strong>Initialisation error:</strong> {duckdbState.initError}</div>
@@ -552,7 +544,7 @@
   .tc-layout {
     display: grid;
     grid-template-columns: 340px 1fr;
-    height: 100dvh;
+    height: var(--app-height, 100dvh);
     overflow: hidden;
   }
   .tc-sidebar {
@@ -564,49 +556,9 @@
     border-right: 1px solid var(--cd-grey--400);
     background: var(--cd-white);
   }
-  header {
-    margin: -1.25rem -1.25rem 0;
-    padding: 1.25rem 1.25rem 0.8125rem;
-    background: var(--brand-primary--dark);
-  }
-  header + .tc-step {
+  :global(.tool-header) + .tc-step {
     border-top: none;
     padding-top: 0;
-  }
-  header .tc-blurb,
-  header .tc-back {
-    color: var(--cd-blue--lightest);
-  }
-  header .tc-back:hover {
-    color: var(--cd-white);
-  }
-  header h1 {
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: var(--cd-white);
-    margin: 0 0 0.5rem;
-  }
-  .tc-back {
-    display: inline-block;
-    font-size: 0.75rem;
-    color: var(--cd-grey--800);
-    text-decoration: none;
-    margin-bottom: 0.5rem;
-  }
-  .tc-back:hover {
-    color: var(--cd-grey--900);
-  }
-  .tc-blurb {
-    font-size: 0.825rem;
-    color: var(--cd-grey--800);
-    margin: 0;
-    line-height: 1.5;
-  }
-  .tc-blurb code {
-    font-size: 0.78rem;
-    background: var(--cd-grey--300);
-    padding: 0.05rem 0.25rem;
-    border-radius: var(--brand-radius--sm);
   }
   .tc-step {
     display: flex;
@@ -742,7 +694,7 @@
   .tc-result {
     display: grid;
     grid-template-rows: 60% 40%;
-    height: 100dvh;
+    height: var(--app-height, 100dvh);
     min-width: 0;
   }
   .tc-map-pane {

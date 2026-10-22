@@ -66,7 +66,7 @@ const { n, title, summary, icon, last = false } = Astro.props;
     width: 2rem;
     height: 2rem;
     border-radius: 50%;
-    background: var(--brand-primary--dark);
+    background: var(--brand-primary--text);
     color: var(--cd-white);
     font-size: 0.875rem;
     font-weight: 600;
@@ -74,17 +74,11 @@ const { n, title, summary, icon, last = false } = Astro.props;
   /* An unnumbered check between steps: outlined badge, dashed tool box. */
   .checkpoint .badge {
     background: var(--cd-white);
-    color: var(--brand-primary--dark);
-    border: 2px solid var(--brand-primary--dark);
+    color: var(--brand-primary--text);
+    border: 2px solid var(--brand-primary--text);
   }
   .checkpoint .title {
-    color: var(--brand-primary--dark);
-  }
-  .checkpoint :global(.group) {
-    border-style: dashed;
-    border-color: var(--brand-primary--dark);
-    background: transparent;
-    box-shadow: none;
+    color: var(--brand-primary--text);
   }
   .body {
     display: flex;
@@ -99,7 +93,7 @@ const { n, title, summary, icon, last = false } = Astro.props;
   .title {
     font-size: 1.1rem;
     font-weight: 600;
-    color: var(--cd-grey--900);
+    color: var(--brand-primary--text);
     margin: 0;
     line-height: 2rem;
   }

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { toolsBase } from "$lib/utils/paths";
+  import ToolHeader from "$lib/components/ToolHeader.svelte";
   import { duckdbState, initDuckDB } from "$lib/db/duckdb.svelte";
   import { loadFile } from "$lib/db/loader";
   import { PipelineError, runStitch, type StitchIssueRow } from "./pipeline/index";
@@ -116,14 +116,9 @@
 
 <div class="layout">
   <aside class="sidebar">
-    <header>
-      <a class="back" href={toolsBase}>← Tools</a>
-      <h1>Stitch</h1>
-      <p class="blurb">
-        Close seams in an already-tiled polygon layer — for example tiles produced independently by
-        Edge Extender or Edge Matcher — with one whole-table coverage-clean pass.
-      </p>
-    </header>
+    <ToolHeader title="Stitch">
+      Close seams in an already-tiled polygon layer — for example tiles produced independently by Edge Extender or Edge Matcher — with one whole-table coverage-clean pass.
+    </ToolHeader>
 
     {#if duckdbState.initError}
       <div class="error-panel">
@@ -227,7 +222,7 @@
   .layout {
     display: grid;
     grid-template-columns: 320px 1fr;
-    height: 100dvh;
+    height: var(--app-height, 100dvh);
     overflow: hidden;
   }
 
@@ -241,46 +236,9 @@
     background: var(--cd-white);
   }
 
-  header {
-    margin: -1.25rem -1.25rem 0;
-    padding: 1.25rem 1.25rem 0.8125rem;
-    background: var(--brand-primary--dark);
-  }
-  header + .step {
+  :global(.tool-header) + .step {
     border-top: none;
     padding-top: 0;
-  }
-  header .blurb,
-  header .back {
-    color: var(--cd-blue--lightest);
-  }
-  header .back:hover {
-    color: var(--cd-white);
-  }
-  header h1 {
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: var(--cd-white);
-    margin: 0 0 0.5rem;
-  }
-
-  .back {
-    display: inline-block;
-    font-size: 0.75rem;
-    color: var(--cd-grey--800);
-    text-decoration: none;
-    margin: 0 0 0.5rem;
-  }
-
-  .back:hover {
-    color: var(--cd-grey--900);
-  }
-
-  .blurb {
-    font-size: 0.825rem;
-    color: var(--cd-grey--800);
-    margin: 0;
-    line-height: 1.5;
   }
 
   .step {

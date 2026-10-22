@@ -15,16 +15,11 @@ const { nested = false } = Astro.props;
     display: flex;
     flex-direction: column;
     gap: 0.6rem;
-    padding: 1.25rem;
-    border: 1px solid var(--cd-grey--400);
-    border-radius: var(--brand-radius);
-    background: var(--cd-white);
-    transition: border-color 0.15s ease;
   }
   .group.nested {
     padding: 0.875rem;
-  }
-  :global(.group:has(> .card.header:hover)) {
-    border-color: var(--cd-grey--800);
+    border: 1px solid var(--cd-grey--500);
+    border-radius: var(--brand-radius);
+    background: var(--cd-white);
   }
 </style>

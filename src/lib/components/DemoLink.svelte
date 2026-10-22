@@ -22,7 +22,7 @@
     border: 1px solid var(--brand-primary--text);
     border-radius: var(--brand-radius--sm);
     background: var(--cd-white);
-    color: var(--brand-primary--dark);
+    color: var(--brand-primary--text);
     font-size: 0.8rem;
     font-weight: 500;
     text-decoration: none;

@@ -393,7 +393,7 @@
   }
   .browse-link {
     font-size: 0.875rem;
-    color: var(--brand-primary--dark);
+    color: var(--brand-primary--text);
     text-decoration: underline;
     cursor: pointer;
   }

@@ -7,7 +7,7 @@
   import "maplibre-gl/dist/maplibre-gl.css";
   import { onDestroy, onMount, untrack } from "svelte";
   import { createSpin } from "$lib/utils/spin";
-  import { MAP_COLORS, MAP_FILL_OPACITY } from "$lib/utils/mapColors";
+  import { MAP_COLORS, MAP_STATUS_OPACITY, MAP_TINT_OPACITY, fillOpacity } from "$lib/utils/mapColors";
   import { GROUP_FILL_OPACITY } from "$lib/utils/groupColor";
   import { loadMaplibre, loadStyle, polyFilter, lineWidth } from "$lib/utils/mapStyle";
 
@@ -112,7 +112,7 @@
 
   function originalFillPaint() {
     return originalGroupFill === undefined
-      ? { "fill-color": MAP_COLORS.original, "fill-opacity": MAP_FILL_OPACITY }
+      ? { "fill-color": MAP_COLORS.original, "fill-opacity": MAP_TINT_OPACITY }
       : { "fill-color": originalGroupFill, "fill-opacity": GROUP_FILL_OPACITY };
   }
 
@@ -168,7 +168,7 @@
       } else {
         map.addSource("result", { type: "geojson", data: rUrl, generateId: true });
         const fill = untrack(() => changedGeojson) ? MAP_COLORS.original : MAP_COLORS.result;
-        map.addLayer({ id: "result-fill", type: "fill", source: "result", filter: polyFilter, paint: { "fill-color": fill, "fill-opacity": MAP_FILL_OPACITY } }, map.getLayer("changed-fill") ? "changed-fill" : before);
+        map.addLayer({ id: "result-fill", type: "fill", source: "result", filter: polyFilter, paint: { "fill-color": fill, "fill-opacity": fillOpacity(fill) } }, map.getLayer("changed-fill") ? "changed-fill" : before);
         if (map.getLayer("changed-fill")) map.moveLayer("changed-fill", before);
         map.addLayer({ id: "result-line", type: "line", source: "result", paint: { "line-color": MAP_COLORS.outline, "line-width": lineWidth } }, before);
         addSelectedLayer("result", before);
@@ -183,7 +183,9 @@
     const changed = changedGeojson;
     if (!map || !styleReady) return;
     if (map.getLayer("result-fill")) {
-      map.setPaintProperty("result-fill", "fill-color", changed ? MAP_COLORS.original : MAP_COLORS.result);
+      const fill = changed ? MAP_COLORS.original : MAP_COLORS.result;
+      map.setPaintProperty("result-fill", "fill-color", fill);
+      map.setPaintProperty("result-fill", "fill-opacity", fillOpacity(fill));
     }
     if (!changed) return removeSide("changed");
 
@@ -194,7 +196,7 @@
     } else {
       map.addSource("changed", { type: "geojson", data: changedBlobUrl });
       const before = ["result-line", "original-fill", "overlay-line"].find((l) => map?.getLayer(l));
-      map.addLayer({ id: "changed-fill", type: "fill", source: "changed", filter: polyFilter, paint: { "fill-color": MAP_COLORS.result, "fill-opacity": MAP_FILL_OPACITY } }, before);
+      map.addLayer({ id: "changed-fill", type: "fill", source: "changed", filter: polyFilter, paint: { "fill-color": MAP_COLORS.result, "fill-opacity": MAP_STATUS_OPACITY } }, before);
       applySide();
     }
   });

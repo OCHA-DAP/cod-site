@@ -92,7 +92,7 @@ The other agencies each have their own map like this, and their own global bound
 
 <!-- explorer -->
 
-These maps come from the HDX Boundaries Explorer, which compares admin boundaries from seven sources. For six African countries, they show OCHA's COD-AB in blue, then another source in red.
+These maps come from the HDX Boundaries Explorer, which compares admin boundaries from seven sources. For six African countries, they show OCHA's COD-AB, then another source, with the units that differ from OCHA's in red.
 
 In the Central African Republic, Mali and Ghana, the COD-AB has more admin 1 units than the other source: 20 against FAO's 7, 20 against WFP's 10 from 2023, and 16 against UNICEF's 10. Madagascar is the extreme case, 24 against the World Bank's 6. Burkina Faso's 2025 release has 17 regions with new names, where UNICEF still has the old 13. South Sudan goes the other way: the World Bank has 12 units because it counts Ruweng and Pibor as their own areas, and OCHA has 10.
 

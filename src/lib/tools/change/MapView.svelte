@@ -13,7 +13,7 @@
   import { loadMaplibre, loadStyle, polyFilter, lineWidth } from "$lib/utils/mapStyle";
   import { REL_COLORS, REL_ORDER } from "./pipeline";
   import MapPopup, { type FeatureInfo } from "$lib/components/MapPopup.svelte";
-  import { MAP_COLORS, MAP_FILL_OPACITY } from "$lib/utils/mapColors";
+  import { MAP_COLORS, MAP_STATUS_OPACITY, MAP_TINT_OPACITY } from "$lib/utils/mapColors";
 
   let {
     overlayGeojson = null,
@@ -72,12 +72,12 @@
 
   function fillColorExpr(): ExpressionSpecification {
     const stops = REL_ORDER.flatMap((c) => [c, baseClasses.includes(c) ? MAP_COLORS.original : REL_COLORS[c]]);
-    return ["match", ["get", "relationship_class"], ...stops, "#cccccc"] as unknown as ExpressionSpecification;
+    return ["match", ["get", "relationship_class"], ...stops, MAP_COLORS.fallback] as unknown as ExpressionSpecification;
   }
 
   function fillOpacityExpr(): ExpressionSpecification {
     if (hoveredClusterId == null) {
-      return MAP_FILL_OPACITY as unknown as ExpressionSpecification;
+      return ["match", ["get", "relationship_class"], baseClasses.length ? baseClasses : [""], MAP_TINT_OPACITY, MAP_STATUS_OPACITY] as unknown as ExpressionSpecification;
     }
     // Per-feature hover: the polygon under the cursor goes nearly opaque, its
     // cluster siblings fade back so the hovered one pops without darkening.

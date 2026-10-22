@@ -32,21 +32,35 @@ const { tool, variant = "primary", header = false } = Astro.props;
     gap: 1rem;
     align-items: flex-start;
     padding: 1.25rem;
-    border: 1px solid var(--cd-grey--400);
+    border: 1px solid var(--cd-grey--500);
     border-radius: var(--brand-radius);
     background: var(--cd-white);
     text-decoration: none;
     color: inherit;
-    transition: border-color 0.15s ease;
+    transition:
+      border-color 0.15s ease,
+      background-color 0.15s ease,
+      box-shadow 0.15s ease;
   }
   .card:hover {
-    border-color: var(--cd-grey--800);
+    border-color: var(--brand-primary);
+    box-shadow: inset 4px 0 0 var(--brand-primary);
+  }
+  .card.header {
+    border: 2px solid var(--brand-primary--text);
+    box-shadow: inset 6px 0 0 var(--brand-primary--text);
+  }
+  .card.header:hover {
+    border-color: var(--brand-primary--text);
+    box-shadow: inset 10px 0 0 var(--brand-primary--text);
+  }
+  .card.header .name {
+    color: var(--brand-primary--text);
   }
   .icon {
     width: 56px;
     height: 56px;
     flex-shrink: 0;
-    color: var(--cd-grey--900);
   }
   .text {
     display: flex;
@@ -104,14 +118,7 @@ const { tool, variant = "primary", header = false } = Astro.props;
     line-height: 1.4;
   }
 
-  .card.header {
-    padding: 0;
-    border: none;
-    background: transparent;
-    box-shadow: none;
-  }
-  .card.header:hover {
-    box-shadow: none;
-    transform: none;
+  .card.header:not(.secondary) {
+    padding: 1rem;
   }
 </style>

@@ -2,143 +2,169 @@
 import { base, toolsBase } from "$lib/utils/paths";
 
 interface Props {
-  /** GitHub repo for the source link; null hides it. */
-  repo?: string | null;
   class?: string;
-  toolsNav?: boolean;
-  siteNav?: boolean;
-  theme?: "dark" | "light";
-  wordmark?: string;
 }
 
-const {
-  repo = "OCHA-DAP/cod-site",
-  class: className,
-  toolsNav = true,
-  siteNav = false,
-  theme = "dark",
-  wordmark,
-} = Astro.props;
+const { class: className } = Astro.props;
+const slash = (p: string) => p.replace(/\/?$/, "/");
+const path = slash(Astro.url.pathname);
+const current = (href: string, prefix = false) =>
+  (prefix ? path.startsWith(href) : path === slash(href)) ? "page" : undefined;
+const toolsLinks = [
+  { href: toolsBase, label: "Overview" },
+  { href: `${toolsBase}intro`, label: "Intro" },
+  { href: `${toolsBase}docs/`, label: "CLI Docs", prefix: true },
+];
+const statusHref = `${base}status/`;
+const explorerHref = `${base}explorer/`;
 ---
 
-<div class:list={["bar", theme, className]}>
+<div class:list={["bar", className]}>
   <a class="home" href={base}>
-    {wordmark ? (
-      <span class="wordmark">
-        <img src={`${base}logos/ocha-emblem-blue.svg`} alt="OCHA" />
-        <span class="divider" aria-hidden="true" />
-        {wordmark}
-      </span>
-    ) : (
-      <img class="logo" src={`${base}logos/ocha-white.png`} alt="OCHA" />
-    )}
+    <span class="wordmark">
+      <img src={`${base}logos/cod-logo.svg`} alt="Common Operational Datasets" />
+    </span>
   </a>
   <slot />
   <nav class="topnav" aria-label="Site">
-    {siteNav && (
-      <>
-        <a href={toolsBase}>Tools</a>
-        <a href={`${base}status/`}>Status</a>
-      </>
-    )}
-    {toolsNav && (
-      <>
-        <a href={`${toolsBase}intro`}>Intro</a>
-        <a class="docs" href={`${toolsBase}docs/`}>
-          CLI Docs
-        </a>
-        <a href={`${toolsBase}privacy`}>Privacy</a>
-      </>
-    )}
-    {repo && (
-      <a class="source" href={`https://github.com/${repo}`} title="Go to repository">
-        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-          <!--! Font Awesome Free 7.3.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2026 Fonticons, Inc.-->
-          <path
-            fill="currentColor"
-            d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"
-          />
-        </svg>
-        <span>{repo}</span>
-      </a>
-    )}
+    <details class="menu">
+      <summary class:list={{ active: path.startsWith(toolsBase) }}>
+        Tools<span class="caret" aria-hidden="true"></span>
+      </summary>
+      <div class="menu-panel">
+        {toolsLinks.map((l) => (
+          <a href={l.href} aria-current={current(l.href, l.prefix)}>
+            {l.label}
+          </a>
+        ))}
+      </div>
+    </details>
+    <a href={statusHref} aria-current={current(statusHref, true)}>Status</a>
+    <a href={explorerHref} aria-current={current(explorerHref)}>Explorer</a>
   </nav>
 </div>
+
+<script>
+  const close = (except?: Element) =>
+    document.querySelectorAll<HTMLDetailsElement>(".bar details.menu[open]").forEach((d) => {
+      if (d !== except) d.open = false;
+    });
+  document.addEventListener("click", (e) => close((e.target as Element).closest(".bar details.menu") ?? undefined));
+  document.addEventListener("keydown", (e) => {
+    if (e.key !== "Escape") return;
+    const open = document.querySelector<HTMLDetailsElement>(".bar details.menu[open]");
+    if (!open) return;
+    open.open = false;
+    open.querySelector("summary")?.focus();
+  });
+</script>
 
 <style>
   .bar {
     display: flex;
-    flex-wrap: wrap;
     gap: 1rem;
     justify-content: space-between;
     align-items: center;
-    color: var(--cd-white);
-  }
-  .bar.light {
+    height: 3.5rem;
+    padding: 0 1.5rem;
+    background: var(--cd-white);
+    border-bottom: 1px solid var(--brand-grey--border);
     color: var(--cd-grey--800);
   }
   .home {
     display: inline-flex;
     text-decoration: none;
   }
-  /* The gap is the logo's clear space: half the emblem, which spans the logo's full height. */
   .wordmark {
     display: inline-flex;
     align-items: center;
-    gap: 12px;
-    font-family: var(--brand-font);
-    font-size: 1.15rem;
-    font-weight: 700;
-    color: var(--cd-blue--darkest);
   }
   .wordmark img {
-    height: 24px;
-    width: auto;
-  }
-  .wordmark .divider {
-    width: 1px;
-    height: 20px;
-    background: var(--brand-grey--border);
-  }
-  .logo {
-    height: 2.25rem;
+    height: 40px;
     width: auto;
   }
   .topnav {
     display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem 1.25rem;
-    font-size: 0.875rem;
+    gap: 1.75rem;
+    font-size: 0.95rem;
     font-family: var(--brand-font);
   }
-  .topnav a {
+  .topnav {
+    align-items: center;
+  }
+  .topnav > a,
+  .menu summary {
     white-space: nowrap;
-    color: var(--cd-white);
-    text-decoration: none;
-  }
-  .topnav a:hover {
-    text-decoration: underline;
-  }
-  .light .topnav {
-    font-size: 0.95rem;
-    gap: 0.5rem 1.75rem;
-  }
-  .light .topnav a {
     color: inherit;
+    text-decoration: none;
+    cursor: pointer;
   }
-  .light .topnav a:hover {
-    color: var(--cd-blue--darker);
+  .topnav > a:hover,
+  .menu summary:hover {
+    color: var(--brand-primary--dark);
   }
-  .topnav .source {
+  .topnav > a[aria-current="page"],
+  .menu summary.active {
+    color: var(--brand-primary--text);
+    font-weight: 600;
+  }
+  .menu {
+    position: relative;
+  }
+  .menu summary {
     display: inline-flex;
     align-items: center;
-    gap: 0.4rem;
+    gap: 0.35rem;
+    list-style: none;
   }
-  .topnav .source:hover {
+  .menu summary::-webkit-details-marker {
+    display: none;
+  }
+  .caret {
+    width: 0.4rem;
+    height: 0.4rem;
+    border-right: 1.5px solid currentColor;
+    border-bottom: 1.5px solid currentColor;
+    transform: translateY(-0.15rem) rotate(45deg);
+  }
+  .menu[open] .caret {
+    transform: translateY(0.1rem) rotate(-135deg);
+  }
+  .menu-panel {
+    position: absolute;
+    top: calc(100% + 0.9rem);
+    right: -1rem;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    min-width: 11rem;
+    padding: 0.4rem 0;
+    background: var(--cd-white);
+    border: 1px solid var(--cd-grey--500);
+    border-radius: var(--brand-radius--sm);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  }
+  .menu-panel a {
+    padding: 0.5rem 1rem;
+    color: var(--cd-grey--800);
     text-decoration: none;
   }
-  .topnav .source svg {
-    width: 1.1rem;
-    height: 1.1rem;
+  .menu-panel a:hover,
+  .menu-panel a:focus-visible {
+    background: var(--cd-grey--300);
+    color: var(--brand-primary--dark);
+  }
+  @media (max-width: 30rem) {
+    .bar {
+      padding: 0 1rem;
+    }
+    .topnav {
+      gap: 1.1rem;
+    }
+  }
+  .menu-panel a[aria-current="page"] {
+    background: var(--brand-primary--lightest);
+    color: var(--brand-primary--text);
+    font-weight: 600;
   }
 </style>

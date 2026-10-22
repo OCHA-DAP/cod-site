@@ -1,8 +1,7 @@
 <script lang="ts">
-  import { toolsBase } from "$lib/utils/paths";
+  import ToolHeader from "$lib/components/ToolHeader.svelte";
   import DownloadMenu from "$lib/components/DownloadMenu.svelte";
   import PrivacyNote from "$lib/components/PrivacyNote.svelte";
-  import DemoLink from "$lib/components/DemoLink.svelte";
   import InputStep from "$lib/components/InputStep.svelte";
   import DropZone from "$lib/components/DropZone.svelte";
   import { duckdbState, initDuckDB } from "$lib/db/duckdb.svelte";
@@ -145,15 +144,9 @@
 
 <div class="dt-layout">
   <aside class="dt-sidebar">
-    <header>
-      <a class="dt-back" href={toolsBase}>← Tools</a>
-      <h1>Detect</h1>
-      <DemoLink slug="topo-detect" />
-      <p class="dt-blurb">
-        Scan a polygon layer for gaps and overlaps and report them — a read-only inspection, not a
-        fix. Click any issue to zoom to it.
-      </p>
-    </header>
+    <ToolHeader title="Detect" demo="topo-detect">
+      Scan a polygon layer for gaps and overlaps and report them — a read-only inspection, not a fix. Click any issue to zoom to it.
+    </ToolHeader>
 
     {#if duckdbState.initError}
       <div class="dt-error">
@@ -235,7 +228,7 @@
   .dt-layout {
     display: grid;
     grid-template-columns: 320px 1fr;
-    height: 100dvh;
+    height: var(--app-height, 100dvh);
     overflow: hidden;
   }
 
@@ -249,46 +242,9 @@
     background: var(--cd-white);
   }
 
-  header {
-    margin: -1.25rem -1.25rem 0;
-    padding: 1.25rem 1.25rem 0.8125rem;
-    background: var(--brand-primary--dark);
-  }
-  header + .dt-step {
+  :global(.tool-header) + .dt-step {
     border-top: none;
     padding-top: 0;
-  }
-  header .dt-blurb,
-  header .dt-back {
-    color: var(--cd-blue--lightest);
-  }
-  header .dt-back:hover {
-    color: var(--cd-white);
-  }
-  header h1 {
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: var(--cd-white);
-    margin: 0 0 0.5rem;
-  }
-
-  .dt-back {
-    display: inline-block;
-    font-size: 0.75rem;
-    color: var(--cd-grey--800);
-    text-decoration: none;
-    margin: 0 0 0.5rem;
-  }
-
-  .dt-back:hover {
-    color: var(--cd-grey--900);
-  }
-
-  .dt-blurb {
-    font-size: 0.825rem;
-    color: var(--cd-grey--800);
-    margin: 0;
-    line-height: 1.5;
   }
 
   .dt-step {
@@ -384,7 +340,7 @@
   .dt-result {
     display: grid;
     grid-template-rows: 60% 40%;
-    height: 100dvh;
+    height: var(--app-height, 100dvh);
     min-width: 0;
   }
 

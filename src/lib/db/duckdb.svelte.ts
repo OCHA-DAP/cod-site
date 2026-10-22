@@ -6,8 +6,7 @@ import { randomId } from "./id";
 // jsDelivr because Cloudflare Workers Static Assets caps individual files at
 // 25 MiB and the engine wasms are ~34–39 MiB. jsDelivr serves them with
 // Cross-Origin-Resource-Policy: cross-origin + Access-Control-Allow-Origin: *,
-// which satisfies our COEP require-corp. The SW (src/sw.ts) caches them on
-// first load so subsequent loads work offline.
+// which satisfies our COEP require-corp.
 //
 // Only mvp and eh are exposed. The coi pthread worker breaks the OPFS data-DB
 // postMessage path with "FileSystemSyncAccessHandle could not be cloned". The

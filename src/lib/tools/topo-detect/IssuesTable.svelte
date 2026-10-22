@@ -287,15 +287,15 @@
     vertical-align: middle;
   }
   .dt-key--overlap {
-    background: var(--brand-error);
+    background: var(--cd-red--600);
   }
   .dt-key--gap {
     background: var(--cd-orange--600);
   }
   .dt-key--micro-polygon {
-    background: var(--cd-grey--800);
+    background: var(--cd-slate--700);
   }
   .dt-key--notch {
-    background: var(--brand-primary--dark);
+    background: var(--cd-purple);
   }
 </style>

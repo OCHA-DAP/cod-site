@@ -19,14 +19,12 @@ const { title, description } = Astro.props;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
-    <link rel="manifest" href={`${base}manifest.webmanifest`} />
-    <meta name="theme-color" content="#004987" />
+    <link rel="icon" type="image/svg+xml" href={`${base}icons/favicon.svg`} />
     <link rel="icon" type="image/png" sizes="192x192" href={`${base}icons/icon-192.png`} />
     <link rel="apple-touch-icon" href={`${base}icons/icon-192.png`} />
     <title>{title}</title>
     <FontFaces />
     <slot name="head" />
-    <script is:inline src={`${base}registerSW.js`} defer></script>
   </head>
   <body>
     <slot />
@@ -44,6 +42,12 @@ const { title, description } = Astro.props;
     margin: 0;
     padding: 0;
     height: 100%;
+    color: var(--cd-grey--900);
+    -webkit-font-smoothing: auto;
+    -moz-osx-font-smoothing: auto;
+  }
+  a {
+    color: var(--brand-primary--text);
   }
   button,
   input,

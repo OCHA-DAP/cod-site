@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "sync:assets": "node scripts/sync-natural-earth.mjs && node scripts/sync-py-docs.mjs",
+    "sync:assets": "node scripts/sync-py-docs.mjs",
     "predev": "npm run sync:assets",
     "dev": "astro dev",
     "dev:stop": "astro dev stop",
@@ -26,7 +26,6 @@
     "@eslint/js": "^10.0.1",
     "@types/node": "^26.6.3",
     "@types/papaparse": "^5.5.2",
-    "@vite-pwa/astro": "^1.2.0",
     "astro": "^7.3.5",
     "eslint": "^10.11.0",
     "eslint-config-prettier": "^10.1.8",
@@ -44,6 +43,8 @@
     "@duckdb/duckdb-wasm": "^1.33.1-dev65.0",
     "astro-rehype-relative-markdown-links": "^0.19.2",
     "fflate": "^0.8.3",
+    "hyparquet": "^1.31.5",
+    "hyparquet-compressors": "^1.1.2",
     "maplibre-gl": "^6.11.2",
     "papaparse": "^5.7.0",
     "pmtiles": "^4.5.0"

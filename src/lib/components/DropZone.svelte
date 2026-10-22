@@ -353,14 +353,14 @@
 
 <style>
   .drop-zone {
-    border: 2px dashed var(--cd-grey--600);
+    border: 2px dashed var(--brand-primary--light);
     border-radius: var(--brand-radius--sm);
     padding: 1.5rem 1rem;
     text-align: center;
     transition:
       border-color 0.15s,
       background-color 0.15s;
-    background: var(--cd-grey--300);
+    background: color-mix(in srgb, var(--cd-blue--lightest) 45%, var(--cd-white));
   }
   .drop-zone.dragging {
     border-color: var(--brand-primary--text);

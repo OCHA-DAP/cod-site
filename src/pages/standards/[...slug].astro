@@ -1,5 +1,6 @@
 ---
 import Arrow from "$lib/components/Arrow.svelte";
+import Toc from "$lib/components/Toc.astro";
 import { loadStandards, type StandardsDoc, type StandardsPage } from "$lib/standards/docs";
 import { standardsBase } from "$lib/utils/paths";
 import { render } from "astro:content";
@@ -56,7 +57,7 @@ const meta = [data.status ?? docData.status, docData.date].filter((m): m is stri
     </ol>
   </nav>
 
-  <div class="wrap body">
+  <div class="wrap prose-body">
     <article class:list={["prose", data.variant]}>
       <Content />
 
@@ -99,18 +100,7 @@ const meta = [data.status ?? docData.status, docData.date].filter((m): m is stri
       </nav>
     </article>
 
-    {toc.length > 1 && (
-      <aside class="toc" aria-label="On this page">
-        <p>On this page</p>
-        <ul>
-          {toc.map((h) => (
-            <li>
-              <a href={`#${h.slug}`}>{h.text}</a>
-            </li>
-          ))}
-        </ul>
-      </aside>
-    )}
+    <Toc headings={toc} />
   </div>
 </StandardsLayout>
 
@@ -169,48 +159,6 @@ const meta = [data.status ?? docData.status, docData.date].filter((m): m is stri
     color: var(--cd-white);
   }
 
-  .body {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) 14rem;
-    gap: 4rem;
-    padding-top: 3rem;
-    padding-bottom: 5rem;
-  }
-  .prose {
-    max-width: 46rem;
-    font-size: 1.05rem;
-    line-height: 1.75;
-  }
-  .prose :global(h2) {
-    margin: 3rem 0 1rem;
-    font-size: 1.6rem;
-    line-height: 1.25;
-    letter-spacing: -0.01em;
-    color: var(--brand-primary--text);
-    scroll-margin-top: 5rem;
-  }
-  .prose > :global(:first-child) {
-    margin-top: 0;
-  }
-  .prose :global(h3) {
-    margin: 2rem 0 0.75rem;
-    font-size: 1.2rem;
-    color: var(--cd-grey--900);
-  }
-  .prose :global(p),
-  .prose :global(ul),
-  .prose :global(ol) {
-    margin: 0 0 1.1rem;
-  }
-  .prose :global(li) {
-    margin: 0.3rem 0;
-  }
-  .prose :global(li > ul) {
-    margin: 0.3rem 0 0;
-  }
-  .prose :global(strong) {
-    color: var(--cd-grey--900);
-  }
   .prose :global(table) {
     width: 100%;
     margin: 1.5rem 0 2rem;
@@ -389,38 +337,6 @@ const meta = [data.status ?? docData.status, docData.date].filter((m): m is stri
     color: var(--brand-primary--text);
   }
 
-  .toc {
-    position: sticky;
-    top: 5rem;
-    align-self: start;
-    font-size: 0.9rem;
-  }
-  .toc p {
-    margin: 0 0 0.75rem;
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--brand-grey--text);
-  }
-  .toc ul {
-    margin: 0;
-    padding: 0 0 0 1rem;
-    border-left: 2px solid var(--cd-blue--lightest);
-    list-style: none;
-  }
-  .toc li {
-    margin: 0.5rem 0;
-    line-height: 1.4;
-  }
-  .toc a {
-    color: var(--cd-grey--800);
-    text-decoration: none;
-  }
-  .toc a:hover {
-    color: var(--brand-primary--dark);
-  }
-
   @media (max-width: 700px) {
     .prose :global(.flow ol) {
       grid-template-columns: 1fr;
@@ -428,14 +344,6 @@ const meta = [data.status ?? docData.status, docData.date].filter((m): m is stri
     .prose :global(table) {
       display: block;
       overflow-x: auto;
-    }
-  }
-  @media (max-width: 960px) {
-    .body {
-      grid-template-columns: minmax(0, 1fr);
-    }
-    .toc {
-      display: none;
     }
   }
 </style>

@@ -1,0 +1,79 @@
+---
+const steps = [
+  { when: "Before", what: "CODs are kept up to date" },
+  { when: "Day 0", what: "The emergency starts", alert: true },
+  { when: "Within 48 hours", what: "CODs are shared, then checked and corrected" },
+  { when: "Response", what: "Assessments, maps and the 3W use the CODs" },
+];
+---
+
+<ol class="timeline">
+  {steps.map((s) => (
+    <li class:list={{ alert: s.alert }}>
+      <b>{s.when}</b>
+      {s.what}
+    </li>
+  ))}
+</ol>
+
+<style>
+  .timeline {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    margin: 1.5rem 0 2rem;
+    padding: 0;
+    list-style: none;
+  }
+  .timeline::before {
+    content: "";
+    position: absolute;
+    top: 7px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--brand-primary--lightest);
+  }
+  li {
+    position: relative;
+    margin: 0;
+    padding: 1.5rem 1rem 0 0;
+    font-size: 0.9rem;
+    line-height: 1.45;
+  }
+  li::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 12px;
+    height: 12px;
+    border: 2px solid var(--cd-white);
+    border-radius: 50%;
+    background: var(--brand-primary);
+  }
+  li.alert::before {
+    background: var(--brand-highlight);
+  }
+  b {
+    display: block;
+    color: var(--brand-primary--text);
+  }
+  @media (max-width: 40rem) {
+    .timeline {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    .timeline::before {
+      top: 0;
+      bottom: 0;
+      left: 7px;
+      right: auto;
+      width: 2px;
+      height: auto;
+    }
+    li {
+      padding: 0 0 0 1.75rem;
+    }
+  }
+</style>

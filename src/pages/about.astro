@@ -1,0 +1,117 @@
+---
+import Arrow from "$lib/components/Arrow.svelte";
+import Toc from "$lib/components/Toc.astro";
+import Morafeno from "$lib/about/Morafeno.astro";
+import NameJoin from "$lib/about/NameJoin.svelte";
+import PcodeLevels from "$lib/about/PcodeLevels.astro";
+import PopulationMaps from "$lib/about/PopulationMaps.svelte";
+import Timeline from "$lib/about/Timeline.astro";
+import UseStrip from "$lib/about/UseStrip.astro";
+import { base, standardsBase, toolsBase } from "$lib/utils/paths";
+import PageLayout from "../layouts/PageLayout.astro";
+
+const summary =
+  "Common Operational Datasets (CODs) are the administrative boundaries (COD-AB) and population statistics (COD-PS) shared by the organizations taking part in a humanitarian response.";
+
+const sections = [
+  { slug: "why", text: "Why CODs exist" },
+  { slug: "preparedness", text: "Preparedness" },
+  { slug: "p-codes", text: "P-codes" },
+  { slug: "use", text: "How CODs are used" },
+];
+const heading = Object.fromEntries(sections.map((s) => [s.slug, s.text]));
+---
+
+<PageLayout title="About CODs" summary={summary}>
+  <div class="wrap prose-body">
+    <article class="prose">
+      <h2 id="why">{heading.why}</h2>
+      <p>
+        In emergencies, many organizations provide relief, each in its own way, and each collects
+        information as the response goes on: needs assessments, where partners are working, how many
+        people have been reached. Sharing this information is how needs get identified and how gaps
+        and duplication in assistance are avoided. It only works if every organization refers to
+        places in the same way.
+      </p>
+      <p>
+        CODs give partners that common reference. When UN agencies, NGOs, the Red Cross and Red
+        Crescent, and governments use the same boundaries and population figures, their data can be
+        compared and combined. In each country, the Information Management Working Group, made up of
+        information managers from government, UN agencies, clusters and NGOs, adopts the CODs as the
+        standard.
+      </p>
+
+      <h2 id="preparedness">{heading.preparedness}</h2>
+      <p>
+        Decisions in the first hours and days of an emergency rely on data that already exists, so
+        the work of gathering, managing and sharing it has to happen before a crisis. For
+        sudden-onset emergencies, current guidance calls for CODs to be shared within 48 hours. That
+        leaves time to check and correct them, but not to build them. If CODs have been kept up to
+        date, the corrections are small.
+      </p>
+      <Timeline />
+
+      <h2 id="p-codes">{heading["p-codes"]}</h2>
+      <p>
+        Linking datasets by place name causes errors. Sources spell names differently, or use another
+        language: the Madagascar COD-AB has Amoron I Mania and Haute Matsiatra, where OpenStreetMap
+        has Amoron’i Mania and Matsiatra Ambony. Names also repeat. In Madagascar, 81 different
+        administrative level 4 units are called Morafeno.
+      </p>
+      <Morafeno />
+      <p>
+        A P-code (place code) identifies one administrative unit. It starts with the country’s ISO3
+        code and adds a three-digit number for each level below, separated by dots. Units that
+        share a name, like the commune of Morafeno and the fokontany inside it, still get different
+        codes.
+      </p>
+      <PcodeLevels />
+      <p>
+        Datasets that use the same P-codes can be joined directly, without matching names by hand.
+        Each COD-AB includes a gazetteer listing every P-code with its name. The <a
+          href={`${standardsBase}specification/pcode/`}>P-code format</a
+        > in the Standards gives the full rules.
+      </p>
+      <NameJoin client:visible />
+
+      <h2 id="use">{heading.use}</h2>
+      <p>COD-AB and COD-PS are used in every phase of the humanitarian programme cycle:</p>
+      <UseStrip />
+      <p>
+        The maps below link the two. Each COD-PS figure is attached to its COD-AB boundary by
+        P-code, which is enough to show where people live and how age and sex vary.
+      </p>
+      <PopulationMaps client:visible />
+
+      <nav class="links" aria-label="Related">
+        <a href={standardsBase}>Standards <Arrow /></a>
+        <a href={toolsBase}>Tools <Arrow /></a>
+        <a href={`${base}explorer/`}>Explorer <Arrow /></a>
+      </nav>
+    </article>
+
+    <Toc headings={sections} />
+  </div>
+</PageLayout>
+
+<style>
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.75rem;
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--cd-blue--lightest);
+  }
+  .links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    color: var(--brand-primary--text);
+    font-weight: 700;
+    text-decoration: none;
+  }
+  .links a:hover {
+    text-decoration: underline;
+  }
+</style>

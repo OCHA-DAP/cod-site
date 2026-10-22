@@ -1,0 +1,64 @@
+---
+import map from "./icons/map.svg?raw";
+import assessment from "./icons/needs-assessment.svg?raw";
+import population from "./icons/affected-population.svg?raw";
+import coordination from "./icons/coordination.svg?raw";
+
+const uses = [
+  { icon: map, title: "Maps", text: "Base layers for every map" },
+  { icon: assessment, title: "Assessments", text: "Data collected by P-code" },
+  { icon: population, title: "Analysis", text: "Affected population, from COD-AB and COD-PS" },
+  { icon: coordination, title: "Coordination", text: "The Humanitarian Needs Overview and the 3W" },
+];
+---
+
+<ul class="uses">
+  {uses.map((u) => (
+    <li>
+      <span class="icon" aria-hidden="true"><Fragment set:html={u.icon} /></span>
+      <div>
+        <b>{u.title}</b>
+        {u.text.split(/(\S*-\S*)/).map((w, i) => (i % 2 ? <span class="nw">{w}</span> : w))}
+      </div>
+    </li>
+  ))}
+</ul>
+
+<style>
+  .uses {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1.5rem;
+    margin: 1.5rem 0 2rem;
+    padding: 0;
+    list-style: none;
+  }
+  .uses li {
+    display: flex;
+    gap: 0.6rem;
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+  .uses b {
+    display: block;
+    color: var(--brand-primary--text);
+  }
+  .nw {
+    white-space: nowrap;
+  }
+  .icon {
+    flex: none;
+    display: flex;
+    height: 1.75rem;
+  }
+  .icon :global(svg) {
+    width: auto;
+    height: 100%;
+  }
+  @media (max-width: 40rem) {
+    .uses {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+</style>

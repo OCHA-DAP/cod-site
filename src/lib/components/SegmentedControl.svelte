@@ -52,7 +52,7 @@
   .btn:first-child {
     border-left: none;
   }
-  .btn:hover:not(:disabled) {
+  .btn:hover:not(:disabled, .active) {
     background: var(--cd-grey--300);
     color: var(--cd-grey--800);
   }

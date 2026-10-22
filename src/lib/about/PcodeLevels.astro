@@ -1,0 +1,101 @@
+---
+import mdg from "./pcode-mdg.svg?raw";
+import region from "./pcode-mdg-011.svg?raw";
+import capital from "./pcode-mdg-011-118.svg?raw";
+
+const levels = [
+  { code: "MDG", name: "Madagascar", map: mdg },
+  { code: "MDG.011", name: "Analamanga region", map: region },
+  { code: "MDG.011.118", name: "1st arrondissement of Antananarivo, the capital", map: capital },
+];
+---
+
+<figure class="levels">
+  <ol>
+    {levels.map((l) => {
+      const parts = l.code.split(".");
+      return (
+        <li>
+          <div class="map" role="img" aria-label={`${l.name} highlighted`}>
+            <Fragment set:html={l.map} />
+          </div>
+          <div>
+            <code>
+              {parts.map((p, i) => (
+                <>
+                  {i > 0 && "."}
+                  <span class:list={{ new: i === parts.length - 1 }}>{p}</span>
+                </>
+              ))}
+            </code>
+            <span class="name">{l.name}</span>
+          </div>
+        </li>
+      );
+    })}
+  </ol>
+  <figcaption>
+    Each level adds three digits to the code of the unit above it. Codes follow the P-code format in the
+    COD-AB Standards.
+  </figcaption>
+</figure>
+
+<style>
+  .levels {
+    margin: 2rem 0;
+  }
+  ol {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  li {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin: 0;
+  }
+  .map {
+    flex: none;
+    width: 150px;
+  }
+  .map :global(svg) {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .levels code {
+    display: block;
+    font-family: inherit;
+    font-variant-numeric: tabular-nums;
+    font-size: 1.75rem;
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--cd-grey--500);
+  }
+  .levels code .new {
+    color: var(--brand-primary--text);
+  }
+  .name {
+    color: var(--brand-grey--text);
+  }
+  figcaption {
+    margin-top: 0.75rem;
+    font-size: 0.85rem;
+    color: var(--brand-grey--text);
+  }
+  @media (max-width: 30rem) {
+    li {
+      gap: 1rem;
+    }
+    .map {
+      width: 80px;
+    }
+    .levels code {
+      font-size: 1.05rem;
+    }
+  }
+</style>

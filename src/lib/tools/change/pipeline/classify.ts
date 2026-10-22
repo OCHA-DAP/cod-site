@@ -1,5 +1,6 @@
 import type { AsyncDuckDBConnection } from "@duckdb/duckdb-wasm";
 import { UnionFind } from "../unionFind";
+import { MAP_COLORS } from "$lib/utils/mapColors";
 
 export type RelClass =
   | "unchanged"
@@ -27,15 +28,15 @@ export const REL_ORDER: RelClass[] = [
 ];
 
 export const REL_COLORS: Record<RelClass, string> = {
-  unchanged: "#9ec5ab",
-  renamed: "#c4a86c",
-  modified: "#e5b250",
-  relocated: "#3fb8c4",
-  merge: "#5a8fd8",
-  split: "#e07550",
-  complex: "#b25dab",
-  created: "#6cc46c",
-  removed: "#d35a5a",
+  unchanged: MAP_COLORS.original,
+  renamed: "#ffc800", // yellow
+  modified: "#f58220", // orange-600
+  relocated: "#f9a870", // orange-500
+  merge: "#a05fb4", // purple
+  split: "#64bdea", // blue--bright
+  complex: "#004987", // blue--dark
+  created: "#72bf44", // green-500
+  removed: MAP_COLORS.error,
 };
 
 export interface ClassifyOptions {

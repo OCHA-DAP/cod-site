@@ -1,5 +1,5 @@
 <script lang="ts" generics="R extends { map: FlaggedLayer }">
-  import { toolsBase } from "$lib/utils/paths";
+  import ToolHeader from "$lib/components/ToolHeader.svelte";
   import type { AsyncDuckDBConnection } from "@duckdb/duckdb-wasm";
   import type { Snippet } from "svelte";
   import { duckdbState, initDuckDB } from "$lib/db/duckdb.svelte";
@@ -12,7 +12,6 @@
   import { onMount, untrack } from "svelte";
   import AdvancedOptions from "$lib/components/AdvancedOptions.svelte";
   import { serialRunner } from "$lib/utils/serialRunner";
-  import DemoLink from "$lib/components/DemoLink.svelte";
   import DownloadMenu from "$lib/components/DownloadMenu.svelte";
   import PrivacyNote from "$lib/components/PrivacyNote.svelte";
   import InputStep from "$lib/components/InputStep.svelte";
@@ -153,12 +152,9 @@
 
 <div class="layout">
   <aside class="sidebar">
-    <header>
-      <a class="back" href={toolsBase}>← Tools</a>
-      <h1>{title}</h1>
-      <DemoLink {slug} />
-      <p class="blurb">{blurb} Click any finding to zoom to it.</p>
-    </header>
+    <ToolHeader {title} demo={slug}>
+      {blurb} Click any finding to zoom to it.
+    </ToolHeader>
 
     {#if duckdbState.initError}
       <div class="error-panel">
@@ -241,7 +237,7 @@
   .layout {
     display: grid;
     grid-template-columns: 340px 1fr;
-    height: 100dvh;
+    height: var(--app-height, 100dvh);
     overflow: hidden;
   }
 
@@ -255,40 +251,9 @@
     background: var(--cd-white);
   }
 
-  header {
-    margin: -1.25rem -1.25rem 0;
-    padding: 1.25rem 1.25rem 0.8125rem;
-    background: var(--brand-primary--dark);
-  }
-  header + .step {
+  :global(.tool-header) + .step {
     border-top: none;
     padding-top: 0;
-  }
-  header .blurb,
-  header .back {
-    color: var(--cd-blue--lightest);
-  }
-  header .back:hover {
-    color: var(--cd-white);
-  }
-  header h1 {
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: var(--cd-white);
-    margin: 0 0 0.5rem;
-  }
-
-  .back {
-    display: inline-block;
-    font-size: 0.75rem;
-    text-decoration: none;
-    margin: 0 0 0.5rem;
-  }
-
-  .blurb {
-    font-size: 0.825rem;
-    margin: 0;
-    line-height: 1.5;
   }
 
   .step {

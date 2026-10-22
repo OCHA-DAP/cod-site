@@ -1,0 +1,32 @@
+---
+import SiteHeader from "$lib/components/SiteHeader.astro";
+import App from "$lib/explorer/App.svelte";
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout
+  title="Boundaries Explorer"
+  description="Compare administrative boundaries from OCHA and partner agencies, country by country, and see which source each country uses."
+>
+  <div class="explorer-page">
+    <SiteHeader class="site-bar" />
+    <main>
+      <App client:only="svelte" />
+    </main>
+  </div>
+</Layout>
+
+<style>
+  .explorer-page {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+  main {
+    flex: 1;
+    min-height: 0;
+  }
+  :global(body.kiosk) :global(.site-bar) {
+    display: none;
+  }
+</style>

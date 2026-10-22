@@ -1,6 +1,5 @@
-import { base } from "./paths";
-import { MAP_COLORS } from "./mapColors";
-import type { FilterSpecification, LayerSpecification, StyleSpecification } from "maplibre-gl";
+import positron from "./basemap/positron.json";
+import type { FilterSpecification, StyleSpecification } from "maplibre-gl";
 
 // v6 requires bundlers to set the worker URL explicitly — import.meta.url
 // auto-detection doesn't reliably resolve inside a bundler's module graph.
@@ -21,53 +20,9 @@ export function loadMaplibre(): Promise<typeof import("maplibre-gl")> {
   return maplibreModulePromise;
 }
 
-const LAND_SOURCE_ID = "ne-land";
-const LAND_LAYER_ID = "ne-land-fill";
-const LAND_URL = `${base}data/ne_50m_land.geojson`;
-const WATER_COLOR = MAP_COLORS.water;
-const LAND_COLOR = MAP_COLORS.land;
-
-const fallbackStyle: StyleSpecification = {
-  version: 8,
-  projection: { type: "globe" },
-  sources: { [LAND_SOURCE_ID]: { type: "geojson", data: LAND_URL } },
-  layers: [
-    { id: "background", type: "background", paint: { "background-color": WATER_COLOR } },
-    {
-      id: LAND_LAYER_ID,
-      type: "fill",
-      source: LAND_SOURCE_ID,
-      paint: { "fill-color": LAND_COLOR },
-    },
-  ],
-};
-
+// OpenFreeMap positron without its country boundaries or country and state labels.
 export async function loadStyle(): Promise<StyleSpecification> {
-  try {
-    const remote = (await fetch("https://tiles.openfreemap.org/styles/positron").then((r) =>
-      r.json(),
-    )) as StyleSpecification & { sources: Record<string, unknown> };
-    remote.projection = { type: "globe" };
-    remote.sources[LAND_SOURCE_ID] = { type: "geojson", data: LAND_URL };
-    const landLayer: LayerSpecification = {
-      id: LAND_LAYER_ID,
-      type: "fill",
-      source: LAND_SOURCE_ID,
-      paint: { "fill-color": LAND_COLOR },
-    };
-    for (const l of remote.layers) {
-      if (l.id === "water" && l.type === "fill")
-        l.paint = { ...l.paint, "fill-color": WATER_COLOR };
-      if (l.id === "waterway" && l.type === "line")
-        l.paint = { ...l.paint, "line-color": WATER_COLOR };
-    }
-    const bgIdx = remote.layers.findIndex((l) => l.type === "background");
-    const insertAt = bgIdx >= 0 ? bgIdx + 1 : 0;
-    remote.layers.splice(insertAt, 0, landLayer);
-    return remote;
-  } catch {
-    return fallbackStyle;
-  }
+  return { ...(structuredClone(positron) as StyleSpecification), projection: { type: "globe" } };
 }
 
 export const polyFilter: FilterSpecification = [

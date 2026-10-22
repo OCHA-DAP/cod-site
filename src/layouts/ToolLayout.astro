@@ -1,0 +1,32 @@
+---
+import Layout from "./Layout.astro";
+import SiteHeader from "$lib/components/SiteHeader.astro";
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<Layout title={title} description={description}>
+  <!-- The intro's demo slides embed tool pages, which drop the site bar there. -->
+  <script slot="head" is:inline>
+    if (window.self !== window.top) document.documentElement.classList.add("embedded");
+  </script>
+  <SiteHeader class="site-bar" />
+  <slot />
+</Layout>
+
+<style is:global>
+  :root {
+    --app-height: calc(100dvh - 3.5rem);
+  }
+  html.embedded {
+    --app-height: 100dvh;
+  }
+  html.embedded .site-bar {
+    display: none;
+  }
+</style>

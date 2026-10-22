@@ -3,29 +3,31 @@ import Search from "@astrojs/starlight/components/Search.astro";
 import SiteHeader from "$lib/components/SiteHeader.astro";
 ---
 
-<SiteHeader class="sl-site-header" repo="OCHA-DAP/topo-tools">
+<SiteHeader class="sl-site-header">
   <div class="search print:hidden">
     <Search />
   </div>
 </SiteHeader>
 
 <style>
-  :global(.sl-site-header) {
-    height: 100%;
-    flex-wrap: nowrap;
+  :global(:root) {
+    --sl-nav-height: calc(3.5rem + 1px);
   }
-  @media (max-width: 50rem) {
-    :global(.sl-site-header .topnav) {
-      flex-wrap: nowrap;
-    }
-    :global(.sl-site-header .topnav .docs),
-    :global(.sl-site-header .topnav .source span) {
-      display: none;
-    }
+  :global(header.header) {
+    padding: 0;
+    border-bottom: none;
   }
   .search {
     flex: 1;
     display: flex;
     justify-content: center;
+  }
+  @media (max-width: 50rem) {
+    :global([data-has-sidebar] .sl-site-header) {
+      padding-inline-end: calc(1rem + var(--sl-menu-button-size) + var(--sl-nav-gap));
+    }
+    :global(.sl-site-header .wordmark :is(.divider, .label)) {
+      display: none;
+    }
   }
 </style>

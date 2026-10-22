@@ -8,7 +8,7 @@
   import "maplibre-gl/dist/maplibre-gl.css";
   import { onDestroy, onMount } from "svelte";
   import { createSpin } from "$lib/utils/spin";
-  import { MAP_COLORS, MAP_FILL_OPACITY } from "$lib/utils/mapColors";
+  import { MAP_CATEGORICAL, MAP_COLORS, fillOpacity } from "$lib/utils/mapColors";
   import { loadMaplibre, loadStyle, polyFilter, lineWidth } from "$lib/utils/mapStyle";
 
   let {
@@ -36,18 +36,7 @@
   } = $props();
 
   // Cycled by group_id, since the group count is only known once the overlay loads.
-  const PALETTE = [
-    "#4e79a7",
-    "#f28e2b",
-    "#e15759",
-    "#76b7b2",
-    "#59a14f",
-    "#edc948",
-    "#b07aa1",
-    "#ff9da7",
-    "#9c755f",
-    "#bab0ac",
-  ];
+  const PALETTE = MAP_CATEGORICAL;
   const EMPTY = JSON.stringify({ type: "FeatureCollection", features: [] });
   // Everything else is inserted below this, so the reference boundary stays on top.
   const TOP = "eg-overlay-line";
@@ -68,7 +57,7 @@
       "match",
       paletteIndex,
       ...PALETTE.flatMap((c, i) => [i, c]),
-      "#cccccc",
+      MAP_COLORS.fallback,
     ] as unknown as ExpressionSpecification;
   }
 
@@ -92,7 +81,7 @@
 
   function addPolygonLayers(source: string, fill: ExpressionSpecification | string): void {
     map!.addLayer(
-      { id: `${source}-fill`, type: "fill", source, filter: polyFilter, paint: { "fill-color": fill, "fill-opacity": MAP_FILL_OPACITY } },
+      { id: `${source}-fill`, type: "fill", source, filter: polyFilter, paint: { "fill-color": fill, "fill-opacity": fillOpacity(fill) } },
       below(),
     );
     map!.addLayer(

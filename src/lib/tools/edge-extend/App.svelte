@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { toolsBase } from "$lib/utils/paths";
+  import ToolHeader from "$lib/components/ToolHeader.svelte";
   import { duckdbState, initDuckDB } from "$lib/db/duckdb.svelte";
   import { loadFile } from "$lib/db/loader";
   import { getOriginalGeojson, PipelineError, runPipeline } from "./pipeline/index";
@@ -124,15 +124,9 @@
 
 <div class="layout">
   <aside class="sidebar">
-    <header>
-      <a class="back" href={toolsBase}>← Tools</a>
-      <h1>Edge Extender</h1>
-      <p class="blurb">
-        Extend polygon boundaries outward to meet a parent boundary — for example ADM3 sub-national
-        areas that fall short of their ADM0 country edge. Drop a polygon layer; the tool extends
-        each polygon's edges outward via a Voronoi diagram.
-      </p>
-    </header>
+    <ToolHeader title="Edge Extender">
+      Extend polygon boundaries outward to meet a parent boundary — for example ADM3 sub-national areas that fall short of their ADM0 country edge. Drop a polygon layer; the tool extends each polygon's edges outward via a Voronoi diagram.
+    </ToolHeader>
 
     {#if duckdbState.initError}
       <div class="error-panel">
@@ -206,7 +200,7 @@
   .layout {
     display: grid;
     grid-template-columns: 320px 1fr;
-    height: 100dvh;
+    height: var(--app-height, 100dvh);
     overflow: hidden;
   }
 
@@ -220,46 +214,9 @@
     background: var(--cd-white);
   }
 
-  header {
-    margin: -1.25rem -1.25rem 0;
-    padding: 1.25rem 1.25rem 0.8125rem;
-    background: var(--brand-primary--dark);
-  }
-  header + .step {
+  :global(.tool-header) + .step {
     border-top: none;
     padding-top: 0;
-  }
-  header .blurb,
-  header .back {
-    color: var(--cd-blue--lightest);
-  }
-  header .back:hover {
-    color: var(--cd-white);
-  }
-  header h1 {
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: var(--cd-white);
-    margin: 0 0 0.5rem;
-  }
-
-  .back {
-    display: inline-block;
-    font-size: 0.75rem;
-    color: var(--cd-grey--800);
-    text-decoration: none;
-    margin: 0 0 0.5rem;
-  }
-
-  .back:hover {
-    color: var(--cd-grey--900);
-  }
-
-  .blurb {
-    font-size: 0.825rem;
-    color: var(--cd-grey--800);
-    margin: 0;
-    line-height: 1.5;
   }
 
   .step {

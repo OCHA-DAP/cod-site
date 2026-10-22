@@ -1,6 +1,5 @@
 <script lang="ts">
-  import { toolsBase } from "$lib/utils/paths";
-  import DemoLink from "$lib/components/DemoLink.svelte";
+  import ToolHeader from "$lib/components/ToolHeader.svelte";
   import DownloadMenu from "$lib/components/DownloadMenu.svelte";
   import PrivacyNote from "$lib/components/PrivacyNote.svelte";
   import InputStep from "$lib/components/InputStep.svelte";
@@ -391,16 +390,9 @@
 
 <div class="cw-layout">
   <aside class="cw-sidebar">
-    <header>
-      <a class="cw-back" href={toolsBase}>← Tools</a>
-      <h1>Changelog</h1>
-      <DemoLink slug="change" />
-      <p class="cw-blurb">
-        Compare two versions of a polygon layer (e.g. ADM2 across census rounds) and classify each
-        unit as unchanged, modified, merged, split, created, or removed. Drop both versions; the
-        tool overlays them, scores coverage per pair, and groups related polygons into clusters.
-      </p>
-    </header>
+    <ToolHeader title="Changelog" demo="change">
+      Compare two versions of a polygon layer (e.g. ADM2 across census rounds) and classify each unit as unchanged, modified, merged, split, created, or removed. Drop both versions; the tool overlays them, scores coverage per pair, and groups related polygons into clusters.
+    </ToolHeader>
 
     {#if duckdbState.initError}
       <div class="cw-error">
@@ -605,7 +597,7 @@
   .cw-layout {
     display: grid;
     grid-template-columns: 340px 1fr;
-    height: 100dvh;
+    height: var(--app-height, 100dvh);
     overflow: hidden;
   }
   .cw-sidebar {
@@ -617,43 +609,9 @@
     border-right: 1px solid var(--cd-grey--400);
     background: var(--cd-white);
   }
-  header {
-    margin: -1.25rem -1.25rem 0;
-    padding: 1.25rem 1.25rem 0.8125rem;
-    background: var(--brand-primary--dark);
-  }
-  header + .cw-step {
+  :global(.tool-header) + .cw-step {
     border-top: none;
     padding-top: 0;
-  }
-  header .cw-blurb,
-  header .cw-back {
-    color: var(--cd-blue--lightest);
-  }
-  header .cw-back:hover {
-    color: var(--cd-white);
-  }
-  header h1 {
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: var(--cd-white);
-    margin: 0 0 0.5rem;
-  }
-  .cw-back {
-    display: inline-block;
-    font-size: 0.75rem;
-    color: var(--cd-grey--800);
-    text-decoration: none;
-    margin-bottom: 0.5rem;
-  }
-  .cw-back:hover {
-    color: var(--cd-grey--900);
-  }
-  .cw-blurb {
-    font-size: 0.825rem;
-    color: var(--cd-grey--800);
-    margin: 0;
-    line-height: 1.5;
   }
   .cw-step {
     display: flex;

@@ -20,29 +20,33 @@ const products = [
     text: "COD-AB work orders, pipeline status, and plan coverage.",
     image: `${base}home/status.webp`,
   },
+  {
+    href: `${base}explorer/`,
+    title: "Explorer",
+    text: "Compare administrative boundaries from OCHA and partner agencies, country by country, and see which source each country uses.",
+    image: `${base}home/explorer.webp`,
+  },
 ];
 
 // Heights match the emblems, not the files: WFP and IOM set their names above or below theirs.
 const logos = [
-  { file: "ocha-blue.svg", alt: "OCHA", height: 36 },
-  { file: "wfp-blue.svg", alt: "WFP", height: 45 },
-  { file: "unicef-blue.svg", alt: "UNICEF", height: 36 },
-  { file: "unhcr-blue.svg", alt: "UNHCR", height: 40 },
-  { file: "iom-blue.svg", alt: "IOM", height: 34 },
+  { file: "ocha-blue.svg", alt: "OCHA", height: 36, href: "https://www.unocha.org/" },
+  { file: "wfp-blue.svg", alt: "WFP", height: 45, href: "https://www.wfp.org/" },
+  { file: "unicef-blue.svg", alt: "UNICEF", height: 36, href: "https://www.unicef.org/" },
+  { file: "unhcr-blue.svg", alt: "UNHCR", height: 40, href: "https://www.unhcr.org/" },
+  { file: "iom-blue.svg", alt: "IOM", height: 34, href: "https://www.iom.int/" },
 ];
 ---
 
 <Layout title="CODs: Common Operational Datasets" description={lede}>
   <link slot="head" rel="preconnect" href="https://data.source.coop" crossorigin />
   <div class="home">
-    <header class="wrap">
-      <SiteHeader class="nav" theme="light" wordmark="CODs" siteNav toolsNav={false} repo={null} />
-    </header>
+    <SiteHeader />
 
     <main>
       <section class="wrap hero">
         <div class="hero-text">
-          <h1>Common Operational Datasets for humanitarian response</h1>
+          <h1><span class="name">Common<br />Operational<br />Datasets</span> <span class="tagline">for humanitarian response</span></h1>
           <p class="lede">{lede}</p>
         </div>
         <div class="hero-globe">
@@ -63,19 +67,19 @@ const logos = [
             Management Working Group accepts them in country or in their region. CODs reflect the
             local administrative hierarchy and are annotated with place names and P-codes. They
             provide a common operational picture of a crisis and a geographic framework for data
-            collection, analysis and visualization, and are disseminated on the Humanitarian Data
-            Exchange (HDX).
+            collection, analysis and visualization, and are disseminated on the <a
+              href="https://data.humdata.org/">Humanitarian Data Exchange (HDX)</a>.
           </p>
           <dl class="types">
             <div>
-              <dt>Administrative boundaries (COD-AB)</dt>
+              <dt><a href="https://data.humdata.org/dataset/cod-ab-global">Administrative boundaries (COD&#8209;AB)</a></dt>
               <dd>
                 Geographic boundaries and gazetteers of feature names and P-codes, reflecting each
                 country’s administrative hierarchy.
               </dd>
             </div>
             <div>
-              <dt>Population statistics (COD-PS)</dt>
+              <dt><a href="https://data.humdata.org/dataset/cod-ps-global">Population statistics (COD&#8209;PS)</a></dt>
               <dd>
                 Baseline, age- and sex-disaggregated population figures of a country’s pre-crisis
                 situation, linkable to COD-AB using P-codes.
@@ -106,7 +110,11 @@ const logos = [
     <footer>
       <p>Managed by</p>
       <div class="logos">
-        {logos.map((l) => <img src={`${base}logos/${l.file}`} alt={l.alt} style={`height: ${l.height}px`} />)}
+        {logos.map((l) => (
+          <a href={l.href}>
+            <img src={`${base}logos/${l.file}`} alt={l.alt} style={`height: ${l.height}px`} />
+          </a>
+        ))}
       </div>
     </footer>
   </div>
@@ -116,7 +124,6 @@ const logos = [
   .home {
     overflow-x: clip;
     font-family: var(--brand-font);
-    color: var(--cd-grey--900);
     background: var(--cd-white);
   }
   .wrap {
@@ -124,12 +131,9 @@ const logos = [
     margin: 0 auto;
     padding: 0 2rem;
   }
-  header :global(.nav) {
-    padding: 1.25rem 0;
-  }
   h1,
   h2 {
-    color: var(--cd-blue--darkest);
+    color: var(--brand-primary--text);
     letter-spacing: -0.02em;
   }
   .hero {
@@ -142,10 +146,20 @@ const logos = [
     padding-bottom: 5rem;
   }
   h1 {
-    font-size: 2.8rem;
-    line-height: 1.12;
     font-weight: 700;
     margin: 0.75rem 0 1.25rem;
+  }
+  h1 .name {
+    display: block;
+    font-size: 3.4rem;
+    line-height: 1.02;
+  }
+  h1 .tagline {
+    display: block;
+    margin-top: 0.6rem;
+    font-size: 1.6rem;
+    font-weight: 400;
+    line-height: 1.25;
   }
   .lede {
     font-size: 1.2rem;
@@ -184,14 +198,35 @@ const logos = [
     margin: 2rem 0 0;
   }
   .types div {
-    padding: 1.25rem 1.5rem;
-    border-left: 3px solid var(--cd-ocha-blue);
-    background: var(--cd-blue--lightest);
+    padding: 1.25rem 1.5rem 1.25rem 1.875rem;
+    border: 1px solid var(--cd-grey--500);
+    border-radius: var(--brand-radius);
+    background: var(--cd-white);
+    box-shadow: inset 6px 0 0 var(--brand-primary--text);
+    position: relative;
+    transition:
+      border-color 0.15s ease,
+      box-shadow 0.15s ease;
+  }
+  .types div:hover {
+    border-color: var(--brand-primary--text);
+    box-shadow: inset 10px 0 0 var(--brand-primary--text);
   }
   .types dt {
+    font-family: var(--brand-font-heading);
     font-weight: 700;
-    color: var(--cd-blue--darkest);
+    color: var(--brand-primary--text);
     margin-bottom: 0.4rem;
+  }
+  .types dt a {
+    color: inherit;
+    text-decoration: none;
+  }
+  /* Stretches the title link over the whole box. */
+  .types dt a::after {
+    content: "";
+    position: absolute;
+    inset: 0;
   }
   .types dd {
     margin: 0;
@@ -218,7 +253,7 @@ const logos = [
     color: var(--cd-grey--800);
   }
   .more {
-    color: var(--cd-blue--darker);
+    color: var(--brand-primary--text);
     font-weight: 700;
     text-decoration: none;
   }
@@ -253,6 +288,9 @@ const logos = [
     justify-content: center;
     align-items: center;
     gap: 32px 48px;
+  }
+  .logos a {
+    display: flex;
   }
   footer img {
     width: auto;

@@ -48,6 +48,7 @@ jobs:
         env:
           BASE_PATH: ${{ steps.pages.outputs.base_path }}
           PY_DOCS_DIR: topo-tools/docs/pages
+          PUBLIC_DECISIONS_SHEET_URL: ${{ vars.PUBLIC_DECISIONS_SHEET_URL }}
       - name: Build git-free plugin archive
         working-directory: topo-tools
         run: |
@@ -56,13 +57,13 @@ jobs:
           git archive --format=zip \
             --mtime="@${mtime} +0000" \
             --prefix=topo-tools/ \
-            -o ../dist/topo-tools-plugin.zip \
+            -o ../dist/tools/topo-tools-plugin.zip \
             HEAD:plugins/topo-tools
       - name: Generate marketplace manifest
         working-directory: topo-tools
         run: |
           set -euo pipefail
-          sha256="$(sha256sum ../dist/topo-tools-plugin.zip | cut -d' ' -f1)"
+          sha256="$(sha256sum ../dist/tools/topo-tools-plugin.zip | cut -d' ' -f1)"
           plugin_name="$(jq -r '.name' plugins/topo-tools/.claude-plugin/plugin.json)"
           plugin_description="$(jq -r '.description' plugins/topo-tools/.claude-plugin/plugin.json)"
           jq -n \
@@ -78,13 +79,13 @@ jobs:
                   description: $description,
                   source: {
                     source: "archive",
-                    url: "https://ocha-dap.github.io/cod-site/topo-tools-plugin.zip",
+                    url: "https://ocha-dap.github.io/cod-site/tools/topo-tools-plugin.zip",
                     sha256: $sha256
                   }
                 }
               ]
-            }' > ../dist/marketplace.json
-          jq empty ../dist/marketplace.json
+            }' > ../dist/tools/marketplace.json
+          jq empty ../dist/tools/marketplace.json
       - name: Check for broken links
         uses: lycheeverse/lychee-action@v2.9.0
         with:

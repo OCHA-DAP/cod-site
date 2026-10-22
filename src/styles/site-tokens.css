@@ -32,3 +32,8 @@
   --cd-slate--400: #dddad7;
   --cd-slate--300: #edeae6;
 }
+
+/* Headings use OCHA's optional Roboto Slab, served by FontFaces.astro. */
+:root {
+  --brand-font-heading: var(--cd-font--roboto-slab);
+}

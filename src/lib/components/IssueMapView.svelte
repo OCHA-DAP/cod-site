@@ -11,7 +11,7 @@
   } from "maplibre-gl";
   import "maplibre-gl/dist/maplibre-gl.css";
   import { onDestroy, onMount } from "svelte";
-  import { MAP_COLORS, MAP_FILL_OPACITY } from "$lib/utils/mapColors";
+  import { MAP_COLORS, MAP_TINT_OPACITY } from "$lib/utils/mapColors";
   import MapPopup, { type FeatureInfo } from "./MapPopup.svelte";
 
   let {
@@ -107,7 +107,7 @@
         type: "fill",
         source: "dt-original",
         filter: polyFilter,
-        paint: { "fill-color": ORIGINAL_FILL, "fill-opacity": MAP_FILL_OPACITY },
+        paint: { "fill-color": ORIGINAL_FILL, "fill-opacity": MAP_TINT_OPACITY },
       });
       map!.addLayer({
         id: "dt-original-line",

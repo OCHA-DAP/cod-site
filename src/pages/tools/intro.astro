@@ -3,6 +3,7 @@ import { explorerViews } from "$lib/talk/explorer";
 import { steps } from "$lib/steps";
 import { tools } from "$lib/tools";
 import Layout from "../../layouts/Layout.astro";
+import SiteHeader from "$lib/components/SiteHeader.astro";
 import * as intro from "$lib/talk/intro.md";
 import * as outro from "$lib/talk/outro.md";
 
@@ -38,12 +39,11 @@ const after = await toSlides(outro);
   description="An introduction to Tools: why harmonized admin boundaries matter for UN80, and how the tools clean them in the browser."
 >
   <div class="talk">
-    <nav class="topnav">
-      <a href={toolsBase}>Tools</a>
+    <SiteHeader class="site-bar">
       <button type="button" class="toggle" data-toggle>
         Present (P)
       </button>
-    </nav>
+    </SiteHeader>
     <main class="deck">
       {before.map((html, i) =>
         html.includes(EXPLORER_MARKER) ? (
@@ -237,30 +237,15 @@ const after = await toSlides(outro);
     font-family: var(--brand-font);
     min-height: 100vh;
     background: var(--cd-grey--300);
-    color: var(--cd-grey--900);
   }
-  .topnav {
+  .talk :global(.site-bar) {
     position: sticky;
     top: 0;
     z-index: 1;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 860px;
-    margin: 0 auto;
-    padding: 0.75rem 1.5rem;
-    background: var(--cd-grey--300);
-    font-size: 0.875rem;
-  }
-  .topnav a {
-    color: var(--cd-grey--800);
-    text-decoration: none;
-  }
-  .topnav a:hover {
-    color: var(--cd-grey--900);
-    text-decoration: underline;
   }
   .toggle {
+    margin-left: auto;
+    font-size: 0.875rem;
     font: inherit;
     color: var(--cd-grey--800);
     background: #fff;
@@ -268,6 +253,11 @@ const after = await toSlides(outro);
     border-radius: var(--brand-radius);
     padding: 0.3rem 0.7rem;
     cursor: pointer;
+  }
+  @media (max-width: 40rem) {
+    .toggle {
+      display: none;
+    }
   }
   .toggle:hover {
     color: var(--cd-grey--900);
@@ -302,7 +292,7 @@ const after = await toSlides(outro);
   .slide :global(h2) {
     font-size: 1.5rem;
     font-weight: 700;
-    color: var(--cd-grey--900);
+    color: var(--brand-primary--text);
     margin: 0 0 1.25rem;
   }
   .slide :global(h2)::after {
@@ -518,7 +508,7 @@ const after = await toSlides(outro);
   :global(body.present) {
     overflow: hidden;
   }
-  :global(body.present) .topnav {
+  :global(body.present .site-bar) {
     display: none;
   }
   :global(body.present) .deck {

@@ -3,8 +3,8 @@
 
   // COD-AB names on the left, OpenStreetMap (geoBoundaries) names on the right.
   const rows = [
-    { a: "Amoron I Mania", b: "Amoron’i Mania", code: "MDG.022" },
     { a: "Haute Matsiatra", b: "Matsiatra Ambony", code: "MDG.021" },
+    { a: "Amoron I Mania", b: "Amoron’i Mania", code: "MDG.022" },
   ];
 
   let by = $state<"name" | "pcode" | null>("name");

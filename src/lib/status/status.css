@@ -8,7 +8,7 @@
 
   /* ── Sections ───────────────────────────────────────────────── */
   section {
-    border-top: 1px solid var(--cd-grey--400);
+    border-top: 1px solid var(--brand-primary--lightest);
     padding: 2rem 0 0.5rem;
     margin-bottom: 1rem;
   }
@@ -40,7 +40,7 @@
     letter-spacing: 0.03em;
     margin: 1.25rem 0 0.4rem;
     padding-bottom: 0.25rem;
-    border-bottom: 1px solid var(--cd-grey--400);
+    border-bottom: 1px solid var(--brand-primary--lightest);
   }
 
   section > h3.quarter-heading:first-of-type {
@@ -55,8 +55,12 @@
   table {
     width: 100%;
     table-layout: fixed;
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 1px solid var(--cd-grey--500);
+    border-radius: var(--brand-radius);
     font-size: 13px;
+    font-variant-numeric: tabular-nums;
     margin-bottom: 0.25rem;
   }
 
@@ -64,25 +68,36 @@
   td {
     padding: 0.35rem 0.6rem;
     text-align: left;
-    border: 1px solid var(--cd-grey--400);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
 
   th {
-    background: var(--cd-grey--300);
-    font-weight: 700;
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
-    font-feature-settings: "tnum";
     position: sticky;
     top: 0;
+    z-index: 1;
+    background: var(--brand-primary--lightest);
+    border-bottom: 1px solid var(--brand-primary--lighter);
+    color: var(--brand-primary--text-strong);
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  th:first-child {
+    border-top-left-radius: var(--brand-radius);
+  }
+
+  th:last-child {
+    border-top-right-radius: var(--brand-radius);
+  }
+
+  tbody tr:not(:last-child) td {
+    border-bottom: 1px solid var(--cd-grey--400);
   }
 
   tr:hover td {
-    background: var(--cd-grey--300);
+    background: var(--brand-primary--lightest);
   }
 
   tr.row-gap td {
@@ -90,6 +105,77 @@
   }
   tr.row-gap:hover td {
     background: var(--tint-yellow);
+  }
+
+  /* ── Key figures ────────────────────────────────────────────── */
+  .s-backlog { --tone-text: var(--cd-grey--900); }
+  .s-selected,
+  .s-in_progress,
+  .s-warn-low { --tone-text: var(--brand-primary--text); }
+  .s-done,
+  .s-ok { --tone-text: var(--cd-blue--dark); }
+  .s-blocked,
+  .s-warn-mid { --tone-text: var(--cd-orange--aa); }
+  .s-cancelled,
+  .s-critical { --tone-text: var(--cd-red--aaa); }
+
+  /* Subgrid rows keep numbers level when one title wraps. */
+  .figure-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+    row-gap: 1rem;
+  }
+
+  .figure {
+    display: grid;
+    grid-row: span 2;
+    grid-template-rows: subgrid;
+    row-gap: 0.4rem;
+    align-content: start;
+    padding: 0.25rem 1.25rem;
+    border-left: 1px solid var(--brand-primary--lighter);
+    color: inherit;
+    text-decoration: none;
+    --figure-color: var(--tone-text, var(--brand-primary--text));
+  }
+
+  .figure:has(.figure-title) {
+    grid-row: span 3;
+  }
+
+  .figure:first-child {
+    border-left: 0;
+    padding-left: 0;
+  }
+
+  .figure .figure-num {
+    font-size: 2.25rem;
+  }
+
+  a.figure:hover .figure-num {
+    text-decoration: underline;
+  }
+
+  .figure-denom {
+    font-size: 0.75em;
+    font-weight: 500;
+    opacity: 0.6;
+  }
+
+  .figure-title {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--cd-grey--700);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .figure-lbl {
+    font-size: 0.72rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--cd-grey--800);
   }
 
   /* ── Status badges ───────────────────────────────────────────── */
@@ -190,9 +276,14 @@
     display: inline-block;
     position: relative;
     cursor: help;
-    border-bottom: 1px dotted currentColor;
+    border-bottom: 1px dotted transparent;
     outline: none;
     vertical-align: baseline;
+  }
+
+  .term:hover,
+  .term:focus-visible {
+    border-bottom-color: currentColor;
   }
 
   /* Pills (badges) already have their own visual identity — drop the underline. */

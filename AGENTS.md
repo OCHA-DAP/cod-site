@@ -36,8 +36,9 @@ When adding a feature that requires logic that already exists elsewhere in the c
 contracts, no rationale), `docs/explanation/` (current-state rationale,
 squashed/rewritten as understanding evolves), `docs/how-to/` (task-oriented
 guides), `docs/tutorials/` (not yet written). `docs/adr/` holds immutable,
-one-decision-per-file Architecture Decision Records (Nygard format) — see
-`docs/adr/README.md`.
+one-decision-per-file Architecture Decision Records (Nygard format, see
+`docs/adr/README.md`). `docs/proposals/` holds one-page requests for managers
+and IT, written for non-developers.
 
 ## Commands
 

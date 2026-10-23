@@ -12,13 +12,15 @@ old/new version pair.
 
 ## Layout
 
-STAC-like: `{iso3}/{latest,vNN}/{adm0..adm3,lines,points}/{original,
-extended,matched}.parquet`. Distinct `vNN` dirs are always genuinely
-different content; `latest` is whichever `vNN` is newest.
+STAC-like: `{original,extended,matched}/{iso3}/{latest,vNN}/{iso3}_{level}/
+{iso3}_{level}.parquet`, where `{level}` is `admin0`..`admin4`, `adminlines`,
+`adminpoints` or `admincapitals` (e.g.
+`original/ukr/v04/ukr_admin3/ukr_admin3.parquet`). Distinct `vNN` dirs are
+always genuinely different content; `latest` is whichever `vNN` is newest.
 
 ## Picking a file (`clean` / `extend` / `match`)
 
-Any single `{iso3}/{vNN}/{adm_level}/original.parquet` works, drop it
+Any single `original/{iso3}/{vNN}/{iso3}_adminN/{iso3}_adminN.parquet` works, drop it
 directly onto the tool's DropZone (`clean`/`extend`) or onto its child/parent
 slot (`match`; pick two different admin levels of the same country, e.g.
 adm3 into adm2). Never write, export, or download a result back into
@@ -26,8 +28,8 @@ adm3 into adm2). Never write, export, or download a result back into
 
 ## Picking an old/new pair (`change`)
 
-1. Browse the country's catalog (local path, or fetch `./{iso3}/catalog.json`
-   from the STAC root) and list its `vNN` dirs.
+1. Browse the country's catalog (local path, or fetch
+   `./original/{iso3}/catalog.json` from the STAC root) and list its `vNN` dirs.
 2. Not every country/admin-level has 2+ versions yet, confirm both `vNN`s
    you want to compare actually exist before dropping them into `change`.
 3. Drop the older version as Version A and the newer as Version B.

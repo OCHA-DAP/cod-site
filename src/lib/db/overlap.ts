@@ -5,7 +5,7 @@ import { NODING_FALLBACK_GRID, SNAP_TOLERANCE } from "./constants";
 // Drop intersection crumbs below SNAP_TOLERANCE², in deg² (matches topo-tools ADR-0030).
 export const SLIVER = SNAP_TOLERANCE ** 2;
 
-const AREA = (g: string) => `ST_Area(ST_Transform(${g}, 'EPSG:4326', 'EPSG:8857'))`;
+const AREA = (g: string) => `ST_Area(ST_Transform(${g}, 'EPSG:4326', 'EPSG:8857', true))`;
 
 async function withLooseMemoryLimit<T>(
   conn: AsyncDuckDBConnection,

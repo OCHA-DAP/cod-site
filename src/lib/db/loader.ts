@@ -87,7 +87,7 @@ const WKB_NAMES = ["geometry", "geom", "wkb_geometry", "the_geom"];
 function loadGeomExpr(geomType: string, quotedCol: string): string {
   if (geomType === "BLOB") return `ST_Force2D(ST_MakeValid(ST_GeomFromWKB(${quotedCol})))`;
   if (geomType !== "GEOMETRY")
-    return `ST_Force2D(ST_Transform(ST_MakeValid(${quotedCol}), 'EPSG:4326'))`;
+    return `ST_Force2D(ST_Transform(ST_MakeValid(${quotedCol}), 'EPSG:4326', true))`;
   return `ST_Force2D(ST_MakeValid(${quotedCol}))`;
 }
 

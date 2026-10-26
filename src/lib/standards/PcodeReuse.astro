@@ -1,0 +1,59 @@
+---
+import y2021 from "./pcode-reuse-2021.svg?raw";
+import y2025 from "./pcode-reuse-2025.svg?raw";
+
+const maps = [
+  { year: 2021, map: y2021, label: "Mali's regions in 2021, with Tombouctou as ML06 and Bamako as ML09" },
+  { year: 2025, map: y2025, label: "Mali's regions in 2025, with Timbuktu as ML06, Taoudenni as ML09 and Bamako as ML20" },
+];
+---
+
+<figure class="reuse">
+  <div class="maps">
+    {maps.map((m) => (
+      <div>
+        <span class="year">{m.year}</span>
+        <div class="map" role="img" aria-label={m.label}>
+          <Fragment set:html={m.map} />
+        </div>
+      </div>
+    ))}
+  </div>
+  <figcaption>
+    Mali's regions in the 2021 and 2025 editions. Bamako moves from ML09 to ML20, and ML09 goes to
+    Taoudenni, which split from Tombouctou. Tombouctou keeps ML06.
+  </figcaption>
+</figure>
+
+<style>
+  .reuse {
+    margin: 2rem 0;
+  }
+  .maps {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  .year {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--brand-primary--text);
+  }
+  .map :global(svg) {
+    display: block;
+    width: 100%;
+    height: auto;
+    font-family: var(--brand-font);
+  }
+  figcaption {
+    margin-top: 0.75rem;
+    font-size: 0.85rem;
+    color: var(--brand-grey--text);
+  }
+  @media (max-width: 40rem) {
+    .maps {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -2,13 +2,14 @@
 # requires-python = ">=3.12"
 # dependencies = ["duckdb"]
 # ///
-"""Render the About page's Morafeno and P-code level maps as inline SVG."""
+"""Render the About page's Morafeno and P-code level maps and the Standards migration map as inline SVG."""
 
 from pathlib import Path
 
 import duckdb
 
 OUT = Path(__file__).parents[2] / "src" / "lib" / "about"
+OUT_STANDARDS = OUT.parent / "standards"
 SRC = "https://data.source.coop/hdx/cod-ab/original"
 BLUE, BLUE_LIGHTER, BLUE_DARK, GREY = "#009EDB", "#C5DFEF", "#004987", "#E6E6E6"
 # The commune of Morafeno whose fokontany include one also called Morafeno.
@@ -56,10 +57,16 @@ class Panel:
         d = " ".join(r[0] for r in c.sql(f"SELECT ST_AsSVG({px}, false, 1) FROM ({sql})").fetchall() if r[0])
         self.maps.append(f'<path d="{d}" fill="{fill}" stroke="{stroke}" stroke-width="0.6" stroke-linejoin="round"/>')
 
-    def dots(self, pts, r):
+    def dots(self, pts, r, fill=BLUE):
         for x, y in pts:
             u, v = self.px(x, y)
-            self.over.append(f'<circle cx="{u:.1f}" cy="{v:.1f}" r="{r}" fill="{BLUE}" stroke="#fff" stroke-width="1"/>')
+            self.over.append(f'<circle cx="{u:.1f}" cy="{v:.1f}" r="{r}" fill="{fill}" stroke="#fff" stroke-width="1"/>')
+
+    def label(self, x, y, code, name, dx=0, dy=0, anchor="middle"):
+        u, v = self.px(x, y)
+        halo = f'fill="{BLUE_DARK}" stroke="#fff" stroke-width="3" paint-order="stroke" text-anchor="{anchor}"'
+        self.over.append(f'<text x="{u + dx:.1f}" y="{v + dy:.1f}" font-size="15" font-weight="700" {halo}>{code}</text>'
+                         f'<text x="{u + dx:.1f}" y="{v + dy + 14:.1f}" font-size="12" {halo}>{name}</text>')
 
     def body(self):
         return "".join(self.maps) + "".join(self.over)
@@ -119,6 +126,26 @@ def pcode_levels() -> None:
         (OUT / f"pcode-{key}.svg").write_text(p.svg())
 
 
+def migration() -> None:
+    """Mali's admin 1 in 2021 and 2025: Bamako moves from ML09 to ML20, and ML09 goes to Taoudenni."""
+    for v in ("v02", "v03"):
+        load(f"mli_{v}", f"mli/{v}/mli_admin1/mli_admin1.parquet", "adm1_pcode pcode", "true", -2, 17, 1000)
+    unit = "SELECT geom FROM mli_{} WHERE pcode = '{}'"
+    for v, year, units in [("v02", 2021, [("ML06", "Tombouctou", BLUE)]),
+                           ("v03", 2025, [("ML06", "Timbuktu", BLUE), ("ML09", "Taoudenni", BLUE_LIGHTER)])]:
+        p = Panel(bbox("SELECT geom FROM mli_v03"), 360)
+        p.fill(f"SELECT geom FROM mli_{v}", GREY)
+        for code, name, fill in units:
+            p.fill(unit.format(v, code), fill)
+            p.label(*mic(unit.format(v, code))[0], code, name)
+        bamako = "ML09" if v == "v02" else "ML20"
+        pt = mic(unit.format(v, bamako))
+        p.dots(pt, 4, BLUE_DARK)
+        p.label(*pt[0], bamako, "Bamako", dx=8, dy=-4, anchor="start")
+        (OUT_STANDARDS / f"pcode-reuse-{year}.svg").write_text(p.svg())
+
+
 if __name__ == "__main__":
     morafeno()
     pcode_levels()
+    migration()

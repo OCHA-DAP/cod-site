@@ -48,7 +48,7 @@ npm run build     # Production build
 npm run preview   # Preview production build
 npm run check     # Astro + TypeScript type check
 npm run fetch:status:local  # Fetch /status CSVs (uv; needs ARCGIS_* and JIRA_* in .env)
-uv run scripts/about/pcode_figures.py  # Render /about/ Morafeno and P-code level SVGs
+uv run scripts/about/pcode_figures.py  # Render /about/ Morafeno and P-code level SVGs and the /standards/ migration maps
 uv run scripts/about/population_maps.py <cod_population_admin2.csv>  # Render /about/ population maps
 ```
 

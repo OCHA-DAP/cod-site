@@ -45,13 +45,13 @@ async function buildNotchRuns(conn: AsyncDuckDBConnection, table: string): Promi
     ),
     pts AS (
       SELECT rnid,
-             list_transform(ST_Dump(ST_Points(g)), x -> [ST_X(x.geom), ST_Y(x.geom)]) AS xy
+             list_transform(ST_Dump(ST_Points(g)), lambda x: [ST_X(x.geom), ST_Y(x.geom)]) AS xy
       FROM rings
     ),
     segs AS (
       SELECT rnid, e, least(e[1], e[2]) AS k1, greatest(e[1], e[2]) AS k2
       FROM (
-        SELECT rnid, UNNEST(list_transform(range(1, len(xy)), i -> [xy[i], xy[i + 1]])) AS e
+        SELECT rnid, UNNEST(list_transform(range(1, len(xy)), lambda i: [xy[i], xy[i + 1]])) AS e
         FROM pts
       )
     ),
@@ -175,7 +175,7 @@ function projectNotchSideSql(
      WHERE d.path[1] < np`,
     `CREATE OR REPLACE TABLE ${p}_seg AS
      SELECT ST_MakeLine(xs[i], xs[i + 1]) AS s
-     FROM (SELECT list_transform(ST_Dump(ST_Points(l)), x -> x.geom) AS xs
+     FROM (SELECT list_transform(ST_Dump(ST_Points(l)), lambda x: x.geom) AS xs
            FROM (SELECT UNNEST(ST_Dump(${line})).geom AS l FROM _notch_w)),
           generate_series(1, len(xs) - 1) t(i)`,
     `CREATE OR REPLACE TABLE ${p}_near AS

@@ -20,7 +20,7 @@ export async function createNameMacros(conn: AsyncDuckDBConnection): Promise<voi
   await conn.query(`--sql
     CREATE OR REPLACE MACRO name_repair_mojibake(s) AS (
       WITH b AS (
-        SELECT list_transform(string_split(s, ''), c -> name_cp1252_byte(c)) AS bytes
+        SELECT list_transform(string_split(s, ''), lambda c: name_cp1252_byte(c)) AS bytes
       )
       SELECT CASE
         WHEN regexp_matches(r, '${IMPLAUSIBLE_REPAIR_PATTERN}') THEN NULL
@@ -31,7 +31,7 @@ export async function createNameMacros(conn: AsyncDuckDBConnection): Promise<voi
           WHEN NOT regexp_matches(s, '${MOJIBAKE_PATTERN}') THEN NULL
           WHEN list_count(bytes) < length(s) THEN NULL
           ELSE try(decode(unhex(array_to_string(
-            list_transform(bytes, x -> printf('%02X', x)), ''))))
+            list_transform(bytes, lambda x: printf('%02X', x)), ''))))
         END AS r
         FROM b
       )

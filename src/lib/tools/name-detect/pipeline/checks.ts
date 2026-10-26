@@ -174,8 +174,8 @@ const whitespace = (source: string): string =>
 function caseOutlier(source: string): string {
   const caps = `list_transform(list_filter(
     regexp_split_to_array(name, '[^\\p{L}]+'),
-    w -> w = upper(w) AND w <> lower(w)
-         AND NOT regexp_matches(w, '${ROMAN_NUMERAL_PATTERN}')), w -> length(w))`;
+    lambda w: w = upper(w) AND w <> lower(w)
+         AND NOT regexp_matches(w, '${ROMAN_NUMERAL_PATTERN}')), lambda w: length(w))`;
   return `--sql
     WITH c AS (
       SELECT *,
@@ -189,7 +189,7 @@ function caseOutlier(source: string): string {
                 AND regexp_matches(name, '\\p{L}{${CASE_SHORT_WORD + 1}}')
                 AND (NOT has_upper
                      OR list_max(caps) >= ${CASE_LONG_WORD}
-                     OR len(list_filter(caps, n -> n >= ${CASE_SHORT_WORD})) >= 2)
+                     OR len(list_filter(caps, lambda n: n >= ${CASE_SHORT_WORD})) >= 2)
                 AS outlier
       FROM c
     ), share AS (

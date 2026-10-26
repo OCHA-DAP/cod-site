@@ -1,0 +1,35 @@
+---
+import RelatedLinks from "$lib/components/RelatedLinks.astro";
+import Toc from "$lib/components/Toc.astro";
+import { loadAbout } from "$lib/about/pages";
+import { aboutBase, base, standardsBase, toolsBase } from "$lib/utils/paths";
+import PageLayout from "../../layouts/PageLayout.astro";
+
+export async function getStaticPaths() {
+  const pages = await loadAbout();
+  return pages.map((page) => ({ params: { slug: page.entry.id }, props: { page, pages } }));
+}
+
+const { page, pages } = Astro.props;
+const { Content, headings } = page;
+const related = [
+  ...pages.filter((p) => p !== page).map((p) => ({ href: p.href, label: p.entry.data.title })),
+  { href: standardsBase, label: "Standards" },
+  { href: toolsBase, label: "Tools" },
+  { href: `${base}explorer/`, label: "Explorer" },
+];
+---
+
+<PageLayout
+  title={page.entry.data.title}
+  summary={page.entry.data.summary}
+  crumbs={[{ label: "About", href: aboutBase }]}
+>
+  <div class="wrap prose-body">
+    <article class="prose">
+      <Content />
+      <RelatedLinks links={related} />
+    </article>
+    <Toc headings={headings} />
+  </div>
+</PageLayout>

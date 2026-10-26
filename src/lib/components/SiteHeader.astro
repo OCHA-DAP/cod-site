@@ -1,5 +1,5 @@
 ---
-import { base, standardsBase, toolsBase } from "$lib/utils/paths";
+import { aboutBase, base, standardsBase, statusBase, toolsBase } from "$lib/utils/paths";
 
 interface Props {
   class?: string;
@@ -14,6 +14,15 @@ const current = (href: string, prefix = false) =>
 const currentIn = (links: { href: string; prefix?: boolean }[]) =>
   links.find((l) => current(l.href)) ?? links.find((l) => current(l.href, l.prefix));
 const menus = [
+  {
+    label: "About",
+    base: aboutBase,
+    links: [
+      { href: aboutBase, label: "Overview" },
+      { href: `${aboutBase}why/`, label: "Why CODs matter" },
+      { href: `${aboutBase}un80/`, label: "UN80" },
+    ],
+  },
   {
     label: "Standards",
     base: standardsBase,
@@ -33,9 +42,16 @@ const menus = [
       { href: `${toolsBase}docs/`, label: "CLI Docs", prefix: true },
     ],
   },
+  {
+    label: "Status",
+    base: statusBase,
+    links: [
+      { href: statusBase, label: "Info" },
+      { href: `${statusBase}work`, label: "Work" },
+      { href: `${statusBase}reviews`, label: "Reviews" },
+    ],
+  },
 ];
-const aboutHref = `${base}about/`;
-const statusHref = `${base}status/`;
 const explorerHref = `${base}explorer/`;
 ---
 
@@ -47,7 +63,6 @@ const explorerHref = `${base}explorer/`;
   </a>
   <slot />
   <nav class="topnav" aria-label="Site">
-    <a href={aboutHref} aria-current={current(aboutHref)}>About</a>
     {menus.map((m) => (
       <details class="menu">
         <summary class:list={{ active: path.startsWith(m.base) }}>
@@ -62,7 +77,6 @@ const explorerHref = `${base}explorer/`;
         </div>
       </details>
     ))}
-    <a href={statusHref} aria-current={current(statusHref, true)}>Status</a>
     <a href={explorerHref} aria-current={current(explorerHref)}>Explorer</a>
   </nav>
 </div>
@@ -189,8 +203,8 @@ const explorerHref = `${base}explorer/`;
       gap: 0.7rem;
       font-size: 0.85rem;
     }
-    .menu summary {
-      gap: 0.25rem;
+    .caret {
+      display: none;
     }
   }
   .menu-panel a[aria-current="page"] {

@@ -1,0 +1,22 @@
+---
+import DocCards from "$lib/components/DocCards.astro";
+import { loadAbout } from "$lib/about/pages";
+import PageLayout from "../../layouts/PageLayout.astro";
+
+const pages = await loadAbout();
+const summary =
+  "Common Operational Datasets (CODs) are the administrative boundaries (COD-AB) and population statistics (COD-PS) shared by the organizations taking part in a humanitarian response.";
+---
+
+<PageLayout title="About CODs" summary={summary}>
+  <DocCards
+    label="Pages"
+    cards={pages.map((p) => ({
+      href: p.href,
+      title: p.entry.data.title,
+      summary: p.entry.data.summary,
+      items: p.headings.map((h) => h.text),
+      more: `Read ${p.entry.data.title}`,
+    }))}
+  />
+</PageLayout>

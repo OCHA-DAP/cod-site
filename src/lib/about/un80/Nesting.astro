@@ -1,0 +1,81 @@
+---
+import Figure from "./Figure.astro";
+
+const levels = [
+  { name: "UN80 Initiative", note: "The Secretary-General’s reform of the UN system, launched in 2025" },
+  { name: "Work Package 2: New Humanitarian Compact", note: "Faster, leaner humanitarian response, led by OCHA" },
+  { name: "Humanitarian data (Actions 20 and 24)", note: "Data from different agencies combined into one evidence base" },
+  { name: "Shared geographic references", note: "P-codes and administrative boundaries" },
+  { name: "COD-AB", note: "Boundaries and P-codes for each location" },
+];
+---
+
+<Figure
+  caption="Each box is part of the one around it. COD-AB is one of the shared geographic references that the UN80 humanitarian data work relies on."
+  source={{
+    href: "https://www.un.org/un80-initiative/en/media/742",
+    label: "Secretary-General’s Information Brief: Humanitarian Data, 2 October 2026",
+  }}
+>
+  {
+    levels.reduceRight(
+      (inner: unknown, l, i) => (
+        <div class={`level l${i}`}>
+          <b>{l.name}</b>
+          <span>{l.note}</span>
+          {inner}
+        </div>
+      ),
+      null,
+    )
+  }
+</Figure>
+
+<style>
+  .level {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    padding: 0.85rem 1rem 1rem;
+    border-radius: 14px;
+    color: var(--cd-grey--900);
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+
+  .level > .level {
+    margin-top: 0.7rem;
+  }
+
+  b {
+    font-size: 0.95rem;
+  }
+
+  .l0 {
+    background: var(--brand-primary--lightest);
+  }
+
+  .l1 {
+    background: var(--brand-primary--lighter);
+  }
+
+  .l2 {
+    background: var(--brand-primary--light);
+  }
+
+  .l3 {
+    background: var(--brand-primary--text);
+    color: var(--cd-white);
+  }
+
+  .l4 {
+    background: var(--brand-primary--dark);
+    color: var(--cd-white);
+  }
+
+  @media (max-width: 30rem) {
+    .level {
+      padding: 0.7rem 0.6rem 0.75rem;
+    }
+  }
+</style>

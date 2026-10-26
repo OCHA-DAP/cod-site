@@ -1,0 +1,39 @@
+---
+import Arrow from "$lib/components/Arrow.svelte";
+
+interface Props {
+  links: { href: string; label: string }[];
+}
+
+const { links } = Astro.props;
+---
+
+<nav class="links" aria-label="Related">
+  {links.map((l) => (
+    <a href={l.href}>
+      {l.label} <Arrow />
+    </a>
+  ))}
+</nav>
+
+<style>
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.75rem;
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--cd-blue--lightest);
+  }
+  .links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    color: var(--brand-primary--text);
+    font-weight: 700;
+    text-decoration: none;
+  }
+  .links a:hover {
+    text-decoration: underline;
+  }
+</style>

@@ -2,7 +2,7 @@
 import "$lib/status/status.css";
 import Masthead from "$lib/components/Masthead.astro";
 import Term from "$lib/components/Term.astro";
-import { base } from "$lib/utils/paths";
+import { statusBase } from "$lib/utils/paths";
 import type { loadData } from "$lib/status/loadData";
 import Layout from "./Layout.astro";
 
@@ -21,7 +21,6 @@ const lastUpdatedFormatted = data.lastUpdatedAt
     })
   : null;
 
-const statusBase = `${base}status/`;
 const dataBase = `${statusBase}data/`;
 const page = Astro.url.pathname.replace(/\/$/, "").split("/").at(-1);
 ---

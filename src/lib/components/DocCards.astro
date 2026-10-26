@@ -1,0 +1,134 @@
+---
+import Arrow from "$lib/components/Arrow.svelte";
+
+interface Props {
+  /** A card without `href` renders as a dashed "coming soon" placeholder. */
+  cards: { href?: string; title: string; summary: string; items?: string[]; more: string }[];
+  label: string;
+}
+
+const { cards, label } = Astro.props;
+---
+
+<section class="wrap docs" aria-label={label} style={`--cols: ${Math.min(cards.length, 3)}`}>
+  {cards.map((c, n) => {
+    const Tag = c.href ? "a" : "div";
+    return (
+      <Tag class:list={["doc", { soon: !c.href }]} href={c.href}>
+        <span class="num">{n + 1}</span>
+        <h2>{c.title}</h2>
+        <p>{c.summary}</p>
+        {c.items && c.items.length > 0 && (
+          <ul>
+            {c.items.map((i) => (
+              <li>{i}</li>
+            ))}
+          </ul>
+        )}
+        <span class="more">
+          {c.more} {c.href && <Arrow />}
+        </span>
+      </Tag>
+    );
+  })}
+</section>
+
+<style>
+  .docs {
+    display: grid;
+    grid-template-columns: repeat(var(--cols), 1fr);
+    gap: 1.5rem;
+    padding-top: 3.5rem;
+    padding-bottom: 5rem;
+  }
+  .doc {
+    display: flex;
+    flex-direction: column;
+    padding: 1.75rem 1.75rem 1.5rem;
+    border: 1px solid var(--cd-grey--500);
+    border-radius: var(--brand-radius);
+    box-shadow: inset 0 6px 0 var(--brand-primary--text);
+    background: var(--cd-white);
+    color: inherit;
+    text-decoration: none;
+    transition:
+      border-color 0.15s ease,
+      box-shadow 0.15s ease,
+      transform 0.15s ease;
+  }
+  a.doc:hover {
+    border-color: var(--brand-primary--text);
+    box-shadow:
+      inset 0 10px 0 var(--brand-primary--text),
+      0 18px 40px -24px rgba(0, 46, 110, 0.45);
+    transform: translateY(-2px);
+  }
+  .num {
+    display: grid;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    margin-bottom: 1.25rem;
+    border-radius: 50%;
+    background: var(--brand-primary--lightest);
+    color: var(--brand-primary--text);
+    font-weight: 700;
+  }
+  h2 {
+    margin: 0 0 0.6rem;
+    font-size: 1.5rem;
+    letter-spacing: -0.01em;
+    color: var(--brand-primary--text);
+  }
+  p {
+    margin: 0 0 1.25rem;
+    line-height: 1.6;
+    color: var(--cd-grey--800);
+  }
+  ul {
+    margin: 0 0 1.5rem;
+    padding: 1rem 0 0;
+    border-top: 1px solid var(--cd-blue--lightest);
+    list-style: none;
+    font-size: 0.9rem;
+  }
+  li {
+    padding: 0.25rem 0;
+    color: var(--cd-grey--800);
+  }
+  li::before {
+    content: "";
+    display: inline-block;
+    width: 0.4rem;
+    height: 0.4rem;
+    margin-right: 0.6rem;
+    border-radius: 50%;
+    background: var(--brand-primary--light);
+    vertical-align: middle;
+  }
+  .more {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    margin-top: auto;
+    color: var(--brand-primary--text);
+    font-weight: 700;
+  }
+  .soon {
+    border-style: dashed;
+    box-shadow: inset 0 6px 0 var(--brand-grey--border);
+  }
+  .soon h2,
+  .soon .more {
+    color: var(--brand-grey--text);
+  }
+  .soon .num {
+    background: var(--brand-grey);
+    color: var(--brand-grey--text);
+  }
+  @media (max-width: 900px) {
+    .docs {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

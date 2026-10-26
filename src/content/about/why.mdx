@@ -1,0 +1,76 @@
+---
+title: Why CODs matter
+summary: Shared boundaries and population figures let every organization in a response refer to places the same way, so their data can be compared and combined.
+order: 1
+---
+
+import Morafeno from "$lib/about/Morafeno.astro";
+import NameJoin from "$lib/about/NameJoin.svelte";
+import PcodeLevels from "$lib/about/PcodeLevels.astro";
+import PopulationMaps from "$lib/about/PopulationMaps.svelte";
+import Timeline from "$lib/about/Timeline.astro";
+import UseStrip from "$lib/about/UseStrip.astro";
+import { standardsBase } from "$lib/utils/paths";
+
+## Why CODs exist
+
+In emergencies, many organizations provide relief, each in its own way, and each collects
+information as the response goes on: needs assessments, where partners are working, how many
+people have been reached. Sharing this information is how needs get identified and how gaps
+and duplication in assistance are avoided. It only works if every organization refers to
+places in the same way.
+
+CODs give partners that common reference. When UN agencies, NGOs, the Red Cross and Red
+Crescent, and governments use the same boundaries and population figures, their data can be
+compared and combined. In each country, the Information Management Working Group, made up of
+information managers from government, UN agencies, clusters and NGOs, adopts the CODs as the
+standard.
+
+## Preparedness
+
+Decisions in the first hours and days of an emergency rely on data that already exists, so
+the work of gathering, managing and sharing it has to happen before a crisis. For
+sudden-onset emergencies, current guidance calls for CODs to be shared within 48 hours. That
+leaves time to check and correct them, but not to build them. If CODs have been kept up to
+date, the corrections are small.
+
+<Timeline
+  steps={[
+    { when: "Before", what: "CODs are kept up to date" },
+    { when: "Day 0", what: "The emergency starts", alert: true },
+    { when: "Within 48 hours", what: "CODs are shared, then checked and corrected" },
+    { when: "Response", what: "Assessments, maps and the 3W use the CODs" },
+  ]}
+/>
+
+## P-codes
+
+Linking datasets by place name causes errors. Sources spell names differently, or use another
+language: the Madagascar COD-AB has Amoron I Mania and Haute Matsiatra, where OpenStreetMap
+has Amoron’i Mania and Matsiatra Ambony. Names also repeat. In Madagascar, 81 different
+administrative level 4 units are called Morafeno.
+
+<Morafeno />
+
+A P-code (place code) identifies one administrative unit. It starts with the country’s ISO3
+code and adds a three-digit number for each level below, separated by dots. Units that
+share a name, like the commune of Morafeno and the fokontany inside it, still get different
+codes.
+
+<PcodeLevels />
+
+Datasets that use the same P-codes can be joined directly, without matching names by hand.
+Each COD-AB includes a gazetteer listing every P-code with its name. The <a href={`${standardsBase}specification/pcode/`}>P-code format</a> in the Standards gives the full rules.
+
+<NameJoin client:visible />
+
+## How CODs are used
+
+COD-AB and COD-PS are used in every phase of the humanitarian programme cycle:
+
+<UseStrip />
+
+The maps below link the two. Each COD-PS figure is attached to its COD-AB boundary by
+P-code, which is enough to show where people live and how age and sex vary.
+
+<PopulationMaps client:visible />

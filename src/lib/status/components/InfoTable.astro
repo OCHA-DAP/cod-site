@@ -1,0 +1,303 @@
+---
+import type { InfoRow } from "$lib/status/loadData";
+import Term from "$lib/components/Term.astro";
+import Tooltip from "$lib/components/Tooltip.astro";
+import Dumbbell from "./Dumbbell.astro";
+
+interface Props {
+  rows: InfoRow[];
+}
+
+const { rows } = Astro.props;
+// Same empty-cell glyph as the other status tables.
+const EMPTY = String.fromCharCode(0x2014);
+const LEVELS = [1, 2, 3, 4, 5];
+const pc = (p: number) => `${Math.floor(p * 100)}%`;
+const fmt = (n: number) => n.toLocaleString("en");
+
+const years = rows
+  .flatMap((r) => [r.ab_reference_year, r.ps_reference_year])
+  .filter((y) => y !== undefined);
+// Half a year of padding keeps the edge dots inside the track.
+const year = { lo: Math.min(...years) - 0.5, hi: Math.max(...years) + 0.5 };
+const step = year.hi - year.lo > 30 ? 10 : 5;
+const yearTicks = Array.from(
+  { length: Math.floor(year.hi / step) - Math.ceil(year.lo / step) + 1 },
+  (_, i) => (Math.ceil(year.lo / step) + i) * step,
+);
+
+interface Cell {
+  level: number;
+  present: boolean;
+  partial: boolean;
+  /** PS only: p-codes were compared against COD-AB, so the unmatched share shows red. */
+  checked: boolean;
+  /** Fill width: matched share for PS, subdivided share for a measured partial AB level, else 1. */
+  fill: number;
+  /** In-bar text: unit count for AB, match % for PS. */
+  label?: string;
+  /** Label sits on a light background (partial or mostly unmatched) and needs dark ink. */
+  dark: boolean;
+  /** Tooltip line for what the bar can't show: partial extent, unmatched p-codes. */
+  note?: string;
+}
+
+function track(r: InfoRow, kind: "ab" | "ps"): Cell[] {
+  const max = kind === "ab" ? r.ab_level : r.ps_level;
+  return LEVELS.map((n) => {
+    const l = r.levels.find((x) => x.level === n);
+    const units = kind === "ab" ? l?.ab_units : l?.ps_units;
+    const pct = (kind === "ab" ? l?.ab_share : l?.ps_share) ?? 100;
+    const present = units !== undefined || (max !== undefined && n <= max);
+    const measured = pct < 99.5;
+    // AB levels past the metadata's full level are partial even when every parent is subdivided.
+    const partial =
+      present &&
+      (measured || (kind === "ab" && r.ab_level_full !== undefined && n > r.ab_level_full));
+    const extent = partial ? `partial${measured ? `, in ${pct}% of ADM${n - 1} units` : ""}` : "";
+    if (kind === "ab")
+      return {
+        level: n,
+        present,
+        partial,
+        checked: false,
+        fill: measured ? pct / 100 : 1,
+        label: units ? fmt(units) : undefined,
+        dark: partial,
+        note: extent ? `ADM${n}: ${extent}` : undefined,
+      };
+    const matched = l?.matched ?? 0;
+    const fill = units ? matched / units : 1;
+    const missing = units ? units - matched : 0;
+    const notes = [
+      extent,
+      missing ? `${fmt(missing)} of ${fmt(units!)} p-codes not in COD-AB` : "",
+    ].filter(Boolean);
+    return {
+      level: n,
+      present,
+      partial,
+      checked: units !== undefined,
+      fill,
+      label: units ? pc(fill) : undefined,
+      dark: partial || fill < 0.5,
+      note: notes.length ? `ADM${n}: ${notes.join(", ")}` : undefined,
+    };
+  });
+}
+---
+
+<section class="info">
+  <table>
+    <colgroup>
+      <col style="width: 24%" />
+      <col style="width: 21%" />
+      <col style="width: 21%" />
+      <col style="width: 34%" />
+    </colgroup>
+    <thead>
+      <tr>
+        <th>Location</th>
+        <th>
+          <Term term="ab-levels">COD-AB levels</Term>
+        </th>
+        <th>
+          <Term term="ps-levels">COD-PS levels</Term>
+        </th>
+        <th>
+          <Term term="reference-year">Reference year</Term>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      {rows.map((row) => {
+        const datasets = [
+          { kind: "ab" as const, label: "AB", url: row.hdxUrl, cells: track(row, "ab") },
+          { kind: "ps" as const, label: "PS", url: row.psUrl, cells: track(row, "ps") },
+        ];
+        return (
+          <tr>
+            <td>
+              {row.name_en} <span class="iso3">{row.iso3}</span>
+            </td>
+            {datasets.map(({ kind, label, url, cells }) => (
+              <td class={`chart ${kind}`}>
+                <span class="level-cell">
+                  <span class="label">
+                    {url ? (
+                      <a href={url} target="_blank" rel="noopener" title={`COD-${label} on HDX`}>
+                        {label}
+                      </a>
+                    ) : (
+                      label
+                    )}
+                  </span>
+                  <Tooltip block>
+                    <span class="levels">
+                      {cells.map((c) => (
+                        <span class:list={["seg", { none: !c.present, unmatched: c.checked }]}>
+                          {c.present && (
+                            <span
+                              class:list={["seg-fill", { partial: c.partial }]}
+                              style={`width: ${c.fill * 100}%`}
+                            />
+                          )}
+                          {c.label && (
+                            <span class:list={["seg-lbl", { dark: c.dark }]}>{c.label}</span>
+                          )}
+                        </span>
+                      ))}
+                    </span>
+                    {cells.some((c) => c.note) && (
+                      <span slot="tip" class="tip-lines">
+                        {cells
+                          .filter((c) => c.note)
+                          .map((c) => (
+                            <span>{c.note}</span>
+                          ))}
+                      </span>
+                    )}
+                  </Tooltip>
+                </span>
+              </td>
+            ))}
+            <td class="chart">
+              <Tooltip block align="right">
+                <Dumbbell
+                  {...year}
+                  ticks={yearTicks}
+                  ab={row.ab_reference_year}
+                  ps={row.ps_reference_year}
+                />
+                <span slot="tip" class="tip-grid two">
+                  <span class="key ab"></span>
+                  <span>COD-AB {row.ab_reference_year ?? EMPTY}</span>
+                  <span class="key ps"></span>
+                  <span>COD-PS {row.ps_reference_year ?? EMPTY}</span>
+                </span>
+              </Tooltip>
+            </td>
+          </tr>
+        );
+      })}
+    </tbody>
+  </table>
+</section>
+
+<style>
+  .info {
+    border-top: none;
+    padding-top: 0;
+  }
+
+  .info td {
+    padding-top: 0.3rem;
+    padding-bottom: 0.3rem;
+  }
+
+  .chart :global(.tooltip-body) {
+    max-width: none;
+  }
+
+  .key {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--c);
+  }
+
+  .ab {
+    --c: var(--status-ab);
+    --c-light: color-mix(in srgb, var(--status-ab) 30%, white);
+  }
+
+  .ps {
+    --c: var(--status-ps);
+    --c-light: color-mix(in srgb, var(--status-ps) 30%, white);
+  }
+
+  .level-cell {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .level-cell > :global(.tooltip) {
+    flex: 1;
+  }
+
+  .label {
+    width: 1.3rem;
+    font-size: 11px;
+    color: var(--cd-grey--500);
+  }
+
+  .levels {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 2px;
+  }
+
+  .seg {
+    position: relative;
+    height: 16px;
+    border-radius: 2px;
+    background: var(--cd-grey--300);
+    overflow: hidden;
+  }
+
+  .seg.none {
+    background: none;
+  }
+
+  .seg.unmatched {
+    background: color-mix(in srgb, var(--cd-red) 55%, white);
+  }
+
+  .seg-fill {
+    display: block;
+    height: 100%;
+    background: var(--c);
+  }
+
+  .seg-fill.partial {
+    background: var(--c-light);
+  }
+
+  .seg-lbl {
+    position: absolute;
+    inset: 0;
+    text-align: center;
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 16px;
+    color: var(--cd-white);
+  }
+
+  .seg-lbl.dark {
+    color: var(--cd-grey--900);
+  }
+
+  .tip-lines {
+    display: flex;
+    flex-direction: column;
+    white-space: nowrap;
+  }
+
+  .tip-grid {
+    display: grid;
+    column-gap: 0.7rem;
+    row-gap: 0.1rem;
+    align-items: center;
+    white-space: nowrap;
+  }
+
+  .tip-grid.two {
+    grid-template-columns: auto auto;
+    column-gap: 0.4rem;
+  }
+
+  .tip-grid .key {
+    display: inline-block;
+  }
+</style>

@@ -9,12 +9,11 @@ interface Props {
 
 const { planGroups } = Astro.props;
 
-function coverageClass(inGis: number, total: number): string {
-  if (total === 0) return "s-ok";
-  const pct = inGis / total;
-  if (pct === 1) return "s-ok";
-  if (pct >= 0.75) return "s-warn-low";
-  if (pct >= 0.5) return "s-warn-mid";
+function overdueClass(overdue: number, total: number): string {
+  if (total === 0 || overdue === 0) return "s-ok";
+  const pct = overdue / total;
+  if (pct <= 0.25) return "s-warn-low";
+  if (pct <= 0.5) return "s-warn-mid";
   return "s-critical";
 }
 ---
@@ -22,18 +21,18 @@ function coverageClass(inGis: number, total: number): string {
 <div class="figure-row cycle-row">
   {planGroups.map((group) => {
     const total = group.countries.length;
-    const inGis = group.countries.filter((c) => c.inGis).length;
+    const overdue = group.countries.filter((c) => c.review_overdue).length;
     return (
-      <a class={`figure ${coverageClass(inGis, total)}`} href={`#${group.key}`}>
+      <a class={`figure ${overdueClass(overdue, total)}`} href={`#${group.key}`}>
         <span class="figure-title">
           <Term term={group.key as TermSlug}>{group.label}</Term>
         </span>
         <span class="figure-num">
-          {inGis}
+          {overdue}
           <span class="figure-denom">/{total}</span>
         </span>
         <span class="figure-lbl">
-          <Term term="in-gis">In GIS</Term>
+          <Term term="review-overdue">Overdue</Term>
         </span>
       </a>
     );

@@ -11,7 +11,7 @@ interface Props {
 }
 
 const { data } = Astro.props;
-const { openTotal, totalInGis, totalLocations } = data;
+const { openTotal, overdueTotal, infoRows } = data;
 const lastUpdatedFormatted = data.lastUpdatedAt
   ? new Date(data.lastUpdatedAt).toLocaleDateString("en-GB", {
       day: "numeric",
@@ -23,14 +23,14 @@ const lastUpdatedFormatted = data.lastUpdatedAt
 
 const statusBase = `${base}status/`;
 const dataBase = `${statusBase}data/`;
-const isCoverage = Astro.url.pathname.replace(/\/$/, "").endsWith("/coverage");
+const page = Astro.url.pathname.replace(/\/$/, "").split("/").at(-1);
 ---
 
 <Layout
-  title="COD-AB Status Dashboard"
-  description="COD-AB work orders, pipeline status, and plan coverage."
+  title="COD Status Dashboard"
+  description="COD-AB and COD-PS availability, COD-AB work orders, and review schedule."
 >
-  <Masthead title="COD-AB Status Dashboard" width="1200px">
+  <Masthead title="COD Status Dashboard" width="1200px">
     <p class="tagline">
       Data updated daily at 06:00 UTC
       {lastUpdatedFormatted && `. Last updated ${lastUpdatedFormatted}.`}
@@ -39,10 +39,20 @@ const isCoverage = Astro.url.pathname.replace(/\/$/, "").endsWith("/coverage");
 
   <main class="status-page">
     <nav class="tab-bar">
-      <a href={statusBase} class:list={["tab-btn", { active: !isCoverage }]}>
+      <a href={statusBase} class:list={["tab-btn", { active: page === "status" }]}>
+        <span class="tab-left">
+          <span class="tab-title">Info</span>
+          <span class="tab-desc">COD-AB &amp; COD-PS by location</span>
+        </span>
+        <span class="tab-count">
+          {infoRows.length}
+          <span class="tab-denom"> locations</span>
+        </span>
+      </a>
+      <a href={`${statusBase}work`} class:list={["tab-btn", { active: page === "work" }]}>
         <span class="tab-left">
           <span class="tab-title">
-            <Term term="work-order">Work Orders</Term>
+            <Term term="work-order">Work</Term>
           </span>
           <span class="tab-desc">
             <Term term="pipeline">Pipeline</Term> &amp; status tracking
@@ -53,14 +63,14 @@ const isCoverage = Astro.url.pathname.replace(/\/$/, "").endsWith("/coverage");
           <span class="tab-denom"> open</span>
         </span>
       </a>
-      <a href={`${statusBase}coverage`} class:list={["tab-btn", { active: isCoverage }]}>
+      <a href={`${statusBase}reviews`} class:list={["tab-btn", { active: page === "reviews" }]}>
         <span class="tab-left">
-          <span class="tab-title">Coverage</span>
-          <span class="tab-desc">Plan &amp; preparedness gaps</span>
+          <span class="tab-title">Reviews</span>
+          <span class="tab-desc">Review schedule by plan priority</span>
         </span>
         <span class="tab-count">
-          {totalInGis}
-          <span class="tab-denom">/{totalLocations}</span>
+          {overdueTotal}
+          <span class="tab-denom"> overdue</span>
         </span>
       </a>
     </nav>
@@ -81,6 +91,8 @@ const isCoverage = Astro.url.pathname.replace(/\/$/, "").endsWith("/coverage");
       <span class="footer-group">
         <span class="group-label">External</span>
         <a href={`${dataBase}hdx.csv`}>HDX</a>
+        <a href={`${dataBase}cod_ps.csv`}>COD-PS</a>
+        <a href={`${dataBase}levels.csv`}>Levels</a>
         <a href={`${dataBase}m49.csv`}>M49</a>
         <a href={`${dataBase}plans.csv`}>Plans</a>
         <a href={`${dataBase}offices.csv`}>Offices</a>

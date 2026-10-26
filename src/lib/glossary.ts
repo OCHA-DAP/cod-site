@@ -173,12 +173,31 @@ export const GLOSSARY = {
 
   "in-gis": {
     label: "In GIS",
-    definition: "Country whose admin boundaries are published in OCHA's ArcGIS catalog.",
+    definition: "Country or territory whose admin boundaries are published in OCHA's ArcGIS catalog.",
   },
   "next-review": {
     label: "Next Review",
     definition:
       "Date the next data review or update is due, computed from COD metadata and update frequency.",
+  },
+  "review-overdue": {
+    label: "Overdue",
+    definition: "Locations whose next COD-AB review date has passed.",
+  },
+  "reference-year": {
+    label: "Reference Year",
+    definition:
+      "Blue: year the current COD-AB boundaries are valid from. Orange: year the COD-PS figures refer to, from the global COD-PS tables, or from the location's own HDX dataset when it is newer.",
+  },
+  "ab-levels": {
+    label: "COD-AB levels",
+    definition:
+      "One cell per admin level. A solid cell covers the whole country or territory. A pale cell is a partial level, filled to the share of parent units it subdivides when known.",
+  },
+  "ps-levels": {
+    label: "COD-PS levels",
+    definition:
+      "One cell per admin level with population figures. The orange share of each cell is the p-codes found in the current COD-AB, and red marks p-codes that won't join to the boundaries.",
   },
   "plan-coverage": {
     label: "Plan Coverage",

@@ -1,0 +1,78 @@
+---
+interface Props {
+  lo: number;
+  hi: number;
+  ticks: number[];
+  ab?: number;
+  ps?: number;
+}
+
+const { lo, hi, ticks, ab, ps } = Astro.props;
+const pos = (v: number) => `${((v - lo) / (hi - lo)) * 100}%`;
+const both = ab !== undefined && ps !== undefined;
+---
+
+<span class="track">
+  {ticks.map((t) => (
+    <span class="grid" style={`left: ${pos(t)}`} />
+  ))}
+  {both && ab !== ps && (
+    <span
+      class="span"
+      style={`left: ${pos(Math.min(ab, ps))}; right: calc(100% - ${pos(Math.max(ab, ps))})`}
+    />
+  )}
+  {both && ab === ps ? (
+    <span class="dot same" style={`left: ${pos(ab)}`} />
+  ) : (
+    <>
+      {ab !== undefined && <span class="dot ab" style={`left: ${pos(ab)}`} />}
+      {ps !== undefined && <span class="dot ps" style={`left: ${pos(ps)}`} />}
+    </>
+  )}
+</span>
+
+<style>
+  .track {
+    position: relative;
+    display: block;
+    height: 12px;
+  }
+
+  .grid {
+    position: absolute;
+    top: -6px;
+    bottom: -6px;
+    width: 1px;
+    background: var(--cd-grey--400);
+  }
+
+  .span {
+    position: absolute;
+    top: 5px;
+    height: 2px;
+    background: var(--cd-grey--500);
+  }
+
+  .dot {
+    position: absolute;
+    top: 1.5px;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    transform: translateX(-50%);
+    box-shadow: 0 0 0 1.5px var(--cd-white);
+  }
+
+  .ab {
+    background: var(--status-ab);
+  }
+
+  .ps {
+    background: var(--status-ps);
+  }
+
+  .same {
+    background: linear-gradient(90deg, var(--status-ab) 50%, var(--status-ps) 50%);
+  }
+</style>

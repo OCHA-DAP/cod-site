@@ -16,11 +16,11 @@ const { planGroups } = Astro.props;
     <h2>
       <Term term={group.key as TermSlug}>{group.label}</Term>
       {(() => {
-        const missing = group.countries.filter((c) => !c.inGis).length;
-        return missing > 0 ? (
-          <span class="count-chip warn">{missing} missing</span>
+        const overdue = group.countries.filter((c) => c.review_overdue).length;
+        return overdue > 0 ? (
+          <span class="count-chip warn">{overdue} overdue</span>
         ) : (
-          <span class="count-chip done">All in GIS</span>
+          <span class="count-chip done">All on schedule</span>
         );
       })()}
     </h2>
@@ -29,17 +29,20 @@ const { planGroups } = Astro.props;
       <table>
         <colgroup>
           <col style="width: 23%" />
+          <col style="width: 7%" />
           <col style="width: 12%" />
           <col style="width: 10%" />
           <col style="width: 11%" />
           <col style="width: 12%" />
-          <col style="width: 7%" />
           <col style="width: 13%" />
           <col style="width: 12%" />
         </colgroup>
         <thead>
           <tr>
             <th>Location</th>
+            <th>
+              <Term term="in-gis">In GIS</Term>
+            </th>
             <th>
               <Term term="plan-type">Plan Types</Term>
             </th>
@@ -49,9 +52,6 @@ const { planGroups } = Astro.props;
             </th>
             <th>
               <Term term="regional-office">Regional Office</Term>
-            </th>
-            <th>
-              <Term term="in-gis">In GIS</Term>
             </th>
             <th>
               <Term term="next-review">Next Review</Term>
@@ -65,7 +65,7 @@ const { planGroups } = Astro.props;
         </thead>
         <tbody>
           {group.countries.map((row) => (
-            <tr class={row.inGis ? "" : "row-gap"}>
+            <tr>
               <td>
                 {row.hdxUrl ? (
                   <a href={row.hdxUrl} target="_blank" rel="noopener">
@@ -76,11 +76,11 @@ const { planGroups } = Astro.props;
                 )}{" "}
                 <span class="iso3">{row.iso3}</span>
               </td>
+              <td>{row.inGis ? "Yes" : "No"}</td>
               <td>{row.plan_types.join(" / ") || "—"}</td>
               <td>{row.plan_years?.join(" / ") || "—"}</td>
               <td>{row.office_type || "—"}</td>
               <td>{row.regional || "—"}</td>
-              <td class={row.inGis ? "flag-yes" : "flag-no"}>{row.inGis ? "Yes" : "No"}</td>
               <td class={row.review_overdue ? "flag-no" : ""}>
                 <span title={row.next_review_date}>{row.next_review_relative ?? "—"}</span>
               </td>

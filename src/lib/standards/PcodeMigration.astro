@@ -1,0 +1,48 @@
+---
+// Example version 1 codes, numbered by sorting adm1_srcid as the assignment rule does.
+const units = [
+  { name: "Kayes", legacy: "ML01", pcode: "MLI.001" },
+  { name: "Taoudenni", legacy: "ML09", pcode: "MLI.009" },
+  { name: "Bamako", legacy: "ML20", pcode: "MLI.020" },
+];
+---
+
+<figure class="migration">
+  <table>
+    <thead>
+      <tr><th>Unit</th><th>adm1_srcid</th><th>adm1_pcode</th></tr>
+    </thead>
+    <tbody>
+      {units.map((u) => (
+        <tr>
+          <td>{u.name}</td>
+          <td class="key">{u.legacy}</td>
+          <td class="new">{u.pcode}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+  <figcaption>Example codes. Join legacy P-codes to adm1_srcid to get adm1_pcode.</figcaption>
+</figure>
+
+<style>
+  .migration {
+    margin: 1.5rem 0 2rem;
+  }
+  .migration table {
+    margin: 0;
+    font-variant-numeric: tabular-nums;
+  }
+  .key {
+    background: var(--brand-primary--lightest);
+  }
+  .new {
+    font-weight: 700;
+    color: var(--brand-primary--text);
+  }
+  figcaption {
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--brand-grey--text);
+  }
+</style>

@@ -1,0 +1,32 @@
+---
+title: Migration
+summary: How datasets coded under earlier COD-AB standards move to this specification.
+order: 5
+---
+
+import PcodeMigration from "$lib/standards/PcodeMigration.astro";
+import PcodeReuse from "$lib/standards/PcodeReuse.astro";
+
+## Legacy P-codes
+
+COD-AB datasets released before this specification have P-codes set country by country. Most start with the two-letter ISO code and add a number for each admin level, so a unit's code begins with its parent's code. In Mali, the region of Kayes is *ML01*. In some countries the numbers follow the country's own numbering of its units.
+
+## Limitations
+
+A legacy P-code can point to a different place from one edition to the next. When a unit splits, the part that keeps the name also keeps the code, and the other part gets a new one. When units are renumbered, a code can move to another unit.
+
+Both happened in Mali between the 2021 and 2025 editions. Taoudenni split from Tombouctou, which kept *ML06*. The regions were also renumbered, so Bamako moved from *ML09* to *ML20* and *ML09* went to Taoudenni.
+
+<PcodeReuse />
+
+A join on legacy P-codes across editions still matches every row, so it gives no warning. Figures for Bamako coded *ML09* in 2021 attach to Taoudenni when joined to the 2025 boundaries.
+
+Under this specification, P-codes are [never reused](../changes/) and stay the same when a source renumbers its units.
+
+## How legacy codes are kept
+
+Version 1 of each dataset under this specification has the new P-codes in *adm\[N\]\_pcode* and the legacy P-codes in *adm\[N\]\_srcid*. To migrate a table, join its legacy codes to *adm\[N\]\_srcid* and take *adm\[N\]\_pcode* from the match.
+
+<PcodeMigration />
+
+The table's data should come from the same edition as the legacy codes in version 1. If the boundaries changed in between, as they did in Mali, a legacy code can match a different unit from the one the data describes.

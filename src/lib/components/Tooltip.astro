@@ -1,0 +1,83 @@
+---
+interface Props {
+  align?: "left" | "right";
+  /** Fill the parent (e.g. a whole table cell) instead of wrapping inline text. */
+  block?: boolean;
+  class?: string;
+}
+
+const { align = "left", block = false, class: className } = Astro.props;
+const tip = Astro.slots.has("tip") ? (await Astro.slots.render("tip")).trim() : "";
+---
+
+<span class:list={["tooltip", className, `tooltip-${align}`, { block }]} tabindex={tip ? 0 : undefined}>
+  <slot />
+  {tip && <span class="tooltip-body" role="tooltip" set:html={tip} />}
+</span>
+
+<style>
+  .tooltip {
+    display: inline-block;
+    position: relative;
+    outline: none;
+    vertical-align: baseline;
+  }
+
+  .tooltip.block {
+    display: block;
+  }
+
+  .tooltip-body {
+    position: absolute;
+    bottom: calc(100% + 6px);
+    left: 0;
+    z-index: 50;
+    width: max-content;
+    max-width: 280px;
+    padding: 0.5rem 0.7rem;
+    background: var(--cd-grey--900);
+    color: var(--cd-white);
+    font-size: 0.78rem;
+    font-weight: 400;
+    font-family: var(--brand-font);
+    text-transform: none;
+    letter-spacing: normal;
+    line-height: 1.4;
+    border-radius: 4px;
+    white-space: normal;
+    text-align: left;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 0.1s,
+      visibility 0.1s;
+    pointer-events: none;
+  }
+
+  .tooltip-body::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 1rem;
+    border: 5px solid transparent;
+    border-top-color: var(--cd-grey--900);
+  }
+
+  .tooltip-right .tooltip-body {
+    left: auto;
+    right: 0;
+  }
+
+  .tooltip-right .tooltip-body::after {
+    left: auto;
+    right: 1rem;
+  }
+
+  .tooltip:hover .tooltip-body,
+  .tooltip:focus .tooltip-body,
+  .tooltip:focus-within .tooltip-body {
+    opacity: 1;
+    visibility: visible;
+  }
+</style>

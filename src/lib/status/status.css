@@ -2,9 +2,10 @@
 .status-page {
   --tint-green: color-mix(in srgb, var(--cd-green) 20%, var(--cd-white));
   --tint-yellow: color-mix(in srgb, var(--cd-yellow) 22%, var(--cd-white));
-  --tint-yellow-faint: color-mix(in srgb, var(--cd-yellow) 10%, var(--cd-white));
   --tint-orange: color-mix(in srgb, var(--cd-orange) 18%, var(--cd-white));
   --tint-red: color-mix(in srgb, var(--cd-red) 15%, var(--cd-white));
+  --status-ab: var(--cd-ocha-blue--aa);
+  --status-ps: var(--cd-orange--700);
 
   /* ── Sections ───────────────────────────────────────────────── */
   section {
@@ -98,13 +99,6 @@
 
   tr:hover td {
     background: var(--brand-primary--lightest);
-  }
-
-  tr.row-gap td {
-    background: var(--tint-yellow-faint);
-  }
-  tr.row-gap:hover td {
-    background: var(--tint-yellow);
   }
 
   /* ── Key figures ────────────────────────────────────────────── */
@@ -260,11 +254,6 @@
     font-size: 12px;
   }
 
-  .flag-yes {
-    color: var(--cd-orange--aa);
-    font-weight: 600;
-  }
-
   .empty {
     font-size: 13px;
     color: var(--cd-grey--700);
@@ -279,8 +268,8 @@
   }
 
   /* Allow tooltip to escape table cells (overflow:hidden is for ellipsis on long text). */
-  th:has(.term),
-  td:has(.term) {
+  th:has(.tooltip),
+  td:has(.tooltip) {
     overflow: visible;
   }
 }

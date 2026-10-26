@@ -11,9 +11,9 @@ const lede =
 
 const { totalInGis, adminUnits, openTotal } = loadData();
 const stats = [
-  { value: totalInGis, label: "countries and territories", href: `${base}status/coverage` },
-  { value: adminUnits, label: "administrative units", href: `${base}status/coverage` },
-  { value: openTotal, label: "updates in progress", href: `${base}status/` },
+  { value: totalInGis, label: "countries and territories", href: `${base}status/` },
+  { value: adminUnits, label: "administrative units", href: `${base}status/` },
+  { value: openTotal, label: "updates in progress", href: `${base}status/work` },
 ].sort((a, b) => a.value - b.value);
 
 const products = [

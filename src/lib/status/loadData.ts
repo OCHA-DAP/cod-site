@@ -63,6 +63,31 @@ export interface PlanCountry {
   hdxUrl?: string;
 }
 
+export interface LevelStats {
+  level: number;
+  ab_units?: number;
+  /** Share of parent units with children at this level; below 100 means partial. */
+  ab_share?: number;
+  ps_units?: number;
+  matched?: number;
+  /** Share of PS parent units with children at this level; below 100 means partial. */
+  ps_share?: number;
+}
+
+export interface InfoRow {
+  iso3: string;
+  name_en: string;
+  ab_reference_year?: number;
+  ab_level?: number;
+  /** Deepest COD-AB level covering the whole country; levels below it up to ab_level are partial. */
+  ab_level_full?: number;
+  hdxUrl?: string;
+  ps_reference_year?: number;
+  ps_level?: number;
+  levels: LevelStats[];
+  psUrl?: string;
+}
+
 export interface PlanGroup {
   key: "current-priority" | "prior-priority" | "current-other" | "prior-other" | "no-plans";
   label: string;
@@ -222,17 +247,16 @@ export function loadData() {
   const hdxIso3 = new Set<string>();
   try {
     const hdxText = readFileSync(join(dataDir, "hdx.csv"), "utf-8");
-    for (const r of parseCsv(hdxText)) {
-      if (r.iso3) hdxIso3.add(r.iso3);
-    }
+    for (const r of parseCsv(hdxText)) if (r.iso3) hdxIso3.add(r.iso3);
   } catch {
     // file won't exist until npm run fetch:status has been run
   }
 
+  const hdxDatasetUrl = (dataset: "cod-ab" | "cod-ps", iso3: string) =>
+    `https://data.humdata.org/dataset/${dataset}-${iso3.toLowerCase()}`;
+
   function getHdxUrl(iso3: string): string | undefined {
-    return hdxIso3.has(iso3)
-      ? `https://data.humdata.org/dataset/cod-ab-${iso3.toLowerCase()}`
-      : undefined;
+    return hdxIso3.has(iso3) ? hdxDatasetUrl("cod-ab", iso3) : undefined;
   }
 
   // Plans grouped by year → iso3 (HRP and FA only, for plan coverage table)
@@ -378,8 +402,12 @@ export function loadData() {
   const gisIso3 = new Set(parseCsv(gisText).map((r) => r.iso3));
 
   // Load COD Global Metadata (may not exist until npm run fetch:status has been run)
+  const optionalNumber = (v: string | undefined) => (v ? Number(v) : undefined);
   const codMetaByIso3: Record<string, { anchor_date: string; update_frequency: number }> = {};
-  const unitsByIso3: Record<string, { date: string; units: number }> = {};
+  const unitsByIso3: Record<
+    string,
+    { date: string; units: number; level?: number; full?: number; validYear?: number }
+  > = {};
   try {
     const codMetaText = readFileSync(join(dataDir, "cod_metadata.csv"), "utf-8");
     for (const r of parseCsv(codMetaText)) {
@@ -392,10 +420,16 @@ export function loadData() {
           (sum, l) => sum + (Number(r[`admin_${l}_count`]) || 0),
           0,
         );
-        unitsByIso3[r.country_iso3] = { date, units };
+        unitsByIso3[r.country_iso3] = {
+          date,
+          units,
+          level: optionalNumber(r.admin_level_max),
+          full: optionalNumber(r.admin_level_full),
+          validYear: optionalNumber(r.date_valid_on?.slice(0, 4)),
+        };
       }
       if (!r.country_iso3 || !r.update_frequency) continue;
-      const anchor = [r.date_reviewed, r.date_updated, r.date_valid_from]
+      const anchor = [r.date_reviewed, r.date_updated, r.date_valid_on]
         .filter(Boolean)
         .sort()
         .at(-1);
@@ -411,6 +445,50 @@ export function loadData() {
   } catch {
     // file won't exist until npm run fetch:status has been run
   }
+
+  // COD-PS summary (may not exist until npm run fetch:status has been run)
+  const psByIso3: Record<string, Record<string, string>> = {};
+  try {
+    const psText = readFileSync(join(dataDir, "cod_ps.csv"), "utf-8");
+    for (const r of parseCsv(psText)) if (r.iso3) psByIso3[r.iso3] = r;
+  } catch {
+    // file won't exist until npm run fetch:status has been run
+  }
+
+  const levelsByIso3: Record<string, LevelStats[]> = {};
+  try {
+    const text = readFileSync(join(dataDir, "levels.csv"), "utf-8");
+    for (const r of parseCsv(text))
+      (levelsByIso3[r.iso3] ??= []).push({
+        level: Number(r.level),
+        ab_units: optionalNumber(r.ab_units),
+        ab_share: optionalNumber(r.ab_share),
+        ps_units: optionalNumber(r.ps_units),
+        ps_share: optionalNumber(r.ps_share),
+        matched: optionalNumber(r.matched),
+      });
+  } catch {
+    // file won't exist until npm run fetch:status has been run
+  }
+
+  const infoRows: InfoRow[] = [...gisIso3]
+    .filter(Boolean)
+    .map((iso3) => {
+      const ps = psByIso3[iso3];
+      return {
+        iso3,
+        name_en: m49ByIso3[iso3]?.name_en ?? iso3,
+        ab_reference_year: unitsByIso3[iso3]?.validYear,
+        ab_level: unitsByIso3[iso3]?.level,
+        ab_level_full: unitsByIso3[iso3]?.full,
+        hdxUrl: getHdxUrl(iso3),
+        ps_reference_year: optionalNumber(ps?.reference_year),
+        ps_level: optionalNumber(ps?.admin_level),
+        levels: levelsByIso3[iso3] ?? [],
+        psUrl: ps?.on_hdx === "true" ? hdxDatasetUrl("cod-ps", iso3) : undefined,
+      };
+    })
+    .sort((a, b) => a.name_en.localeCompare(b.name_en));
 
   function getCountryExtras(iso3: string) {
     const meta = codMetaByIso3[iso3];
@@ -584,8 +662,12 @@ export function loadData() {
     workByQuarter,
     planCoverageByYear,
     planGroups,
+    infoRows,
+    overdueTotal: planGroups.reduce(
+      (sum, g) => sum + g.countries.filter((c) => c.review_overdue).length,
+      0,
+    ),
     totalInGis: planGroups.reduce((sum, g) => sum + g.countries.filter((c) => c.inGis).length, 0),
-    totalLocations: planGroups.reduce((sum, g) => sum + g.countries.length, 0),
     adminUnits: Object.values(unitsByIso3).reduce((sum, c) => sum + c.units, 0),
     total: dedupedRows.length,
     openTotal: dedupedRows.filter(

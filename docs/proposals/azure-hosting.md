@@ -17,7 +17,7 @@ object storage.
 | Item          | Request                                                                                                                  | Why                                                                                  |
 | ------------- | ------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ |
 | Plan          | Standard                                                                                                                 | Comes with an SLA. The site (about 100 MB) fits well within the 500 MB limit.        |
-| Custom domain | The existing `cod.unocha.org` CNAME (pointing to `deflector.ahconu.org`) repointed to the app by the unocha.org DNS team | A stable OCHA address                                                                |
+| Custom domain | `cod.unocha.org`, which currently redirects to the COD Global Information Dashboard page on Confluence, pointed to the app | A stable OCHA address                                                                |
 | Deployment    | The app's deployment token, stored as a GitHub secret                                                                    | The site publishes from GitHub automatically, so nobody needs an Azure role to do it |
 | Previews      | Preview environments (included in Standard)                                                                              | Changes can be checked on a preview link before they go live                         |
 

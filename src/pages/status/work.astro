@@ -1,6 +1,5 @@
 ---
-import PipelineSummary from "$lib/status/components/PipelineSummary.astro";
-import WorkOrdersSection from "$lib/status/components/WorkOrdersSection.astro";
+import WorkOrderTable from "$lib/status/components/WorkOrderTable.astro";
 import { loadData } from "$lib/status/loadData";
 import StatusLayout from "../../layouts/StatusLayout.astro";
 
@@ -8,6 +7,5 @@ const data = loadData();
 ---
 
 <StatusLayout data={data}>
-  <PipelineSummary pipeline={data.pipeline} />
-  <WorkOrdersSection workByQuarter={data.workByQuarter} open={data.openTotal} />
+  <WorkOrderTable groups={data.workByQuarter} />
 </StatusLayout>

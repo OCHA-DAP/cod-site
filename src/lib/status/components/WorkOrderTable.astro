@@ -1,13 +1,7 @@
 ---
 import BoolDot from "$lib/status/components/BoolDot.astro";
 import type { ScheduleGroup } from "$lib/status/loadData";
-import {
-  isOpenStatus,
-  statusClass,
-  statusLabel,
-  statusRank,
-  STATUS_TERMS,
-} from "$lib/status/status";
+import { statusClass, statusLabel, statusRank, STATUS_TERMS } from "$lib/status/status";
 import Term from "$lib/components/Term.astro";
 import type { TermSlug } from "$lib/glossary";
 
@@ -43,15 +37,12 @@ function ageTooltip(createdDate: string, publicationDate?: string): string | nul
 }
 ---
 
+{groups.length === 0 && <p class="empty">No work orders yet.</p>}
 {groups.map((group) => (
-  <Fragment>
-    <h3 class="quarter-heading">
-      {group.quarter}
-      {(() => {
-        const open = group.rows.filter((r) => isOpenStatus(r.work_order_status)).length;
-        return open > 0 ? <span class="count-chip">{open} open</span> : null;
-      })()}
-    </h3>
+  <section id={group.quarter.toLowerCase()}>
+    <h2>
+      <Term term="planned-quarter">{group.quarter}</Term>
+    </h2>
     <table data-sortable>
       <colgroup>
         <col style="width: 30%" />
@@ -132,5 +123,5 @@ function ageTooltip(createdDate: string, publicationDate?: string): string | nul
         ))}
       </tbody>
     </table>
-  </Fragment>
+  </section>
 ))}

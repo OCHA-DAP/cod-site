@@ -1,11 +1,13 @@
 /* Scoped to .status-page: cssCodeSplit: false bundles this stylesheet into every page. */
 .status-page {
-  --tint-green: color-mix(in srgb, var(--cd-green) 20%, var(--cd-white));
-  --tint-yellow: color-mix(in srgb, var(--cd-yellow) 22%, var(--cd-white));
-  --tint-orange: color-mix(in srgb, var(--cd-orange) 18%, var(--cd-white));
-  --tint-red: color-mix(in srgb, var(--cd-red) 15%, var(--cd-white));
   --status-ab: var(--cd-ocha-blue--aa);
   --status-ps: var(--cd-orange--700);
+  --st-done: var(--brand-primary--text);
+  --st-in_progress: var(--brand-primary--light);
+  --st-selected: var(--brand-primary--lighter);
+  --st-blocked: var(--cd-orange);
+  --st-backlog: var(--cd-grey--500);
+  --st-cancelled: var(--cd-grey--400);
 
   /* ── Sections ───────────────────────────────────────────────── */
   section {
@@ -28,24 +30,6 @@
     font-size: 13px;
     color: var(--cd-grey--700);
     margin: 0 0 1rem;
-  }
-
-  .quarter-heading {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--cd-grey--700);
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
-    margin: 1.25rem 0 0.4rem;
-    padding-bottom: 0.25rem;
-    border-bottom: 1px solid var(--brand-primary--lightest);
-  }
-
-  section > h3.quarter-heading:first-of-type {
-    margin-top: 0;
   }
 
   /* ── Tables ─────────────────────────────────────────────────── */
@@ -135,61 +119,6 @@
     background: var(--brand-primary--lightest);
   }
 
-  /* ── Key figures ────────────────────────────────────────────── */
-  .s-backlog { --tone-text: var(--cd-grey--900); }
-  .s-selected,
-  .s-in_progress { --tone-text: var(--brand-primary--text); }
-  .s-done { --tone-text: var(--cd-blue--dark); }
-  .s-blocked { --tone-text: var(--cd-orange--aa); }
-  .s-cancelled { --tone-text: var(--cd-red--aaa); }
-
-  /* Subgrid rows keep numbers level when one title wraps. */
-  .figure-row {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
-    row-gap: 1rem;
-  }
-
-  .figure {
-    display: grid;
-    grid-row: span 2;
-    grid-template-rows: subgrid;
-    row-gap: 0.4rem;
-    align-content: start;
-    padding: 0.25rem 1.25rem;
-    border-left: 1px solid var(--brand-primary--lighter);
-    color: inherit;
-    text-decoration: none;
-    --figure-color: var(--tone-text, var(--brand-primary--text));
-  }
-
-  .figure:first-child {
-    border-left: 0;
-    padding-left: 0;
-  }
-
-  .figure .figure-num {
-    font-size: 2.25rem;
-  }
-
-  a.figure:hover .figure-num {
-    text-decoration: underline;
-  }
-
-  .figure-denom {
-    font-size: 0.75em;
-    font-weight: 500;
-    opacity: 0.6;
-  }
-
-  .figure-lbl {
-    font-size: 0.72rem;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    color: var(--cd-grey--800);
-  }
-
   /* ── Status badges ───────────────────────────────────────────── */
   .badge {
     display: inline-block;
@@ -201,28 +130,28 @@
   }
 
   .badge.s-done {
-    background: var(--tint-green);
-    color: var(--cd-green--aa);
+    background: var(--st-done);
+    color: var(--cd-white);
   }
   .badge.s-in_progress {
-    background: var(--tint-yellow);
+    background: var(--st-in_progress);
     color: var(--cd-grey--900);
   }
   .badge.s-blocked {
-    background: var(--tint-orange);
-    color: var(--cd-orange--aa);
+    background: var(--st-blocked);
+    color: var(--cd-grey--900);
   }
   .badge.s-selected {
-    background: var(--brand-primary--lightest);
-    color: var(--brand-primary--text-strong);
+    background: var(--st-selected);
+    color: var(--cd-grey--900);
   }
   .badge.s-backlog {
-    background: var(--cd-grey--300);
-    color: var(--brand-grey--text);
+    background: var(--st-backlog);
+    color: var(--cd-grey--900);
   }
   .badge.s-cancelled {
-    background: var(--tint-red);
-    color: var(--cd-red--aaa);
+    background: var(--st-cancelled);
+    color: var(--cd-grey--800);
   }
   .badge.s-none {
     background: var(--cd-grey--300);
@@ -230,22 +159,6 @@
   }
 
   /* ── Chips, misc ─────────────────────────────────────────────── */
-  .count-chip {
-    display: inline-block;
-    background: var(--cd-grey--300);
-    color: var(--cd-grey--700);
-    border-radius: 999px;
-    font-size: 12px;
-    font-weight: 700;
-    padding: 0.1rem 0.55rem;
-    vertical-align: middle;
-  }
-
-  .count-chip.done {
-    background: var(--tint-green);
-    color: var(--cd-green--aa);
-  }
-
   td a,
   td a:visited {
     color: var(--brand-primary--text);

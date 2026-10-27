@@ -17,8 +17,6 @@ export const STATUS_LABELS: Record<string, string> = {
   cancelled: "Cancelled",
 };
 
-export const STATUS_ORDER = ["backlog", "selected", "in_progress", "blocked", "done", "cancelled"];
-
 export function statusRank(status: string): number {
   if (status === "blocked") return 0;
   if (status === "in_progress") return 1;

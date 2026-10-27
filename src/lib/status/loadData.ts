@@ -3,13 +3,7 @@ import { join } from "node:path";
 
 import Papa from "papaparse";
 
-import { isOpenStatus, STATUS_LABELS, STATUS_ORDER, statusRank } from "./status";
-
-export interface PipelineCount {
-  status: string;
-  label: string;
-  count: number;
-}
+import { isOpenStatus, statusRank } from "./status";
 
 export interface WorkOrderRow {
   iso3: string;
@@ -206,15 +200,27 @@ function computeNextReview(
   };
 }
 
+const UNSCHEDULED = "Unscheduled";
+
+function currentQuarter(): string {
+  const now = new Date();
+  return `${now.getUTCFullYear()}-Q${Math.floor(now.getUTCMonth() / 3) + 1}`;
+}
+
 function groupByQuarter(rows: WorkOrderRow[]): ScheduleGroup[] {
   const map: Record<string, WorkOrderRow[]> = {};
   for (const r of rows) {
-    const key = r.planned_quarter || "TBD";
+    const key = r.planned_quarter || UNSCHEDULED;
     if (!map[key]) map[key] = [];
     map[key].push(r);
   }
+  const current = currentQuarter();
+  // Current and future quarters, then unscheduled, then past quarters newest first.
+  const rank = (q: string) => (q === UNSCHEDULED ? 1 : q >= current ? 0 : 2);
   return Object.entries(map)
-    .sort(([a], [b]) => (a === "TBD" ? 1 : b === "TBD" ? -1 : a.localeCompare(b)))
+    .sort(
+      ([a], [b]) => rank(a) - rank(b) || (rank(a) === 2 ? b.localeCompare(a) : a.localeCompare(b)),
+    )
     .map(([quarter, rows]) => ({ quarter, rows }));
 }
 
@@ -345,16 +351,6 @@ export function loadData() {
       return rDate > bestDate ? r : best;
     }),
   );
-
-  // Overall pipeline stats across all work orders, regardless of year
-  const pipelineCountMap: Record<string, number> = {};
-  for (const r of dedupedRows)
-    pipelineCountMap[r.work_order_status] = (pipelineCountMap[r.work_order_status] ?? 0) + 1;
-  const pipeline: PipelineCount[] = STATUS_ORDER.filter((s) => pipelineCountMap[s]).map((s) => ({
-    status: s,
-    label: STATUS_LABELS[s],
-    count: pipelineCountMap[s],
-  }));
 
   // All work orders, one per country, grouped by planned quarter (quarter
   // values are year-prefixed, e.g. "2026-Q1", so chronological order holds)
@@ -681,7 +677,6 @@ export function loadData() {
   ];
 
   return {
-    pipeline,
     workOrders,
     workByQuarter,
     planCoverageByYear,

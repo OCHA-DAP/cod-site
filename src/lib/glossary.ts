@@ -171,10 +171,6 @@ export const GLOSSARY = {
     definition: "Work order has been cancelled and will not be completed.",
   },
 
-  "ab-available": {
-    label: "Available",
-    definition: "The location has a COD-AB published in OCHA's ArcGIS catalog.",
-  },
   "ps-available": {
     label: "Available",
     definition: "The location has COD-PS population figures.",
@@ -191,11 +187,6 @@ export const GLOSSARY = {
   "ps-age": {
     label: "Age",
     definition: "Years between the COD-PS reference year and the current year.",
-  },
-  "ps-reference-year": {
-    label: "Reference Year",
-    definition:
-      "Year the COD-PS figures refer to, from the global COD-PS tables, or from the location's own HDX dataset when it is newer.",
   },
   "reference-year": {
     label: "Reference Year",

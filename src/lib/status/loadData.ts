@@ -63,7 +63,6 @@ export interface PlanCountry {
   hdxUrl?: string;
   ps_reference_year?: number;
   ps_age?: string;
-  psUrl?: string;
 }
 
 export interface LevelStats {
@@ -474,9 +473,6 @@ export function loadData() {
     // file won't exist until npm run fetch:status has been run
   }
 
-  const getPsUrl = (iso3: string) =>
-    psByIso3[iso3]?.on_hdx === "true" ? hdxDatasetUrl("cod-ps", iso3) : undefined;
-
   const infoRows: InfoRow[] = [...gisIso3]
     .filter(Boolean)
     .map((iso3) => {
@@ -491,27 +487,28 @@ export function loadData() {
         ps_reference_year: optionalNumber(ps?.reference_year),
         ps_level: optionalNumber(ps?.admin_level),
         levels: levelsByIso3[iso3] ?? [],
-        psUrl: getPsUrl(iso3),
+        psUrl: ps?.on_hdx === "true" ? hdxDatasetUrl("cod-ps", iso3) : undefined,
       };
     })
     .sort((a, b) => a.name_en.localeCompare(b.name_en));
 
-  function getAbExtras(iso3: string): Partial<PlanCountry> {
+  const currentYear = new Date().getUTCFullYear();
+  function getCountryExtras(iso3: string) {
     const meta = codMetaByIso3[iso3];
     const reviewFields = meta ? computeNextReview(meta.anchor_date, meta.update_frequency) : {};
     const woStatus = openWoByIso3[iso3];
-    return woStatus ? { ...reviewFields, open_work_order_status: woStatus } : reviewFields;
-  }
-
-  const currentYear = new Date().getUTCFullYear();
-  function getPsExtras(iso3: string): Partial<PlanCountry> {
-    const year = optionalNumber(psByIso3[iso3]?.reference_year);
-    const age = year === undefined ? undefined : currentYear - year;
+    const psYear = optionalNumber(psByIso3[iso3]?.reference_year);
+    const psAge = psYear === undefined ? undefined : currentYear - psYear;
     return {
-      ps_reference_year: year,
+      ...reviewFields,
+      ...(woStatus && { open_work_order_status: woStatus }),
+      ps_reference_year: psYear,
       ps_age:
-        age === undefined ? undefined : age <= 0 ? "Current" : `${age} year${age === 1 ? "" : "s"}`,
-      psUrl: getPsUrl(iso3),
+        psAge === undefined
+          ? undefined
+          : psAge <= 0
+            ? "Current"
+            : `${psAge} year${psAge === 1 ? "" : "s"}`,
     };
   }
 
@@ -598,6 +595,7 @@ export function loadData() {
       inGis: gisIso3.has(iso3),
       plan_years: planYears,
       hdxUrl: getHdxUrl(iso3),
+      ...getCountryExtras(iso3),
     });
   }
 
@@ -615,6 +613,7 @@ export function loadData() {
         plan_types: [],
         inGis: true,
         hdxUrl: getHdxUrl(iso3),
+        ...getCountryExtras(iso3),
       };
     })
     .sort((a, b) => a.name_en.localeCompare(b.name_en));
@@ -631,63 +630,46 @@ export function loadData() {
         plan_types: [],
         inGis: false,
         hdxUrl: getHdxUrl(iso3),
+        ...getCountryExtras(iso3),
       };
     })
     .sort((a, b) => a.name_en.localeCompare(b.name_en));
 
-  // Earliest key first, then locations without one, in-GIS first, then by name.
-  const sortBy =
-    (key: (c: PlanCountry) => string | undefined) => (a: PlanCountry, b: PlanCountry) => {
-      const ka = key(a);
-      const kb = key(b);
-      if (ka && kb) return ka.localeCompare(kb);
-      if (ka) return -1;
-      if (kb) return 1;
-      if (a.inGis !== b.inGis) return a.inGis ? -1 : 1;
-      return a.name_en.localeCompare(b.name_en);
-    };
-  const buildPlanGroups = (
-    extras: (iso3: string) => Partial<PlanCountry>,
-    order: (a: PlanCountry, b: PlanCountry) => number,
-  ): PlanGroup[] => {
-    const withExtras = (rows: PlanCountry[]) =>
-      rows.map((r) => ({ ...r, ...extras(r.iso3) })).sort(order);
-    return [
-      {
-        key: "current-priority",
-        label: `HNRP / HRP / FA (${latestPlanYear})`,
-        countries: withExtras(currentPriority),
-      },
-      {
-        key: "current-other",
-        label: `Other Plans (${latestPlanYear})`,
-        countries: withExtras(currentOther),
-      },
-      {
-        key: "prior-priority",
-        label: "HNRP / HRP / FA (Prior Years)",
-        countries: withExtras(priorPriority),
-      },
-      {
-        key: "prior-other",
-        label: "Other Plans (Prior Years)",
-        countries: withExtras(priorOther),
-      },
-      {
-        key: "no-plans",
-        label: `No Plans (2000-${latestPlanYear})`,
-        countries: withExtras([...gisOnly, ...m49Only]),
-      },
-    ];
+  const byNextReview = (a: PlanCountry, b: PlanCountry) => {
+    if (a.next_review_sort && b.next_review_sort)
+      return a.next_review_sort.localeCompare(b.next_review_sort);
+    if (a.next_review_sort) return -1;
+    if (b.next_review_sort) return 1;
+    if (a.inGis !== b.inGis) return a.inGis ? -1 : 1;
+    return a.name_en.localeCompare(b.name_en);
   };
-  const planGroups = buildPlanGroups(
-    getAbExtras,
-    sortBy((c) => c.next_review_sort),
-  );
-  const psPlanGroups = buildPlanGroups(
-    getPsExtras,
-    sortBy((c) => c.ps_reference_year?.toString()),
-  );
+  const planGroups: PlanGroup[] = [
+    {
+      key: "current-priority",
+      label: `HNRP / HRP / FA (${latestPlanYear})`,
+      countries: currentPriority.sort(byNextReview),
+    },
+    {
+      key: "current-other",
+      label: `Other Plans (${latestPlanYear})`,
+      countries: currentOther.sort(byNextReview),
+    },
+    {
+      key: "prior-priority",
+      label: "HNRP / HRP / FA (Prior Years)",
+      countries: priorPriority.sort(byNextReview),
+    },
+    {
+      key: "prior-other",
+      label: "Other Plans (Prior Years)",
+      countries: priorOther.sort(byNextReview),
+    },
+    {
+      key: "no-plans",
+      label: `No Plans (2000-${latestPlanYear})`,
+      countries: [...gisOnly, ...m49Only].sort(byNextReview),
+    },
+  ];
 
   return {
     pipeline,
@@ -695,13 +677,11 @@ export function loadData() {
     workByQuarter,
     planCoverageByYear,
     planGroups,
-    psPlanGroups,
     infoRows,
     overdueTotal: planGroups.reduce(
       (sum, g) => sum + g.countries.filter((c) => c.review_overdue).length,
       0,
     ),
-    psTotal: Object.keys(psByIso3).length,
     totalInGis: planGroups.reduce((sum, g) => sum + g.countries.filter((c) => c.inGis).length, 0),
     adminUnits: Object.values(unitsByIso3).reduce((sum, c) => sum + c.units, 0),
     total: dedupedRows.length,

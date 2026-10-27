@@ -7,70 +7,60 @@ import { statusClass, statusLabel } from "$lib/status/status";
 
 interface Props {
   planGroups: PlanGroup[];
-  dataset: "ab" | "ps";
 }
 
-const { planGroups, dataset } = Astro.props;
-const ps = dataset === "ps";
-const available = (row: PlanCountry) => (ps ? row.ps_reference_year !== undefined : row.inGis);
+const { planGroups } = Astro.props;
+const EMPTY = String.fromCharCode(0x2014);
+const plan = (row: PlanCountry) =>
+  row.plan_types.map((t, i) => [t, row.plan_years?.[i]].filter(Boolean).join(" ")).join(" / ") ||
+  EMPTY;
+const office = (row: PlanCountry) =>
+  [row.office_type, row.regional].filter(Boolean).join(", ") || EMPTY;
 ---
 
 {planGroups.map((group) => (
   <section id={group.key}>
     <h2>
       <Term term={group.key as TermSlug}>{group.label}</Term>
-      {!ps &&
-        (() => {
-          const overdue = group.countries.filter((c) => c.review_overdue).length;
-          return overdue > 0 ? (
-            <span class="count-chip warn">{overdue} overdue</span>
-          ) : (
-            <span class="count-chip done">All on schedule</span>
-          );
-        })()}
+      {(() => {
+        const overdue = group.countries.filter((c) => c.review_overdue).length;
+        return overdue > 0 ? (
+          <span class="count-chip warn">{overdue} overdue</span>
+        ) : (
+          <span class="count-chip done">All on schedule</span>
+        );
+      })()}
     </h2>
 
     {group.countries.length > 0 ? (
       <table>
         <colgroup>
-          <col style="width: 23%" />
-          <col style="width: 7%" />
-          <col style="width: 12%" />
-          <col style="width: 10%" />
-          <col style="width: 11%" />
-          <col style="width: 12%" />
-          <col style="width: 13%" />
-          <col style="width: 12%" />
+          <col style="width: 24%" />
+          <col style="width: 18%" />
+          <col style="width: 14%" />
+          <col style="width: 16%" />
+          <col style="width: 14%" />
+          <col style="width: 14%" />
         </colgroup>
         <thead>
           <tr>
             <th>Location</th>
             <th>
-              <Term term={ps ? "ps-available" : "ab-available"}>Available</Term>
+              <Term term="plan-type">Plan</Term>
             </th>
             <th>
-              <Term term="plan-type">Plan Types</Term>
-            </th>
-            <th>Plan Year</th>
-            <th>
-              <Term term="office-type">Office Type</Term>
+              <Term term="office-type">Office</Term>
             </th>
             <th>
-              <Term term="regional-office">Regional Office</Term>
+              <Term term="next-review">COD-AB review</Term>
             </th>
             <th>
-              {ps ? <Term term="ps-age">Age</Term> : <Term term="next-review">Next Review</Term>}
+              <Term term="work-order">Work order</Term>
             </th>
             <th>
-              {ps ? (
-                <Term term="ps-reference-year" align="right">
-                  Reference Year
-                </Term>
-              ) : (
-                <Term term="work-order" align="right">
-                  Work Order
-                </Term>
-              )}
+              <Term term="ps-age" align="right">
+                COD-PS age
+              </Term>
             </th>
           </tr>
         </thead>
@@ -78,8 +68,8 @@ const available = (row: PlanCountry) => (ps ? row.ps_reference_year !== undefine
           {group.countries.map((row) => (
             <tr>
               <td>
-                {(ps ? row.psUrl : row.hdxUrl) ? (
-                  <a href={ps ? row.psUrl : row.hdxUrl} target="_blank" rel="noopener">
+                {row.hdxUrl ? (
+                  <a href={row.hdxUrl} target="_blank" rel="noopener">
                     {row.name_en}
                   </a>
                 ) : (
@@ -87,32 +77,37 @@ const available = (row: PlanCountry) => (ps ? row.ps_reference_year !== undefine
                 )}{" "}
                 <span class="iso3">{row.iso3}</span>
               </td>
-              <td style="text-align: center">
-                <BoolDot on={available(row)} label={available(row) ? "Yes" : "No"} />
+              <td>{plan(row)}</td>
+              <td>{office(row)}</td>
+              <td class:list={{ "flag-no": row.review_overdue }}>
+                <BoolDot on={row.inGis} label={row.inGis ? "COD-AB available" : "No COD-AB"} />
+                <span title={row.next_review_date}>{row.next_review_relative}</span>
               </td>
-              <td>{row.plan_types.join(" / ") || "—"}</td>
-              <td>{row.plan_years?.join(" / ") || "—"}</td>
-              <td>{row.office_type || "—"}</td>
-              <td>{row.regional || "—"}</td>
-              {ps ? (
-                <td>{row.ps_age ?? "—"}</td>
-              ) : (
-                <td class={row.review_overdue ? "flag-no" : ""}>
-                  <span title={row.next_review_date}>{row.next_review_relative ?? "—"}</span>
-                </td>
-              )}
               <td>
-                {ps ? (
-                  (row.ps_reference_year ?? "—")
-                ) : row.open_work_order_status ? (
-                  <Term term={`status-${row.open_work_order_status}` as TermSlug} align="right">
+                {row.open_work_order_status ? (
+                  <Term term={`status-${row.open_work_order_status}` as TermSlug}>
                     <span class={`badge ${statusClass(row.open_work_order_status)}`}>
                       {statusLabel(row.open_work_order_status)}
                     </span>
                   </Term>
                 ) : (
-                  "—"
+                  EMPTY
                 )}
+              </td>
+              <td>
+                <BoolDot
+                  on={row.ps_reference_year !== undefined}
+                  label={row.ps_reference_year !== undefined ? "COD-PS available" : "No COD-PS"}
+                />
+                <span
+                  title={
+                    row.ps_reference_year === undefined
+                      ? undefined
+                      : `Reference year ${row.ps_reference_year}`
+                  }
+                >
+                  {row.ps_age}
+                </span>
               </td>
             </tr>
           ))}
@@ -127,6 +122,10 @@ const available = (row: PlanCountry) => (ps ? row.ps_reference_year !== undefine
 <style>
   section {
     scroll-margin-top: 0.75rem;
+  }
+
+  td :global(.bool-dot) {
+    margin-right: 0.45rem;
   }
 
   .flag-no {

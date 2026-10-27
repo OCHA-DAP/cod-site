@@ -190,7 +190,7 @@ function computeNextReview(
     diffMonths === 0
       ? "This month"
       : overdue
-        ? `${diffMonths} month${diffMonths === 1 ? "" : "s"} late`
+        ? `${diffMonths} month${diffMonths === 1 ? "" : "s"} ago`
         : `In ${diffMonths} month${diffMonths === 1 ? "" : "s"}`;
   return {
     next_review_date: d.toLocaleDateString("en-US", {

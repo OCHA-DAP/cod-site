@@ -1,64 +1,57 @@
 ---
-import type { PlanGroup } from "$lib/status/loadData";
+import BoolDot from "$lib/status/components/BoolDot.astro";
+import type { PlanCountry, PlanGroup } from "$lib/status/loadData";
 import Term from "$lib/components/Term.astro";
 import type { TermSlug } from "$lib/glossary";
-import { statusClass, statusLabel } from "$lib/status/status";
+import { statusClass, statusLabel, statusRank } from "$lib/status/status";
 
 interface Props {
   planGroups: PlanGroup[];
 }
 
 const { planGroups } = Astro.props;
+const EMPTY = String.fromCharCode(0x2014);
+const plan = (row: PlanCountry) =>
+  row.plan_types.map((t, i) => [t, row.plan_years?.[i]].filter(Boolean).join(" ")).join(" / ") ||
+  EMPTY;
+const office = (row: PlanCountry) =>
+  [row.office_type, row.regional].filter(Boolean).join(", ") || EMPTY;
 ---
 
 {planGroups.map((group) => (
   <section id={group.key}>
     <h2>
       <Term term={group.key as TermSlug}>{group.label}</Term>
-      {(() => {
-        const overdue = group.countries.filter((c) => c.review_overdue).length;
-        return overdue > 0 ? (
-          <span class="count-chip warn">{overdue} overdue</span>
-        ) : (
-          <span class="count-chip done">All on schedule</span>
-        );
-      })()}
     </h2>
 
     {group.countries.length > 0 ? (
-      <table>
+      <table data-sortable>
         <colgroup>
-          <col style="width: 23%" />
-          <col style="width: 7%" />
-          <col style="width: 12%" />
-          <col style="width: 10%" />
-          <col style="width: 11%" />
-          <col style="width: 12%" />
-          <col style="width: 13%" />
-          <col style="width: 12%" />
+          <col style="width: 24%" />
+          <col style="width: 18%" />
+          <col style="width: 14%" />
+          <col style="width: 16%" />
+          <col style="width: 14%" />
+          <col style="width: 14%" />
         </colgroup>
         <thead>
           <tr>
             <th>Location</th>
             <th>
-              <Term term="in-gis">In GIS</Term>
+              <Term term="plan-type">Plan</Term>
             </th>
             <th>
-              <Term term="plan-type">Plan Types</Term>
-            </th>
-            <th>Plan Year</th>
-            <th>
-              <Term term="office-type">Office Type</Term>
+              <Term term="office-type">Office</Term>
             </th>
             <th>
-              <Term term="regional-office">Regional Office</Term>
+              <Term term="next-review">COD-AB due</Term>
             </th>
             <th>
-              <Term term="next-review">Next Review</Term>
+              <Term term="ps-age">COD-PS age</Term>
             </th>
             <th>
               <Term term="work-order" align="right">
-                Work Order
+                Work order
               </Term>
             </th>
           </tr>
@@ -76,15 +69,30 @@ const { planGroups } = Astro.props;
                 )}{" "}
                 <span class="iso3">{row.iso3}</span>
               </td>
-              <td>{row.inGis ? "Yes" : "No"}</td>
-              <td>{row.plan_types.join(" / ") || "—"}</td>
-              <td>{row.plan_years?.join(" / ") || "—"}</td>
-              <td>{row.office_type || "—"}</td>
-              <td>{row.regional || "—"}</td>
-              <td class={row.review_overdue ? "flag-no" : ""}>
-                <span title={row.next_review_date}>{row.next_review_relative ?? "—"}</span>
+              <td>{plan(row)}</td>
+              <td>{office(row)}</td>
+              <td class:list={{ "flag-no": row.review_overdue }} data-sort={row.next_review_sort}>
+                <BoolDot on={row.inGis} label={row.inGis ? "COD-AB available" : "No COD-AB"} />
+                <span title={row.next_review_date}>{row.next_review_relative}</span>
               </td>
-              <td>
+              <td
+                data-sort={row.ps_reference_year === undefined ? undefined : -row.ps_reference_year}
+              >
+                <BoolDot
+                  on={row.ps_reference_year !== undefined}
+                  label={row.ps_reference_year !== undefined ? "COD-PS available" : "No COD-PS"}
+                />
+                <span
+                  title={
+                    row.ps_reference_year === undefined
+                      ? undefined
+                      : `Reference year ${row.ps_reference_year}`
+                  }
+                >
+                  {row.ps_age}
+                </span>
+              </td>
+              <td data-sort={row.open_work_order_status && statusRank(row.open_work_order_status)}>
                 {row.open_work_order_status ? (
                   <Term term={`status-${row.open_work_order_status}` as TermSlug} align="right">
                     <span class={`badge ${statusClass(row.open_work_order_status)}`}>
@@ -92,7 +100,7 @@ const { planGroups } = Astro.props;
                     </span>
                   </Term>
                 ) : (
-                  "—"
+                  EMPTY
                 )}
               </td>
             </tr>
@@ -108,6 +116,10 @@ const { planGroups } = Astro.props;
 <style>
   section {
     scroll-margin-top: 0.75rem;
+  }
+
+  td :global(.bool-dot) {
+    margin-right: 0.45rem;
   }
 
   .flag-no {

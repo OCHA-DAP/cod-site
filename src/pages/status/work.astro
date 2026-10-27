@@ -1,14 +1,11 @@
 ---
-import PipelineSummary from "$lib/status/components/PipelineSummary.astro";
-import WorkOrdersSection from "$lib/status/components/WorkOrdersSection.astro";
+import WorkOrderTable from "$lib/status/components/WorkOrderTable.astro";
 import { loadData } from "$lib/status/loadData";
 import StatusLayout from "../../layouts/StatusLayout.astro";
 
 const data = loadData();
-const remaining = data.workOrders.filter((r) => r.work_order_status !== "done").length;
 ---
 
 <StatusLayout data={data}>
-  <PipelineSummary pipeline={data.pipeline} />
-  <WorkOrdersSection workByQuarter={data.workByQuarter} remaining={remaining} />
+  <WorkOrderTable groups={data.workByQuarter} />
 </StatusLayout>

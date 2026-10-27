@@ -17,8 +17,6 @@ export const STATUS_LABELS: Record<string, string> = {
   cancelled: "Cancelled",
 };
 
-export const STATUS_ORDER = ["backlog", "selected", "in_progress", "blocked", "done", "cancelled"];
-
 export function statusRank(status: string): number {
   if (status === "blocked") return 0;
   if (status === "in_progress") return 1;
@@ -37,6 +35,10 @@ export const STATUS_TERMS: Record<string, string> = {
   backlog: "status-backlog",
   cancelled: "status-cancelled",
 };
+
+export function isOpenStatus(status: string): boolean {
+  return status === "selected" || status === "in_progress" || status === "blocked";
+}
 
 export function statusLabel(status: string): string {
   return STATUS_LABELS[status] ?? status;

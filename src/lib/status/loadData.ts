@@ -3,13 +3,7 @@ import { join } from "node:path";
 
 import Papa from "papaparse";
 
-import { STATUS_LABELS, STATUS_ORDER, statusRank } from "./status";
-
-export interface PipelineCount {
-  status: string;
-  label: string;
-  count: number;
-}
+import { isOpenStatus, statusRank } from "./status";
 
 export interface WorkOrderRow {
   iso3: string;
@@ -61,6 +55,10 @@ export interface PlanCountry {
   review_overdue?: boolean;
   open_work_order_status?: string;
   hdxUrl?: string;
+  ps_reference_year?: number;
+  ps_age?: string;
+  /** joined: every COD-PS P-code is in the COD-AB; unset: no subnational COD-PS P-codes. */
+  ps_match?: "joined" | "mismatched";
 }
 
 export interface LevelStats {
@@ -188,7 +186,7 @@ function computeNextReview(
     diffMonths === 0
       ? "This month"
       : overdue
-        ? `${diffMonths} month${diffMonths === 1 ? "" : "s"} late`
+        ? `${diffMonths} month${diffMonths === 1 ? "" : "s"} ago`
         : `In ${diffMonths} month${diffMonths === 1 ? "" : "s"}`;
   return {
     next_review_date: d.toLocaleDateString("en-US", {
@@ -202,15 +200,27 @@ function computeNextReview(
   };
 }
 
+const UNSCHEDULED = "Unscheduled";
+
+function currentQuarter(): string {
+  const now = new Date();
+  return `${now.getUTCFullYear()}-Q${Math.floor(now.getUTCMonth() / 3) + 1}`;
+}
+
 function groupByQuarter(rows: WorkOrderRow[]): ScheduleGroup[] {
   const map: Record<string, WorkOrderRow[]> = {};
   for (const r of rows) {
-    const key = r.planned_quarter || "TBD";
+    const key = r.planned_quarter || UNSCHEDULED;
     if (!map[key]) map[key] = [];
     map[key].push(r);
   }
+  const current = currentQuarter();
+  // Current and future quarters, then unscheduled, then past quarters newest first.
+  const rank = (q: string) => (q === UNSCHEDULED ? 1 : q >= current ? 0 : 2);
   return Object.entries(map)
-    .sort(([a], [b]) => (a === "TBD" ? 1 : b === "TBD" ? -1 : a.localeCompare(b)))
+    .sort(
+      ([a], [b]) => rank(a) - rank(b) || (rank(a) === 2 ? b.localeCompare(a) : a.localeCompare(b)),
+    )
     .map(([quarter, rows]) => ({ quarter, rows }));
 }
 
@@ -341,16 +351,6 @@ export function loadData() {
       return rDate > bestDate ? r : best;
     }),
   );
-
-  // Overall pipeline stats across all work orders, regardless of year
-  const pipelineCountMap: Record<string, number> = {};
-  for (const r of dedupedRows)
-    pipelineCountMap[r.work_order_status] = (pipelineCountMap[r.work_order_status] ?? 0) + 1;
-  const pipeline: PipelineCount[] = STATUS_ORDER.filter((s) => pipelineCountMap[s]).map((s) => ({
-    status: s,
-    label: STATUS_LABELS[s],
-    count: pipelineCountMap[s],
-  }));
 
   // All work orders, one per country, grouped by planned quarter (quarter
   // values are year-prefixed, e.g. "2026-Q1", so chronological order holds)
@@ -490,11 +490,31 @@ export function loadData() {
     })
     .sort((a, b) => a.name_en.localeCompare(b.name_en));
 
-  function getCountryExtras(iso3: string) {
+  const currentYear = new Date().getUTCFullYear();
+  function getCountryExtras(iso3: string): Partial<PlanCountry> {
     const meta = codMetaByIso3[iso3];
     const reviewFields = meta ? computeNextReview(meta.anchor_date, meta.update_frequency) : {};
     const woStatus = openWoByIso3[iso3];
-    return woStatus ? { ...reviewFields, open_work_order_status: woStatus } : reviewFields;
+    const psYear = optionalNumber(psByIso3[iso3]?.reference_year);
+    const psAge = psYear === undefined ? undefined : currentYear - psYear;
+    const psLevels = (levelsByIso3[iso3] ?? []).filter((l) => l.ps_units !== undefined);
+    return {
+      ...reviewFields,
+      ...(woStatus && { open_work_order_status: woStatus }),
+      ps_reference_year: psYear,
+      ps_age:
+        psAge === undefined
+          ? undefined
+          : psAge <= 0
+            ? "Current"
+            : `${psAge} year${psAge === 1 ? "" : "s"}`,
+      ps_match:
+        psLevels.length === 0
+          ? undefined
+          : psLevels.every((l) => l.matched === l.ps_units)
+            ? "joined"
+            : "mismatched",
+    };
   }
 
   // Build plan groups from the plans data
@@ -657,7 +677,6 @@ export function loadData() {
   ];
 
   return {
-    pipeline,
     workOrders,
     workByQuarter,
     planCoverageByYear,
@@ -670,9 +689,7 @@ export function loadData() {
     totalInGis: planGroups.reduce((sum, g) => sum + g.countries.filter((c) => c.inGis).length, 0),
     adminUnits: Object.values(unitsByIso3).reduce((sum, c) => sum + c.units, 0),
     total: dedupedRows.length,
-    openTotal: dedupedRows.filter(
-      (r) => !["done", "backlog", "cancelled"].includes(r.work_order_status),
-    ).length,
+    openTotal: dedupedRows.filter((r) => isOpenStatus(r.work_order_status)).length,
     lastUpdatedAt,
   };
 }

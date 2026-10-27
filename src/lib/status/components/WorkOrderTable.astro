@@ -1,6 +1,7 @@
 ---
+import BoolDot from "$lib/status/components/BoolDot.astro";
 import type { ScheduleGroup } from "$lib/status/loadData";
-import { statusClass, statusLabel, STATUS_TERMS } from "$lib/status/status";
+import { statusClass, statusLabel, statusRank, STATUS_TERMS } from "$lib/status/status";
 import Term from "$lib/components/Term.astro";
 import type { TermSlug } from "$lib/glossary";
 
@@ -10,11 +11,16 @@ interface Props {
 
 const { groups } = Astro.props;
 
-function ageLabel(createdDate: string, endDate?: string): string | null {
+function ageDays(createdDate: string, endDate?: string): number | null {
   if (!createdDate) return null;
   const created = new Date(createdDate + "T00:00:00");
   const end = endDate ? new Date(endDate + "T00:00:00") : new Date();
-  const days = Math.floor((end.getTime() - created.getTime()) / (1000 * 60 * 60 * 24));
+  return Math.floor((end.getTime() - created.getTime()) / (1000 * 60 * 60 * 24));
+}
+
+function ageLabel(createdDate: string, endDate?: string): string | null {
+  const days = ageDays(createdDate, endDate);
+  if (days === null) return null;
   const weeks = Math.round(days / 7);
   return `${weeks} week${weeks === 1 ? "" : "s"}`;
 }
@@ -31,16 +37,13 @@ function ageTooltip(createdDate: string, publicationDate?: string): string | nul
 }
 ---
 
+{groups.length === 0 && <p class="empty">No work orders yet.</p>}
 {groups.map((group) => (
-  <Fragment>
-    <h3 class="quarter-heading">
-      {group.quarter}
-      {(() => {
-        const remaining = group.rows.filter((r) => r.work_order_status !== "done").length;
-        return remaining > 0 ? <span class="count-chip">{remaining} remaining</span> : null;
-      })()}
-    </h3>
-    <table>
+  <section id={group.quarter.toLowerCase()}>
+    <h2>
+      <Term term="planned-quarter">{group.quarter}</Term>
+    </h2>
+    <table data-sortable>
       <colgroup>
         <col style="width: 30%" />
         <col style="width: 5.5em" />
@@ -88,21 +91,25 @@ function ageTooltip(createdDate: string, publicationDate?: string): string | nul
               )}{" "}
               <span class="iso3">{row.iso3}</span>
             </td>
-            <td style="text-align: center">
-              {row.update_type === "major" ? (
-                <span class="upd-icon upd-major">●</span>
-              ) : row.update_type === "minor" ? (
-                <span class="upd-icon upd-minor">○</span>
+            <td
+              style="text-align: center"
+              data-sort={row.update_type === "major" ? 0 : row.update_type === "minor" ? 1 : ""}
+            >
+              {row.update_type === "major" || row.update_type === "minor" ? (
+                <BoolDot
+                  on={row.update_type === "major"}
+                  label={row.update_type === "major" ? "Major" : "Minor"}
+                />
               ) : null}
             </td>
-            <td>
+            <td data-sort={statusRank(row.work_order_status)}>
               <Term term={STATUS_TERMS[row.work_order_status] as TermSlug}>
                 <span class={`badge ${statusClass(row.work_order_status)}`}>
                   {statusLabel(row.work_order_status)}
                 </span>
               </Term>
             </td>
-            <td>
+            <td data-sort={ageDays(row.created_date, row.publication_date || undefined) ?? ""}>
               {(() => {
                 const label = ageLabel(row.created_date, row.publication_date || undefined);
                 const tip = ageTooltip(row.created_date, row.publication_date || undefined);
@@ -116,5 +123,5 @@ function ageTooltip(createdDate: string, publicationDate?: string): string | nul
         ))}
       </tbody>
     </table>
-  </Fragment>
+  </section>
 ))}

@@ -1,14 +1,17 @@
 ---
-import type { InfoRow } from "$lib/status/loadData";
+import type { InfoRow, PlanGroup } from "$lib/status/loadData";
+import type { TermSlug } from "$lib/glossary";
 import Term from "$lib/components/Term.astro";
 import Tooltip from "$lib/components/Tooltip.astro";
 import Dumbbell from "./Dumbbell.astro";
 
 interface Props {
+  groups: PlanGroup[];
   rows: InfoRow[];
 }
 
-const { rows } = Astro.props;
+const { groups, rows } = Astro.props;
+const rowByIso3 = new Map(rows.map((r) => [r.iso3, r]));
 // Same empty-cell glyph as the other status tables.
 const EMPTY = String.fromCharCode(0x2014);
 const LEVELS = [1, 2, 3, 4, 5];
@@ -30,7 +33,7 @@ interface Cell {
   level: number;
   present: boolean;
   partial: boolean;
-  /** PS only: p-codes were compared against COD-AB, so the unmatched share shows red. */
+  /** PS only: P-codes were compared against COD-AB, so the unmatched share shows red. */
   checked: boolean;
   /** Fill width: matched share for PS, subdivided share for a measured partial AB level, else 1. */
   fill: number;
@@ -38,7 +41,7 @@ interface Cell {
   label?: string;
   /** Label sits on a light background (partial or mostly unmatched) and needs dark ink. */
   dark: boolean;
-  /** Tooltip line for what the bar can't show: partial extent, unmatched p-codes. */
+  /** Tooltip line for what the bar can't show: partial extent, unmatched P-codes. */
   note?: string;
 }
 
@@ -71,7 +74,7 @@ function track(r: InfoRow, kind: "ab" | "ps"): Cell[] {
     const missing = units ? units - matched : 0;
     const notes = [
       extent,
-      missing ? `${fmt(missing)} of ${fmt(units!)} p-codes not in COD-AB` : "",
+      missing ? `${fmt(missing)} of ${fmt(units!)} P-codes not in COD-AB` : "",
     ].filter(Boolean);
     return {
       level: n,
@@ -87,110 +90,134 @@ function track(r: InfoRow, kind: "ab" | "ps"): Cell[] {
 }
 ---
 
-<section class="info">
-  <table>
-    <colgroup>
-      <col style="width: 24%" />
-      <col style="width: 21%" />
-      <col style="width: 21%" />
-      <col style="width: 34%" />
-    </colgroup>
-    <thead>
-      <tr>
-        <th>Location</th>
-        <th>
-          <Term term="ab-levels">COD-AB levels</Term>
-        </th>
-        <th>
-          <Term term="ps-levels">COD-PS levels</Term>
-        </th>
-        <th>
-          <Term term="reference-year">Reference year</Term>
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      {rows.map((row) => {
-        const datasets = [
-          { kind: "ab" as const, label: "AB", url: row.hdxUrl, cells: track(row, "ab") },
-          { kind: "ps" as const, label: "PS", url: row.psUrl, cells: track(row, "ps") },
-        ];
-        return (
+{groups.map((group) => (
+  <section id={group.key}>
+    <h2>
+      <Term term={group.key as TermSlug}>{group.label}</Term>
+    </h2>
+    {group.countries.length > 0 ? (
+      <table data-sortable>
+        <colgroup>
+          <col style="width: 24%" />
+          <col style="width: 21%" />
+          <col style="width: 21%" />
+          <col style="width: 34%" />
+        </colgroup>
+        <thead>
           <tr>
-            <td>
-              {row.name_en} <span class="iso3">{row.iso3}</span>
-            </td>
-            {datasets.map(({ kind, label, url, cells }) => (
-              <td class={`chart ${kind}`}>
-                <span class="level-cell">
-                  <span class="label">
-                    {url ? (
-                      <a href={url} target="_blank" rel="noopener" title={`COD-${label} on HDX`}>
-                        {label}
-                      </a>
-                    ) : (
-                      label
-                    )}
-                  </span>
-                  <Tooltip block>
-                    <span class="levels">
-                      {cells.map((c) => (
-                        <span class:list={["seg", { none: !c.present, unmatched: c.checked }]}>
-                          {c.present && (
-                            <span
-                              class:list={["seg-fill", { partial: c.partial }]}
-                              style={`width: ${c.fill * 100}%`}
-                            />
-                          )}
-                          {c.label && (
-                            <span class:list={["seg-lbl", { dark: c.dark }]}>{c.label}</span>
+            <th>Location</th>
+            <th>
+              <Term term="ab-levels">COD-AB levels</Term>
+            </th>
+            <th>
+              <Term term="ps-levels">COD-PS levels</Term>
+            </th>
+            <th>
+              <Term term="reference-year">Reference year</Term>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {group.countries
+            .map((c) => rowByIso3.get(c.iso3)!)
+            .sort((a, b) => a.name_en.localeCompare(b.name_en))
+            .map((row) => {
+              const datasets = [
+                { kind: "ab" as const, label: "AB", url: row.hdxUrl, cells: track(row, "ab") },
+                { kind: "ps" as const, label: "PS", url: row.psUrl, cells: track(row, "ps") },
+              ];
+              return (
+                <tr>
+                  <td>
+                    {row.name_en} <span class="iso3">{row.iso3}</span>
+                  </td>
+                  {datasets.map(({ kind, label, url, cells }) => (
+                    <td
+                      class={`chart ${kind}`}
+                      data-sort={(kind === "ab" ? row.ab_level : row.ps_level) ?? ""}
+                    >
+                      <span class="level-cell">
+                        <span class="label">
+                          {url ? (
+                            <a
+                              href={url}
+                              target="_blank"
+                              rel="noopener"
+                              title={`COD-${label} on HDX`}
+                            >
+                              {label}
+                            </a>
+                          ) : (
+                            label
                           )}
                         </span>
-                      ))}
-                    </span>
-                    {cells.some((c) => c.note) && (
-                      <span slot="tip" class="tip-lines">
-                        {cells
-                          .filter((c) => c.note)
-                          .map((c) => (
-                            <span>{c.note}</span>
-                          ))}
+                        <Tooltip block>
+                          <span class="levels">
+                            {cells.map((c) => (
+                              <span
+                                class:list={["seg", { none: !c.present, unmatched: c.checked }]}
+                              >
+                                {c.present && (
+                                  <span
+                                    class:list={["seg-fill", { partial: c.partial }]}
+                                    style={`width: ${c.fill * 100}%`}
+                                  />
+                                )}
+                                {c.label && (
+                                  <span class:list={["seg-lbl", { dark: c.dark }]}>{c.label}</span>
+                                )}
+                              </span>
+                            ))}
+                          </span>
+                          {cells.some((c) => c.note) && (
+                            <span slot="tip" class="tip-lines">
+                              {cells
+                                .filter((c) => c.note)
+                                .map((c) => (
+                                  <span>{c.note}</span>
+                                ))}
+                            </span>
+                          )}
+                        </Tooltip>
                       </span>
-                    )}
-                  </Tooltip>
-                </span>
-              </td>
-            ))}
-            <td class="chart">
-              <Tooltip block align="right">
-                <Dumbbell
-                  {...year}
-                  ticks={yearTicks}
-                  ab={row.ab_reference_year}
-                  ps={row.ps_reference_year}
-                />
-                <span slot="tip" class="tip-grid two">
-                  <span class="key ab"></span>
-                  <span>COD-AB {row.ab_reference_year ?? EMPTY}</span>
-                  <span class="key ps"></span>
-                  <span>COD-PS {row.ps_reference_year ?? EMPTY}</span>
-                </span>
-              </Tooltip>
-            </td>
-          </tr>
-        );
-      })}
-    </tbody>
-  </table>
-</section>
+                    </td>
+                  ))}
+                  <td
+                    class="chart"
+                    data-sort={row.ab_reference_year ?? row.ps_reference_year ?? ""}
+                  >
+                    <Tooltip block align="right">
+                      <Dumbbell
+                        {...year}
+                        ticks={yearTicks}
+                        ab={row.ab_reference_year}
+                        ps={row.ps_reference_year}
+                      />
+                      <span slot="tip" class="tip-grid two">
+                        <span class="key ab"></span>
+                        <span>COD-AB {row.ab_reference_year ?? EMPTY}</span>
+                        <span class="key ps"></span>
+                        <span>COD-PS {row.ps_reference_year ?? EMPTY}</span>
+                      </span>
+                    </Tooltip>
+                  </td>
+                </tr>
+              );
+            })}
+        </tbody>
+      </table>
+    ) : (
+      <p class="empty">No locations found.</p>
+    )}
+  </section>
+))}
 
 <style>
-  .info {
-    border-top: none;
-    padding-top: 0;
+  section {
+    scroll-margin-top: 0.75rem;
   }
 
-  .info td {
+  td {
     padding-top: 0.3rem;
     padding-bottom: 0.3rem;
   }

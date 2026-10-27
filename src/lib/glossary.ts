@@ -171,18 +171,14 @@ export const GLOSSARY = {
     definition: "Work order has been cancelled and will not be completed.",
   },
 
-  "in-gis": {
-    label: "In GIS",
-    definition: "Country or territory whose admin boundaries are published in OCHA's ArcGIS catalog.",
-  },
   "next-review": {
     label: "Next Review",
     definition:
       "Date the next data review or update is due, computed from COD metadata and update frequency.",
   },
-  "review-overdue": {
-    label: "Overdue",
-    definition: "Locations whose next COD-AB review date has passed.",
+  "ps-age": {
+    label: "Age",
+    definition: "Years between the COD-PS reference year and the current year.",
   },
   "reference-year": {
     label: "Reference Year",
@@ -197,7 +193,7 @@ export const GLOSSARY = {
   "ps-levels": {
     label: "COD-PS levels",
     definition:
-      "One cell per admin level with population figures. The orange share of each cell is the p-codes found in the current COD-AB, and red marks p-codes that won't join to the boundaries.",
+      "One cell per admin level with population figures. The orange share of each cell is the P-codes found in the current COD-AB, and red marks P-codes that won't join to the boundaries.",
   },
   "plan-coverage": {
     label: "Plan Coverage",

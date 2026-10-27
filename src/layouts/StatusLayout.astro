@@ -62,9 +62,9 @@ const page = Astro.url.pathname.replace(/\/$/, "").split("/").at(-1);
           <span class="tab-denom"> open</span>
         </span>
       </a>
-      <a href={`${statusBase}reviews`} class:list={["tab-btn", { active: page === "reviews" }]}>
+      <a href={`${statusBase}review`} class:list={["tab-btn", { active: page === "review" }]}>
         <span class="tab-left">
-          <span class="tab-title">Reviews</span>
+          <span class="tab-title">Review</span>
           <span class="tab-desc">Review schedule by plan priority</span>
         </span>
         <span class="tab-count">

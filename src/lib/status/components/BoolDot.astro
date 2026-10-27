@@ -1,0 +1,26 @@
+---
+interface Props {
+  on: boolean;
+  label: string;
+}
+
+const { on, label } = Astro.props;
+---
+
+<span class:list={["bool-dot", { on }]} role="img" aria-label={label} title={label}></span>
+
+<style>
+  .bool-dot {
+    display: inline-block;
+    box-sizing: border-box;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    border: 1.5px solid var(--brand-primary--text);
+    vertical-align: middle;
+  }
+
+  .bool-dot.on {
+    background: var(--brand-primary--text);
+  }
+</style>

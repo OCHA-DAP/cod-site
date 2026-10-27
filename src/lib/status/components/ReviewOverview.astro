@@ -5,9 +5,10 @@ import type { TermSlug } from "$lib/glossary";
 
 interface Props {
   planGroups: PlanGroup[];
+  dataset: "ab" | "ps";
 }
 
-const { planGroups } = Astro.props;
+const { planGroups, dataset } = Astro.props;
 
 function overdueClass(overdue: number, total: number): string {
   if (total === 0 || overdue === 0) return "s-ok";
@@ -21,6 +22,23 @@ function overdueClass(overdue: number, total: number): string {
 <div class="figure-row cycle-row">
   {planGroups.map((group) => {
     const total = group.countries.length;
+    if (dataset === "ps") {
+      const withPs = group.countries.filter((c) => c.ps_reference_year !== undefined).length;
+      return (
+        <a class="figure" href={`#${group.key}`}>
+          <span class="figure-title">
+            <Term term={group.key as TermSlug}>{group.label}</Term>
+          </span>
+          <span class="figure-num">
+            {withPs}
+            <span class="figure-denom">/{total}</span>
+          </span>
+          <span class="figure-lbl">
+            <Term term="ps-available">Available</Term>
+          </span>
+        </a>
+      );
+    }
     const overdue = group.countries.filter((c) => c.review_overdue).length;
     return (
       <a class={`figure ${overdueClass(overdue, total)}`} href={`#${group.key}`}>

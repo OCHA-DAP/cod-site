@@ -11,7 +11,7 @@ interface Props {
 }
 
 const { data } = Astro.props;
-const { openTotal, overdueTotal, infoRows } = data;
+const { openTotal, overdueTotal, psTotal, infoRows } = data;
 const lastUpdatedFormatted = data.lastUpdatedAt
   ? new Date(data.lastUpdatedAt).toLocaleDateString("en-GB", {
       day: "numeric",
@@ -27,7 +27,7 @@ const page = Astro.url.pathname.replace(/\/$/, "").split("/").at(-1);
 
 <Layout
   title="COD Status Dashboard"
-  description="COD-AB and COD-PS availability, COD-AB work orders, and review schedule."
+  description="COD-AB and COD-PS availability, COD-AB work orders, COD-AB review schedule, and COD-PS age."
 >
   <Masthead title="COD Status Dashboard" width="1200px">
     <p class="tagline">
@@ -64,12 +64,25 @@ const page = Astro.url.pathname.replace(/\/$/, "").split("/").at(-1);
       </a>
       <a href={`${statusBase}reviews`} class:list={["tab-btn", { active: page === "reviews" }]}>
         <span class="tab-left">
-          <span class="tab-title">Reviews</span>
-          <span class="tab-desc">Review schedule by plan priority</span>
+          <span class="tab-title">AB Reviews</span>
+          <span class="tab-desc">COD-AB review schedule</span>
         </span>
         <span class="tab-count">
           {overdueTotal}
           <span class="tab-denom"> overdue</span>
+        </span>
+      </a>
+      <a
+        href={`${statusBase}reviews-ps`}
+        class:list={["tab-btn", { active: page === "reviews-ps" }]}
+      >
+        <span class="tab-left">
+          <span class="tab-title">PS Reviews</span>
+          <span class="tab-desc">COD-PS age by plan priority</span>
+        </span>
+        <span class="tab-count">
+          {psTotal}
+          <span class="tab-denom"> locations</span>
         </span>
       </a>
     </nav>

@@ -1,4 +1,5 @@
 ---
+import BoolDot from "$lib/status/components/BoolDot.astro";
 import type { ScheduleGroup } from "$lib/status/loadData";
 import { statusClass, statusLabel, STATUS_TERMS } from "$lib/status/status";
 import Term from "$lib/components/Term.astro";
@@ -89,10 +90,11 @@ function ageTooltip(createdDate: string, publicationDate?: string): string | nul
               <span class="iso3">{row.iso3}</span>
             </td>
             <td style="text-align: center">
-              {row.update_type === "major" ? (
-                <span class="upd-icon upd-major">●</span>
-              ) : row.update_type === "minor" ? (
-                <span class="upd-icon upd-minor">○</span>
+              {row.update_type === "major" || row.update_type === "minor" ? (
+                <BoolDot
+                  on={row.update_type === "major"}
+                  label={row.update_type === "major" ? "Major" : "Minor"}
+                />
               ) : null}
             </td>
             <td>

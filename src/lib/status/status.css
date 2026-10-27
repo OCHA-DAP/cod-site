@@ -93,6 +93,11 @@
     border-top-right-radius: var(--brand-radius);
   }
 
+  td {
+    box-sizing: border-box;
+    height: 2.2rem;
+  }
+
   tbody tr:not(:last-child) td {
     border-bottom: 1px solid var(--cd-grey--400);
   }
@@ -242,11 +247,6 @@
     color: var(--cd-grey--700);
     margin-left: 0.25rem;
     font-family: var(--brand-font-mono);
-  }
-
-  .upd-icon {
-    font-size: 0.6rem;
-    color: var(--cd-grey--700);
   }
 
   .mono {

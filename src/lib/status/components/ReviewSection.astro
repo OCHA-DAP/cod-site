@@ -1,28 +1,33 @@
 ---
-import type { PlanGroup } from "$lib/status/loadData";
+import BoolDot from "$lib/status/components/BoolDot.astro";
+import type { PlanCountry, PlanGroup } from "$lib/status/loadData";
 import Term from "$lib/components/Term.astro";
 import type { TermSlug } from "$lib/glossary";
 import { statusClass, statusLabel } from "$lib/status/status";
 
 interface Props {
   planGroups: PlanGroup[];
+  dataset: "ab" | "ps";
 }
 
-const { planGroups } = Astro.props;
+const { planGroups, dataset } = Astro.props;
+const ps = dataset === "ps";
+const available = (row: PlanCountry) => (ps ? row.ps_reference_year !== undefined : row.inGis);
 ---
 
 {planGroups.map((group) => (
   <section id={group.key}>
     <h2>
       <Term term={group.key as TermSlug}>{group.label}</Term>
-      {(() => {
-        const overdue = group.countries.filter((c) => c.review_overdue).length;
-        return overdue > 0 ? (
-          <span class="count-chip warn">{overdue} overdue</span>
-        ) : (
-          <span class="count-chip done">All on schedule</span>
-        );
-      })()}
+      {!ps &&
+        (() => {
+          const overdue = group.countries.filter((c) => c.review_overdue).length;
+          return overdue > 0 ? (
+            <span class="count-chip warn">{overdue} overdue</span>
+          ) : (
+            <span class="count-chip done">All on schedule</span>
+          );
+        })()}
     </h2>
 
     {group.countries.length > 0 ? (
@@ -41,7 +46,7 @@ const { planGroups } = Astro.props;
           <tr>
             <th>Location</th>
             <th>
-              <Term term="in-gis">In GIS</Term>
+              <Term term={ps ? "ps-available" : "ab-available"}>Available</Term>
             </th>
             <th>
               <Term term="plan-type">Plan Types</Term>
@@ -54,12 +59,18 @@ const { planGroups } = Astro.props;
               <Term term="regional-office">Regional Office</Term>
             </th>
             <th>
-              <Term term="next-review">Next Review</Term>
+              {ps ? <Term term="ps-age">Age</Term> : <Term term="next-review">Next Review</Term>}
             </th>
             <th>
-              <Term term="work-order" align="right">
-                Work Order
-              </Term>
+              {ps ? (
+                <Term term="ps-reference-year" align="right">
+                  Reference Year
+                </Term>
+              ) : (
+                <Term term="work-order" align="right">
+                  Work Order
+                </Term>
+              )}
             </th>
           </tr>
         </thead>
@@ -67,8 +78,8 @@ const { planGroups } = Astro.props;
           {group.countries.map((row) => (
             <tr>
               <td>
-                {row.hdxUrl ? (
-                  <a href={row.hdxUrl} target="_blank" rel="noopener">
+                {(ps ? row.psUrl : row.hdxUrl) ? (
+                  <a href={ps ? row.psUrl : row.hdxUrl} target="_blank" rel="noopener">
                     {row.name_en}
                   </a>
                 ) : (
@@ -76,16 +87,24 @@ const { planGroups } = Astro.props;
                 )}{" "}
                 <span class="iso3">{row.iso3}</span>
               </td>
-              <td>{row.inGis ? "Yes" : "No"}</td>
+              <td style="text-align: center">
+                <BoolDot on={available(row)} label={available(row) ? "Yes" : "No"} />
+              </td>
               <td>{row.plan_types.join(" / ") || "—"}</td>
               <td>{row.plan_years?.join(" / ") || "—"}</td>
               <td>{row.office_type || "—"}</td>
               <td>{row.regional || "—"}</td>
-              <td class={row.review_overdue ? "flag-no" : ""}>
-                <span title={row.next_review_date}>{row.next_review_relative ?? "—"}</span>
-              </td>
+              {ps ? (
+                <td>{row.ps_age ?? "—"}</td>
+              ) : (
+                <td class={row.review_overdue ? "flag-no" : ""}>
+                  <span title={row.next_review_date}>{row.next_review_relative ?? "—"}</span>
+                </td>
+              )}
               <td>
-                {row.open_work_order_status ? (
+                {ps ? (
+                  (row.ps_reference_year ?? "—")
+                ) : row.open_work_order_status ? (
                   <Term term={`status-${row.open_work_order_status}` as TermSlug} align="right">
                     <span class={`badge ${statusClass(row.open_work_order_status)}`}>
                       {statusLabel(row.open_work_order_status)}

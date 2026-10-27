@@ -171,19 +171,10 @@ export const GLOSSARY = {
     definition: "Work order has been cancelled and will not be completed.",
   },
 
-  "ps-joins": {
-    label: "Joins COD-AB",
-    definition:
-      "Locations whose COD-PS p-codes all match the current COD-AB at every level, out of locations with a COD-AB.",
-  },
   "next-review": {
     label: "Next Review",
     definition:
       "Date the next data review or update is due, computed from COD metadata and update frequency.",
-  },
-  "review-overdue": {
-    label: "Overdue",
-    definition: "Locations whose next COD-AB review date has passed.",
   },
   "ps-age": {
     label: "Age",
@@ -202,7 +193,7 @@ export const GLOSSARY = {
   "ps-levels": {
     label: "COD-PS levels",
     definition:
-      "One cell per admin level with population figures. The orange share of each cell is the p-codes found in the current COD-AB, and red marks p-codes that won't join to the boundaries.",
+      "One cell per admin level with population figures. The orange share of each cell is the P-codes found in the current COD-AB, and red marks P-codes that won't join to the boundaries.",
   },
   "plan-coverage": {
     label: "Plan Coverage",

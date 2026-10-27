@@ -22,14 +22,6 @@ const office = (row: PlanCountry) =>
   <section id={group.key}>
     <h2>
       <Term term={group.key as TermSlug}>{group.label}</Term>
-      {(() => {
-        const overdue = group.countries.filter((c) => c.review_overdue).length;
-        return overdue > 0 ? (
-          <span class="count-chip warn">{overdue} overdue</span>
-        ) : (
-          <span class="count-chip done">All on schedule</span>
-        );
-      })()}
     </h2>
 
     {group.countries.length > 0 ? (

@@ -1,6 +1,6 @@
 ---
 import InfoTable from "$lib/status/components/InfoTable.astro";
-import ReviewOverview from "$lib/status/components/ReviewOverview.astro";
+import Summary from "$lib/status/components/Summary.astro";
 import { loadData } from "$lib/status/loadData";
 import StatusLayout from "../../layouts/StatusLayout.astro";
 
@@ -12,6 +12,6 @@ const groups = data.planGroups.map((g) => ({
 ---
 
 <StatusLayout data={data}>
-  <ReviewOverview planGroups={groups} page="info" />
+  <Summary planGroups={groups} page="info" />
   <InfoTable groups={groups} rows={data.infoRows} />
 </StatusLayout>

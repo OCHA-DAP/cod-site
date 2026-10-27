@@ -60,7 +60,9 @@ def country_pcodes(path: Path) -> set[tuple[int, str, str | None]]:
         text = raw.decode("utf-8-sig")
     except UnicodeDecodeError:
         text = raw.decode("latin-1")
-    rows = csv.DictReader(text.splitlines())
+    lines = text.splitlines()
+    dialect = csv.Sniffer().sniff(lines[0] if lines else "", delimiters=",;\t")
+    rows = csv.DictReader(lines, dialect=dialect)
     cols = {
         int(m.group(1)): c
         for c in rows.fieldnames or []

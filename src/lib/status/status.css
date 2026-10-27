@@ -138,14 +138,10 @@
   /* ── Key figures ────────────────────────────────────────────── */
   .s-backlog { --tone-text: var(--cd-grey--900); }
   .s-selected,
-  .s-in_progress,
-  .s-warn-low { --tone-text: var(--brand-primary--text); }
-  .s-done,
-  .s-ok { --tone-text: var(--cd-blue--dark); }
-  .s-blocked,
-  .s-warn-mid { --tone-text: var(--cd-orange--aa); }
-  .s-cancelled,
-  .s-critical { --tone-text: var(--cd-red--aaa); }
+  .s-in_progress { --tone-text: var(--brand-primary--text); }
+  .s-done { --tone-text: var(--cd-blue--dark); }
+  .s-blocked { --tone-text: var(--cd-orange--aa); }
+  .s-cancelled { --tone-text: var(--cd-red--aaa); }
 
   /* Subgrid rows keep numbers level when one title wraps. */
   .figure-row {
@@ -167,10 +163,6 @@
     --figure-color: var(--tone-text, var(--brand-primary--text));
   }
 
-  .figure:has(.figure-title) {
-    grid-row: span 3;
-  }
-
   .figure:first-child {
     border-left: 0;
     padding-left: 0;
@@ -188,14 +180,6 @@
     font-size: 0.75em;
     font-weight: 500;
     opacity: 0.6;
-  }
-
-  .figure-title {
-    font-size: 0.78rem;
-    font-weight: 600;
-    color: var(--cd-grey--700);
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
   }
 
   .figure-lbl {
@@ -257,10 +241,6 @@
     vertical-align: middle;
   }
 
-  .count-chip.warn {
-    background: var(--tint-orange);
-    color: var(--cd-orange--aa);
-  }
   .count-chip.done {
     background: var(--tint-green);
     color: var(--cd-green--aa);

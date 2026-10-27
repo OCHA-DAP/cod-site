@@ -1,5 +1,5 @@
 ---
-import ReviewOverview from "$lib/status/components/ReviewOverview.astro";
+import Summary from "$lib/status/components/Summary.astro";
 import ReviewSection from "$lib/status/components/ReviewSection.astro";
 import { loadData } from "$lib/status/loadData";
 import StatusLayout from "../../layouts/StatusLayout.astro";
@@ -8,6 +8,6 @@ const data = loadData();
 ---
 
 <StatusLayout data={data}>
-  <ReviewOverview planGroups={data.planGroups} page="review" />
+  <Summary planGroups={data.planGroups} page="review" />
   <ReviewSection planGroups={data.planGroups} />
 </StatusLayout>

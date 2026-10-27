@@ -63,8 +63,8 @@ export interface PlanCountry {
   hdxUrl?: string;
   ps_reference_year?: number;
   ps_age?: string;
-  /** joined: every COD-PS p-code is in the COD-AB; unchecked: COD-PS has no p-codes to compare. */
-  ps_match?: "joined" | "mismatched" | "unchecked";
+  /** joined: every COD-PS P-code is in the COD-AB; unset: no subnational COD-PS P-codes. */
+  ps_match?: "joined" | "mismatched";
 }
 
 export interface LevelStats {
@@ -513,13 +513,11 @@ export function loadData() {
             ? "Current"
             : `${psAge} year${psAge === 1 ? "" : "s"}`,
       ps_match:
-        psYear === undefined
+        psLevels.length === 0
           ? undefined
-          : psLevels.length === 0
-            ? "unchecked"
-            : psLevels.every((l) => l.matched === l.ps_units)
-              ? "joined"
-              : "mismatched",
+          : psLevels.every((l) => l.matched === l.ps_units)
+            ? "joined"
+            : "mismatched",
     };
   }
 

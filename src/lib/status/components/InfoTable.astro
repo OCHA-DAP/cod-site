@@ -33,7 +33,7 @@ interface Cell {
   level: number;
   present: boolean;
   partial: boolean;
-  /** PS only: p-codes were compared against COD-AB, so the unmatched share shows red. */
+  /** PS only: P-codes were compared against COD-AB, so the unmatched share shows red. */
   checked: boolean;
   /** Fill width: matched share for PS, subdivided share for a measured partial AB level, else 1. */
   fill: number;
@@ -41,7 +41,7 @@ interface Cell {
   label?: string;
   /** Label sits on a light background (partial or mostly unmatched) and needs dark ink. */
   dark: boolean;
-  /** Tooltip line for what the bar can't show: partial extent, unmatched p-codes. */
+  /** Tooltip line for what the bar can't show: partial extent, unmatched P-codes. */
   note?: string;
 }
 
@@ -74,7 +74,7 @@ function track(r: InfoRow, kind: "ab" | "ps"): Cell[] {
     const missing = units ? units - matched : 0;
     const notes = [
       extent,
-      missing ? `${fmt(missing)} of ${fmt(units!)} p-codes not in COD-AB` : "",
+      missing ? `${fmt(missing)} of ${fmt(units!)} P-codes not in COD-AB` : "",
     ].filter(Boolean);
     return {
       level: n,

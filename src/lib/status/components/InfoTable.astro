@@ -96,7 +96,7 @@ function track(r: InfoRow, kind: "ab" | "ps"): Cell[] {
       <Term term={group.key as TermSlug}>{group.label}</Term>
     </h2>
     {group.countries.length > 0 ? (
-      <table>
+      <table data-sortable>
         <colgroup>
           <col style="width: 24%" />
           <col style="width: 21%" />
@@ -132,7 +132,10 @@ function track(r: InfoRow, kind: "ab" | "ps"): Cell[] {
                     {row.name_en} <span class="iso3">{row.iso3}</span>
                   </td>
                   {datasets.map(({ kind, label, url, cells }) => (
-                    <td class={`chart ${kind}`}>
+                    <td
+                      class={`chart ${kind}`}
+                      data-sort={(kind === "ab" ? row.ab_level : row.ps_level) ?? ""}
+                    >
                       <span class="level-cell">
                         <span class="label">
                           {url ? (
@@ -179,7 +182,10 @@ function track(r: InfoRow, kind: "ab" | "ps"): Cell[] {
                       </span>
                     </td>
                   ))}
-                  <td class="chart">
+                  <td
+                    class="chart"
+                    data-sort={row.ab_reference_year ?? row.ps_reference_year ?? ""}
+                  >
                     <Tooltip block align="right">
                       <Dumbbell
                         {...year}

@@ -98,6 +98,35 @@
     height: 2.2rem;
   }
 
+  table[data-sortable] th {
+    cursor: pointer;
+    user-select: none;
+  }
+
+  table[data-sortable] th::after {
+    margin-left: 0.3em;
+    font-size: 0.75em;
+    color: var(--brand-primary);
+  }
+
+  table[data-sortable] th[aria-sort="none"]:hover::after {
+    content: "\25B2";
+    opacity: 0.4;
+  }
+
+  table[data-sortable] th[aria-sort="ascending"],
+  table[data-sortable] th[aria-sort="descending"] {
+    background: var(--brand-primary--lighter);
+  }
+
+  table[data-sortable] th[aria-sort="ascending"]::after {
+    content: "\25B2";
+  }
+
+  table[data-sortable] th[aria-sort="descending"]::after {
+    content: "\25BC";
+  }
+
   tbody tr:not(:last-child) td {
     border-bottom: 1px solid var(--cd-grey--400);
   }

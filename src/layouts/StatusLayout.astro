@@ -101,6 +101,11 @@ const page = Astro.url.pathname.replace(/\/$/, "").split("/").at(-1);
   </main>
 </Layout>
 
+<script>
+  import { initSortable } from "$lib/status/sortable";
+  initSortable();
+</script>
+
 <style>
   .status-page {
     max-width: 1200px;

@@ -3,7 +3,7 @@ import BoolDot from "$lib/status/components/BoolDot.astro";
 import type { PlanCountry, PlanGroup } from "$lib/status/loadData";
 import Term from "$lib/components/Term.astro";
 import type { TermSlug } from "$lib/glossary";
-import { statusClass, statusLabel } from "$lib/status/status";
+import { statusClass, statusLabel, statusRank } from "$lib/status/status";
 
 interface Props {
   planGroups: PlanGroup[];
@@ -33,7 +33,7 @@ const office = (row: PlanCountry) =>
     </h2>
 
     {group.countries.length > 0 ? (
-      <table>
+      <table data-sortable>
         <colgroup>
           <col style="width: 24%" />
           <col style="width: 18%" />
@@ -79,11 +79,13 @@ const office = (row: PlanCountry) =>
               </td>
               <td>{plan(row)}</td>
               <td>{office(row)}</td>
-              <td class:list={{ "flag-no": row.review_overdue }}>
+              <td class:list={{ "flag-no": row.review_overdue }} data-sort={row.next_review_sort}>
                 <BoolDot on={row.inGis} label={row.inGis ? "COD-AB available" : "No COD-AB"} />
                 <span title={row.next_review_date}>{row.next_review_relative}</span>
               </td>
-              <td>
+              <td
+                data-sort={row.ps_reference_year === undefined ? undefined : -row.ps_reference_year}
+              >
                 <BoolDot
                   on={row.ps_reference_year !== undefined}
                   label={row.ps_reference_year !== undefined ? "COD-PS available" : "No COD-PS"}
@@ -98,7 +100,7 @@ const office = (row: PlanCountry) =>
                   {row.ps_age}
                 </span>
               </td>
-              <td>
+              <td data-sort={row.open_work_order_status && statusRank(row.open_work_order_status)}>
                 {row.open_work_order_status ? (
                   <Term term={`status-${row.open_work_order_status}` as TermSlug} align="right">
                     <span class={`badge ${statusClass(row.open_work_order_status)}`}>

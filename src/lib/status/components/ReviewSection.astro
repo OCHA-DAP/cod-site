@@ -55,11 +55,11 @@ const office = (row: PlanCountry) =>
               <Term term="next-review">COD-AB review</Term>
             </th>
             <th>
-              <Term term="work-order">Work order</Term>
+              <Term term="ps-age">COD-PS age</Term>
             </th>
             <th>
-              <Term term="ps-age" align="right">
-                COD-PS age
+              <Term term="work-order" align="right">
+                Work order
               </Term>
             </th>
           </tr>
@@ -84,17 +84,6 @@ const office = (row: PlanCountry) =>
                 <span title={row.next_review_date}>{row.next_review_relative}</span>
               </td>
               <td>
-                {row.open_work_order_status ? (
-                  <Term term={`status-${row.open_work_order_status}` as TermSlug}>
-                    <span class={`badge ${statusClass(row.open_work_order_status)}`}>
-                      {statusLabel(row.open_work_order_status)}
-                    </span>
-                  </Term>
-                ) : (
-                  EMPTY
-                )}
-              </td>
-              <td>
                 <BoolDot
                   on={row.ps_reference_year !== undefined}
                   label={row.ps_reference_year !== undefined ? "COD-PS available" : "No COD-PS"}
@@ -108,6 +97,17 @@ const office = (row: PlanCountry) =>
                 >
                   {row.ps_age}
                 </span>
+              </td>
+              <td>
+                {row.open_work_order_status ? (
+                  <Term term={`status-${row.open_work_order_status}` as TermSlug} align="right">
+                    <span class={`badge ${statusClass(row.open_work_order_status)}`}>
+                      {statusLabel(row.open_work_order_status)}
+                    </span>
+                  </Term>
+                ) : (
+                  EMPTY
+                )}
               </td>
             </tr>
           ))}

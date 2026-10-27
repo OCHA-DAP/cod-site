@@ -3,7 +3,7 @@ import { join } from "node:path";
 
 import Papa from "papaparse";
 
-import { STATUS_LABELS, STATUS_ORDER, statusRank } from "./status";
+import { isOpenStatus, STATUS_LABELS, STATUS_ORDER, statusRank } from "./status";
 
 export interface PipelineCount {
   status: string;
@@ -63,6 +63,8 @@ export interface PlanCountry {
   hdxUrl?: string;
   ps_reference_year?: number;
   ps_age?: string;
+  /** joined: every COD-PS p-code is in the COD-AB; unchecked: COD-PS has no p-codes to compare. */
+  ps_match?: "joined" | "mismatched" | "unchecked";
 }
 
 export interface LevelStats {
@@ -493,12 +495,13 @@ export function loadData() {
     .sort((a, b) => a.name_en.localeCompare(b.name_en));
 
   const currentYear = new Date().getUTCFullYear();
-  function getCountryExtras(iso3: string) {
+  function getCountryExtras(iso3: string): Partial<PlanCountry> {
     const meta = codMetaByIso3[iso3];
     const reviewFields = meta ? computeNextReview(meta.anchor_date, meta.update_frequency) : {};
     const woStatus = openWoByIso3[iso3];
     const psYear = optionalNumber(psByIso3[iso3]?.reference_year);
     const psAge = psYear === undefined ? undefined : currentYear - psYear;
+    const psLevels = (levelsByIso3[iso3] ?? []).filter((l) => l.ps_units !== undefined);
     return {
       ...reviewFields,
       ...(woStatus && { open_work_order_status: woStatus }),
@@ -509,6 +512,14 @@ export function loadData() {
           : psAge <= 0
             ? "Current"
             : `${psAge} year${psAge === 1 ? "" : "s"}`,
+      ps_match:
+        psYear === undefined
+          ? undefined
+          : psLevels.length === 0
+            ? "unchecked"
+            : psLevels.every((l) => l.matched === l.ps_units)
+              ? "joined"
+              : "mismatched",
     };
   }
 
@@ -685,9 +696,7 @@ export function loadData() {
     totalInGis: planGroups.reduce((sum, g) => sum + g.countries.filter((c) => c.inGis).length, 0),
     adminUnits: Object.values(unitsByIso3).reduce((sum, c) => sum + c.units, 0),
     total: dedupedRows.length,
-    openTotal: dedupedRows.filter(
-      (r) => !["done", "backlog", "cancelled"].includes(r.work_order_status),
-    ).length,
+    openTotal: dedupedRows.filter((r) => isOpenStatus(r.work_order_status)).length,
     lastUpdatedAt,
   };
 }

@@ -38,6 +38,10 @@ export const STATUS_TERMS: Record<string, string> = {
   cancelled: "status-cancelled",
 };
 
+export function isOpenStatus(status: string): boolean {
+  return status === "selected" || status === "in_progress" || status === "blocked";
+}
+
 export function statusLabel(status: string): string {
   return STATUS_LABELS[status] ?? status;
 }

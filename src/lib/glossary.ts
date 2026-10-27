@@ -171,9 +171,10 @@ export const GLOSSARY = {
     definition: "Work order has been cancelled and will not be completed.",
   },
 
-  "ps-available": {
-    label: "Available",
-    definition: "The location has COD-PS population figures.",
+  "ps-joins": {
+    label: "Joins COD-AB",
+    definition:
+      "Locations whose COD-PS p-codes all match the current COD-AB at every level, out of locations with a COD-AB.",
   },
   "next-review": {
     label: "Next Review",

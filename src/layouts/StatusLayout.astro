@@ -48,6 +48,16 @@ const page = Astro.url.pathname.replace(/\/$/, "").split("/").at(-1);
           <span class="tab-denom"> locations</span>
         </span>
       </a>
+      <a href={`${statusBase}review`} class:list={["tab-btn", { active: page === "review" }]}>
+        <span class="tab-left">
+          <span class="tab-title">Review</span>
+          <span class="tab-desc">Review schedule by plan priority</span>
+        </span>
+        <span class="tab-count">
+          {overdueTotal}
+          <span class="tab-denom"> overdue</span>
+        </span>
+      </a>
       <a href={`${statusBase}work`} class:list={["tab-btn", { active: page === "work" }]}>
         <span class="tab-left">
           <span class="tab-title">
@@ -60,16 +70,6 @@ const page = Astro.url.pathname.replace(/\/$/, "").split("/").at(-1);
         <span class="tab-count">
           {openTotal}
           <span class="tab-denom"> open</span>
-        </span>
-      </a>
-      <a href={`${statusBase}review`} class:list={["tab-btn", { active: page === "review" }]}>
-        <span class="tab-left">
-          <span class="tab-title">Review</span>
-          <span class="tab-desc">Review schedule by plan priority</span>
-        </span>
-        <span class="tab-count">
-          {overdueTotal}
-          <span class="tab-denom"> overdue</span>
         </span>
       </a>
     </nav>

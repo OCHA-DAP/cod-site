@@ -12,6 +12,6 @@ const groups = data.planGroups.map((g) => ({
 ---
 
 <StatusLayout data={data}>
-  <ReviewOverview planGroups={groups} dataset="ps" />
+  <ReviewOverview planGroups={groups} page="info" />
   <InfoTable groups={groups} rows={data.infoRows} />
 </StatusLayout>

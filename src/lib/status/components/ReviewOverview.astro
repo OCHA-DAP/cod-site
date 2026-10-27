@@ -5,10 +5,11 @@ import type { TermSlug } from "$lib/glossary";
 
 interface Props {
   planGroups: PlanGroup[];
-  dataset: "ab" | "ps";
+  page: "info" | "review";
 }
 
-const { planGroups, dataset } = Astro.props;
+const { planGroups, page } = Astro.props;
+const plural = (n: number, word: string) => `${n} ${word}${n === 1 ? "" : "s"}`;
 
 function overdueClass(overdue: number, total: number): string {
   if (total === 0 || overdue === 0) return "s-ok";
@@ -21,20 +22,25 @@ function overdueClass(overdue: number, total: number): string {
 
 <div class="figure-row cycle-row">
   {planGroups.map((group) => {
-    const total = group.countries.length;
-    if (dataset === "ps") {
-      const withPs = group.countries.filter((c) => c.ps_reference_year !== undefined).length;
+    const total = group.countries.filter((c) => c.inGis).length;
+    if (page === "info") {
+      const count = (m?: string) => group.countries.filter((c) => c.ps_match === m).length;
+      const tip = [
+        `${plural(count("mismatched"), "location")} with unmatched p-codes`,
+        `${plural(count("unchecked"), "location")} with COD-PS but no p-codes`,
+        `${plural(count(undefined), "location")} without COD-PS`,
+      ].join("\n");
       return (
-        <a class="figure" href={`#${group.key}`}>
+        <a class="figure" href={`#${group.key}`} title={tip}>
           <span class="figure-title">
             <Term term={group.key as TermSlug}>{group.label}</Term>
           </span>
           <span class="figure-num">
-            {withPs}
+            {count("joined")}
             <span class="figure-denom">/{total}</span>
           </span>
           <span class="figure-lbl">
-            <Term term="ps-available">Available</Term>
+            <Term term="ps-joins">Joins COD-AB</Term>
           </span>
         </a>
       );

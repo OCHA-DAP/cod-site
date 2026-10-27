@@ -5,17 +5,17 @@ import WorkOrderTable from "./WorkOrderTable.astro";
 
 interface Props {
   workByQuarter: ScheduleGroup[];
-  remaining: number;
+  open: number;
 }
 
-const { workByQuarter, remaining } = Astro.props;
+const { workByQuarter, open } = Astro.props;
 ---
 
 <section>
   <h2>
     <Term term="work-order">Work Orders</Term>
-    <span class={`count-chip ${remaining === 0 ? "done" : ""}`}>
-      {remaining === 0 ? "All done" : `${remaining} remaining`}
+    <span class={`count-chip ${open === 0 ? "done" : ""}`}>
+      {open === 0 ? "None open" : `${open} open`}
     </span>
   </h2>
   <p class="section-desc">

@@ -1,5 +1,4 @@
 <script lang="ts">
-  import MapDisclaimer from "$lib/components/MapDisclaimer.svelte";
   import SegmentedControl from "$lib/components/SegmentedControl.svelte";
   import { base } from "$lib/utils/paths";
   import data from "./populationMaps.json";
@@ -48,7 +47,6 @@
       P-codes from an older version of the boundaries. Sources: <a href="https://data.humdata.org/dataset/cod-ab-global">COD-AB</a>,
       <a href="https://data.humdata.org/dataset/cod-ps-global">COD-PS</a>.
     </p>
-    <MapDisclaimer />
   </figcaption>
 </figure>
 

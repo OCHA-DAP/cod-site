@@ -4,6 +4,7 @@ summary: How datasets coded under earlier COD-AB standards move to this specific
 order: 5
 ---
 
+import MapDisclaimer from "$lib/components/MapDisclaimer.svelte";
 import PcodeMigration from "$lib/standards/PcodeMigration.astro";
 import PcodeReuse from "$lib/standards/PcodeReuse.astro";
 
@@ -30,3 +31,5 @@ Version 1 of each dataset under this specification has the new P-codes in *adm\[
 <PcodeMigration />
 
 The table's data should come from the same edition as the legacy codes in version 1. If the boundaries changed in between, as they did in Mali, a legacy code can match a different unit from the one the data describes.
+
+<MapDisclaimer />

@@ -4,6 +4,7 @@ summary: Shared boundaries and population figures let every organization in a re
 order: 1
 ---
 
+import MapDisclaimer from "$lib/components/MapDisclaimer.svelte";
 import Morafeno from "$lib/about/Morafeno.astro";
 import NameJoin from "$lib/about/NameJoin.svelte";
 import PcodeLevels from "$lib/about/PcodeLevels.astro";
@@ -74,3 +75,5 @@ The maps below link the two. Each COD-PS figure is attached to its COD-AB bounda
 P-code, which is enough to show where people live and how age and sex vary.
 
 <PopulationMaps client:visible />
+
+<MapDisclaimer />

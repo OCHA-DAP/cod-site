@@ -1,4 +1,5 @@
 ---
+import MapDisclaimer from "$lib/components/MapDisclaimer.svelte";
 import map from "./morafeno.svg?raw";
 ---
 
@@ -7,7 +8,10 @@ import map from "./morafeno.svg?raw";
     <Fragment set:html={map} />
     <p class="count" aria-hidden="true"><span>81</span>fokontany named Morafeno</p>
   </div>
-  <figcaption>The commune of Morafeno. One of its fokontany is also called Morafeno.</figcaption>
+  <figcaption>
+    The commune of Morafeno. One of its fokontany is also called Morafeno.
+    <MapDisclaimer />
+  </figcaption>
 </figure>
 
 <style>

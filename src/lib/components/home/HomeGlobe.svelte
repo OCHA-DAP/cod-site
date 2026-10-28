@@ -3,6 +3,7 @@
   import type { Map as MaplibreMap, StyleSpecification } from "maplibre-gl";
   import "maplibre-gl/dist/maplibre-gl.css";
   import { loadMaplibre } from "$lib/utils/mapStyle";
+  import { MAP_DISCLAIMER } from "$lib/utils/mapDisclaimer";
   import { PMTiles } from "pmtiles";
   import { pmtilesProtocol, prefetchDirectories } from "$lib/utils/pmtiles";
   import { base } from "$lib/utils/paths";
@@ -215,7 +216,7 @@
         center: [lng, CENTER_LAT],
         zoom: fitZoom(),
         interactive: false,
-        attributionControl: false,
+        attributionControl: { compact: false, customAttribution: MAP_DISCLAIMER },
       });
       map = m;
       m.on("sourcedata", (e) => {
@@ -292,6 +293,9 @@
   }
   .canvas:active {
     cursor: grabbing;
+  }
+  .canvas :global(.maplibregl-ctrl-attrib) {
+    font-size: 11px;
   }
   .canvas.entered {
     opacity: 1;

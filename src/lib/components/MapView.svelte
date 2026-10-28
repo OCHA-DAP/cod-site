@@ -10,6 +10,7 @@
   import { MAP_COLORS, MAP_STATUS_OPACITY, MAP_TINT_OPACITY, fillOpacity } from "$lib/utils/mapColors";
   import { GROUP_FILL_OPACITY } from "$lib/utils/groupColor";
   import { loadMaplibre, loadStyle, polyFilter, lineWidth } from "$lib/utils/mapStyle";
+  import { MAP_DISCLAIMER } from "$lib/utils/mapDisclaimer";
 
   let {
     geojson = null,
@@ -226,7 +227,7 @@
       style,
       center: [20, 5],
       zoom: Math.log2((size * Math.PI) / 512),
-      attributionControl: { compact: true },
+      attributionControl: { compact: true, customAttribution: MAP_DISCLAIMER },
     });
     map.once("load", () => {
       styleReady = true;

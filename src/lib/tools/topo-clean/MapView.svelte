@@ -1,5 +1,6 @@
 <script lang="ts">
   import { lineWidth, loadMaplibre, loadStyle, polyFilter } from "$lib/utils/mapStyle";
+  import { MAP_DISCLAIMER } from "$lib/utils/mapDisclaimer";
   import { createSpin } from "$lib/utils/spin";
   import type {
     ExpressionSpecification,
@@ -280,7 +281,7 @@
       // be inspected closely. Basemap tiles overzoom (blur) past ~z14 but the
       // vector issue overlay stays crisp at any zoom.
       maxZoom: 25,
-      attributionControl: { compact: true },
+      attributionControl: { compact: true, customAttribution: MAP_DISCLAIMER },
     });
     // Distance scale bar so the zoomed-in scale is legible.
     map.addControl(new maplibregl.ScaleControl({ maxWidth: 120, unit: "metric" }), "bottom-left");

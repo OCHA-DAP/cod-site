@@ -1,4 +1,5 @@
 <script lang="ts">
+  import MapDisclaimer from "$lib/components/MapDisclaimer.svelte";
   import SegmentedControl from "$lib/components/SegmentedControl.svelte";
   import { base } from "$lib/utils/paths";
   import data from "./populationMaps.json";
@@ -47,10 +48,7 @@
       P-codes from an older version of the boundaries. Sources: <a href="https://data.humdata.org/dataset/cod-ab-global">COD-AB</a>,
       <a href="https://data.humdata.org/dataset/cod-ps-global">COD-PS</a>.
     </p>
-    <p class="disclaimer">
-      The boundaries and names shown and the designations used on this map do not imply official
-      endorsement or acceptance by the United Nations.
-    </p>
+    <MapDisclaimer />
   </figcaption>
 </figure>
 
@@ -130,9 +128,5 @@
   }
   figcaption p {
     margin: 0 0 0.5rem;
-  }
-  .disclaimer {
-    font-style: italic;
-    color: #a7a9ac;
   }
 </style>

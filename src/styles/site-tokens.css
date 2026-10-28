@@ -47,6 +47,11 @@
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+/* Map disclaimer caption grey from the OCHA map-disclaimer spec. */
+:root {
+  --map-disclaimer: #a7a9ac;
+}
+
 /* Key-figure number shared by the home page and the status dashboard. */
 .figure-num {
   font-family: var(--brand-font-heading);

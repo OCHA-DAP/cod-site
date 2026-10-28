@@ -255,8 +255,8 @@
   });
 </script>
 
-<div class="globe" style="--spin-in: {SPIN_IN_MS}ms">
-  <div class="canvas" class:entered bind:this={container}></div>
+<div class="globe" style="--spin-in: {SPIN_IN_MS}ms; --reveal: {REVEAL_MS}ms">
+  <div class="canvas" class:entered class:adm1={revealed.includes(1)} bind:this={container}></div>
   <div class="levels" role="group" aria-label="Administrative level">
     {#each LEVELS as n (n)}
       {@const loading = level === n && !revealed.includes(n)}
@@ -296,6 +296,12 @@
   }
   .canvas :global(.maplibregl-ctrl-attrib) {
     font-size: 11px;
+    opacity: 0;
+    /* Matches MapLibre's easeCubicInOut on the admin 1 line-opacity reveal. */
+    transition: opacity var(--reveal) cubic-bezier(0.65, 0, 0.35, 1);
+  }
+  .canvas.adm1 :global(.maplibregl-ctrl-attrib) {
+    opacity: 1;
   }
   .canvas.entered {
     opacity: 1;

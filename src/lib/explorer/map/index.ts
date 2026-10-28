@@ -10,6 +10,7 @@ import {
 import { createSpin } from "./spin";
 import { mapStore, selectedIso3 } from "./store";
 import MAP_STYLE from "./style";
+import { MAP_DISCLAIMER } from "$lib/utils/mapDisclaimer";
 
 export function initMap(container: HTMLDivElement): () => void {
   const protocol = new Protocol();
@@ -20,6 +21,7 @@ export function initMap(container: HTMLDivElement): () => void {
     style: MAP_STYLE,
     center: [20, 5],
     zoom: 3,
+    attributionControl: { compact: true, customAttribution: MAP_DISCLAIMER },
   });
 
   map.on("style.load", () => {

@@ -10,6 +10,7 @@
   import { createSpin } from "$lib/utils/spin";
   import { MAP_CATEGORICAL, MAP_COLORS, fillOpacity } from "$lib/utils/mapColors";
   import { loadMaplibre, loadStyle, polyFilter, lineWidth } from "$lib/utils/mapStyle";
+  import { MAP_DISCLAIMER } from "$lib/utils/mapDisclaimer";
 
   let {
     resultGeojson = null,
@@ -188,7 +189,7 @@
       style,
       center: [20, 5],
       zoom: Math.log2((Math.min(container.clientWidth, container.clientHeight) * Math.PI) / 512),
-      attributionControl: { compact: true },
+      attributionControl: { compact: true, customAttribution: MAP_DISCLAIMER },
     });
     map.once("load", () => {
       styleReady = true;

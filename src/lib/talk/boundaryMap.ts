@@ -1,4 +1,5 @@
 import { loadMaplibre, loadStyle } from "$lib/utils/mapStyle";
+import { MAP_DISCLAIMER } from "$lib/utils/mapDisclaimer";
 import type { ExpressionSpecification, FilterSpecification, LngLatBoundsLike, Map as MaplibreMap } from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { FileSource, PMTiles } from "pmtiles";
@@ -71,6 +72,7 @@ export function startBoundaryLoop(
       bounds: bounds(explorerViews[0].bbox),
       fitBoundsOptions: { padding: PADDING },
       interactive: false,
+      attributionControl: { compact: true, customAttribution: MAP_DISCLAIMER },
     });
     map = m;
     await m.once("load");

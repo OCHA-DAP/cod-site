@@ -65,4 +65,15 @@ const { title, description } = Astro.props;
     color: var(--cd-grey--900);
     cursor: pointer;
   }
+  .maplibregl-map .maplibregl-ctrl.maplibregl-ctrl-attrib,
+  .maplibregl-map .maplibregl-ctrl-attrib a {
+    color: var(--brand-grey--text);
+    font-style: italic;
+    background: transparent;
+    text-shadow:
+      0 0 2px var(--cd-white),
+      0 0 2px var(--cd-white),
+      0 0 2px var(--cd-white),
+      0 0 2px var(--cd-white);
+  }
 </style>

@@ -1,5 +1,6 @@
 <script lang="ts">
   import { loadMaplibre, loadStyle } from "$lib/utils/mapStyle";
+  import { MAP_DISCLAIMER } from "$lib/utils/mapDisclaimer";
   import { createSpin } from "$lib/utils/spin";
   import MapPopup, { type FeatureInfo } from "$lib/components/MapPopup.svelte";
   import type {
@@ -198,7 +199,7 @@
       center: [20, 5],
       zoom: Math.log2((Math.min(container.clientWidth, container.clientHeight) * Math.PI) / 512),
       maxZoom: 25,
-      attributionControl: { compact: true },
+      attributionControl: { compact: true, customAttribution: MAP_DISCLAIMER },
     });
     map.addControl(new maplibregl.ScaleControl({ maxWidth: 120, unit: "metric" }), "bottom-left");
     map.once("load", () => {

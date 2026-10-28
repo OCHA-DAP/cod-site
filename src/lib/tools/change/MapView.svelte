@@ -11,6 +11,7 @@
   import { onDestroy, onMount, untrack } from "svelte";
   import { createSpin } from "$lib/utils/spin";
   import { loadMaplibre, loadStyle, polyFilter, lineWidth } from "$lib/utils/mapStyle";
+  import { MAP_DISCLAIMER } from "$lib/utils/mapDisclaimer";
   import { REL_COLORS, REL_ORDER } from "./pipeline";
   import MapPopup, { type FeatureInfo } from "$lib/components/MapPopup.svelte";
   import { MAP_COLORS, MAP_STATUS_OPACITY, MAP_TINT_OPACITY } from "$lib/utils/mapColors";
@@ -335,7 +336,7 @@
       style,
       center: [20, 5],
       zoom: Math.log2((Math.min(container.clientWidth, container.clientHeight) * Math.PI) / 512),
-      attributionControl: { compact: true },
+      attributionControl: { compact: true, customAttribution: MAP_DISCLAIMER },
     });
     map.once("load", () => {
       styleReady = true;
